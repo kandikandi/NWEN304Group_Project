@@ -1,0 +1,22 @@
+#menu{
+	border-color: #1976D2;
+}
+
+#menu a:hover{
+	font-weight: bold;
+}
+
+#logo{
+	color:#1976D2;
+	font-size: 20px;
+}
+
+.jumbotron{
+	padding-top: 40px;
+}
+
+.form-login {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
