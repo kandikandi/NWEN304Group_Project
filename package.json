@@ -1,15 +1,15 @@
 {
-  "name": "project2",
+  "name": "Group Project",
   "version": "1.0.0",
-  "description": "NWEN304 Project 2",
+  "description": "NWEN304 Group Project Online Shopping Application",
   "engines": {
     "node": "5.7.1"
   },
-  "main": "index.js",
+  "main": "Online_Shopping/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Daniel Hunt",
+  "author": "Daniel Hunt, Kandice McLean, Miguel Orivello",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.0",
