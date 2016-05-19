@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT ||8080;
+var port = process.env.PORT ||3000;
 var path = require('path');
 //just testing
 var bodyParser = require('body-parser');
@@ -20,6 +20,21 @@ var pg = require('pg').native;
 var connectionString = process.env.DATABASE_URL;
 //var connectionString = "postgres://znufrplxsrwegg:HnOak8O2Rz_px-Yl_-WSRBuLws@ec2-54-225-94-145.compute-1.amazonaws.com:5432/d5fnuc5ovc0p76";
 //var connectionString = "postgres://huntdani1:password@depot:5432/huntdani1_nodejs";
+//var connectionString = "postgres://ygpsmtdckladgb:GO050OIP0M3Q5rU9ciSjV3Na0a@ec2-54-235-177-62.compute-1.amazonaws.com:5432/d7cihg4lmsobh0";
+
+//var pg = require('pg');
+
+/*app.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('pages/db', {results: result.rows} ); }
+    });
+  });
+})*/
 
 var client = new pg.Client(connectionString);
 client.connect();
