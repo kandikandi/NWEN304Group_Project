@@ -48,7 +48,6 @@ app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/fonts", express.static(__dirname + '/fonts'));
 app.use(express.static(__dirname + '/'));
-
 app.use(function(req, res, next) {
     if (req.headers.origin) {
         res.header('Access-Control-Allow-Origin', '*')
@@ -59,7 +58,8 @@ app.use(function(req, res, next) {
     next();
     })
 
-app.get('/', function(req, res){
+
+app.get('https://evening-cove-32171.herokuapp.com/', function(req, res){
      res.sendFile(path.join(__dirname+'/index.html'));
 });
 
