@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "NWEN304 Group Project Online Shopping Application",
   "engines": {
-    "node": "5.7.1"
+    "node": "5.7.1",
+    "npm": "3.6.0"
   },
   "main": "Online_Shopping/index.js",
   "scripts": {
