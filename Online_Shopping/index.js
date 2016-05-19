@@ -1,7 +1,24 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT ||3000;
-var path = require('path');
+var port = process.env.PORT ||8080;
+var pg = require('pg');//.native;
+
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL,function(err,client){
+    if(err) throw err;
+    console.log('Connected to postgres, getting schemas...');
+
+    client.query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+        console.log(JSON.stringify(row));
+    });
+});
+
+/*var connectionString = process.env.DATABASE_URL;
+
+var client = new pg.Client(connectionString);
+client.connect();
+
 //just testing
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -9,15 +26,6 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.listen(port, function(){
-	console.log('Example app listening on port ' + port + '!');
-});
-
-
-
-var pg = require('pg').native;
-
-var connectionString = process.env.DATABASE_URL;
 //var connectionString = "postgres://znufrplxsrwegg:HnOak8O2Rz_px-Yl_-WSRBuLws@ec2-54-225-94-145.compute-1.amazonaws.com:5432/d5fnuc5ovc0p76";
 //var connectionString = "postgres://huntdani1:password@depot:5432/huntdani1_nodejs";
 //var connectionString = "postgres://ygpsmtdckladgb:GO050OIP0M3Q5rU9ciSjV3Na0a@ec2-54-235-177-62.compute-1.amazonaws.com:5432/d7cihg4lmsobh0";
@@ -36,13 +44,20 @@ var connectionString = process.env.DATABASE_URL;
   });
 })*/
 
-var client = new pg.Client(connectionString);
-client.connect();
-
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/fonts", express.static(__dirname + '/fonts'));
 app.use(express.static(__dirname + '/'));
+
+app.use(function(req, res, next) {
+    if (req.headers.origin) {
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization')
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE')
+        if (req.method === 'OPTIONS') return res.send(200)
+        }
+    next();
+    })
 
 app.get('/', function(req, res){
      res.sendFile(path.join(__dirname+'/index.html'));
