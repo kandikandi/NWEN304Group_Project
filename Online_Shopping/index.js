@@ -56,10 +56,10 @@ app.use(function(req, res, next) {
         if (req.method === 'OPTIONS') return res.send(200)
         }
     next();
-    })
+    });
 
 
-app.get('https://evening-cove-32171.herokuapp.com/', function(req, res){
+app.get('/', function(req, res){
      res.sendFile(path.join(__dirname+'/index.html'));
 });
 
