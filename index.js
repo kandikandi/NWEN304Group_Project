@@ -4,7 +4,7 @@ var port = process.env.PORT || 8080;
 var pg = require('pg');//.native;
 
 pg.defaults.ssl = true;
-pg.connect(process.env.DATABASE_URL,function(err,client){
+/*pg.connect(process.env.DATABASE_URL,function(err,client){
     if(err) throw err;
     console.log('Connected to postgres, getting schemas...');
 
@@ -12,7 +12,7 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
     .on('row', function(row) {
         console.log(JSON.stringify(row));
     });
-});
+});*/
 
 
 
@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({
 
 //var pg = require('pg');
 
-app.get('/db', function (request, response) {
+/*app.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM items', function(err, result) {
       done();
@@ -44,7 +44,7 @@ app.get('/db', function (request, response) {
        { response.render('pages/db', {results: result.rows} ); }
     });
   });
-})
+})*/
 
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
@@ -61,8 +61,8 @@ app.use(function(req, res, next) {
     })
 
 
-app.get('/', function(req, res){
-     res.sendFile(path.join(__dirname+'/public/index.html'));
+app.get('path.join(__dirname+'/Online_Shopping/public/index.html'', function(req, res){
+    //res.sendFile());
 });
 
 // GET ALL MENS ITEMS
