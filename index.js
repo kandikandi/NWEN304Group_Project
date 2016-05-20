@@ -2,9 +2,17 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var port = process.env.PORT || 8080;
-var pg = require('pg');//.native;
+var pg = require('pg');
+
+
+var connectionString = process.env.DATABASE_URL;
+
+var client = new pg.Client(connectionString);
+client.connect();
+
 
 pg.defaults.ssl = true;
+
 /*pg.connect(process.env.DATABASE_URL,function(err,client){
     if(err) throw err;
     console.log('Connected to postgres, getting schemas...');
@@ -17,10 +25,7 @@ pg.defaults.ssl = true;
 
 
 
-//var connectionString = process.env.DATABASE_URL;
 
-//var client = new pg.Client(connectionString);
-//client.connect();
 
 //just testing
 var bodyParser = require('body-parser');
