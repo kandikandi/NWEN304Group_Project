@@ -16,10 +16,10 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 
 
 
-/*var connectionString = process.env.DATABASE_URL;
+//var connectionString = process.env.DATABASE_URL;
 
-var client = new pg.Client(connectionString);
-client.connect();
+//var client = new pg.Client(connectionString);
+//client.connect();
 
 //just testing
 var bodyParser = require('body-parser');
@@ -34,9 +34,9 @@ app.use(bodyParser.urlencoded({
 
 //var pg = require('pg');
 
-/*app.get('/db', function (request, response) {
+app.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
+    client.query('SELECT * FROM items', function(err, result) {
       done();
       if (err)
        { console.error(err); response.send("Error " + err); }
@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({
        { response.render('pages/db', {results: result.rows} ); }
     });
   });
-})*/
+})
 
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
@@ -57,8 +57,8 @@ app.use(function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE')
         if (req.method === 'OPTIONS') return res.send(200)
         }
-    //next();
-    });
+    next();
+    })
 
 
 app.get('/', function(req, res){
