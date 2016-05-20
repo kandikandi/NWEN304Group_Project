@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 var port = process.env.PORT || 8080;
 var pg = require('pg');//.native;
@@ -60,9 +61,8 @@ app.use(function(req, res, next) {
     next();
     })
 
-
-app.get('path.join(__dirname+'/Online_Shopping/public/index.html'', function(req, res){
-    //res.sendFile());
+app.get('/', function(req, res){
+    res.sendFile(__dirname+'/Online_Shopping/public/index.html');
 });
 
 // GET ALL MENS ITEMS
