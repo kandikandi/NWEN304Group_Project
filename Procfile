@@ -1,1 +1,1 @@
-web: node Online_Shopping/index.js
+web: node index.js
