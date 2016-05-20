@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT ||8080;
+var port = process.env.PORT || 8080;
 var pg = require('pg');//.native;
 
 pg.defaults.ssl = true;
@@ -13,6 +13,8 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
         console.log(JSON.stringify(row));
     });
 });
+
+
 
 /*var connectionString = process.env.DATABASE_URL;
 
@@ -124,6 +126,10 @@ app.use(function(req, res, next){
 	next();
 
 });
+
+app.listen(port, function () {
+    console.log('app listening on port ' + port);
+    });
 
 
 //TEST CASES
