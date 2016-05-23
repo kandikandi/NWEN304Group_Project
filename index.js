@@ -70,6 +70,25 @@ app.get('/', function(req, res){
     res.sendFile(__dirname+'/Online_Shopping/public/index.html');
 });
 
+
+//GET ALL ITEMS
+app.get('/items',function(request,response){
+    //SQL QUERY
+    console.log('Getting items from the database');
+    var query = client.query("SELECT * FROM items");
+    var results = [];
+    //Stream results back one row at a time
+    query.on('row', function(row){
+        results.push(row);
+        });
+  
+    //After all data is returned, close connection and return results
+    query.on('end', function(){
+        response.json(results);
+        });
+    });
+
+
 // GET ALL MENS ITEMS
 app.get('/catalogue/mens', function(request, response){
 	// //SQL Query > Select Data
