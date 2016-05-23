@@ -8,3 +8,5 @@ $.ajax({
     type: "GET",
     }).then(redraw, ERROR_LOG);
 
+});
+
