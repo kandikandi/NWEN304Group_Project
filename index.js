@@ -5,6 +5,7 @@ var port = process.env.PORT || 3030;
 var pg = require('pg');
 var http = require('http');
 
+/*For defaulting back to https*/
 app.get('*',function(req,res,next){
   if(req.headers['x-forwarded-proto']!='https'&&process.env.NODE_ENV === 'production')
     res.redirect('https://'+req.hostname+req.url)
@@ -12,14 +13,11 @@ app.get('*',function(req,res,next){
     next() /* Continue to other routes if we're not redirecting */
 });
 
-var connectionString = process.env.DATABASE_URL;
-
-/*var client = new pg.Client(connectionString);
-client.connect();
-
+/*default to ssl connections so heroku will allow us to use the apps database*/
 pg.defaults.ssl = true;
 
-/*pg.connect(process.env.DATABASE_URL,function(err,client){
+/*Connect to the apps pg database on heroku*/
+pg.connect(process.env.DATABASE_URL,function(err,client){
     if(err) throw err;
     console.log('Connected to postgres, getting schemas...');
 
@@ -27,11 +25,7 @@ pg.defaults.ssl = true;
     .on('row', function(row) {
         console.log(JSON.stringify(row));
     });
-});*/
-
-
-
-
+});
 
 //just testing
 var bodyParser = require('body-parser');
