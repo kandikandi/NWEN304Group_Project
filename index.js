@@ -3,13 +3,19 @@ var path = require('path');
 var app = express();
 var port = process.env.PORT || 3030;
 var pg = require('pg');
+var http = require('http');
 
+app.get('*',function(req,res,next){
+  if(req.headers['x-forwarded-proto']!='https'&&process.env.NODE_ENV === 'production')
+    res.redirect('https://'+req.hostname+req.url)
+  else
+    next() /* Continue to other routes if we're not redirecting */
+});
 
 var connectionString = process.env.DATABASE_URL;
 
 /*var client = new pg.Client(connectionString);
 client.connect();
-
 
 pg.defaults.ssl = true;
 
