@@ -7,7 +7,7 @@ var pg = require('pg');
 
 var connectionString = process.env.DATABASE_URL;
 
-var client = new pg.Client(connectionString);
+/*var client = new pg.Client(connectionString);
 client.connect();
 
 
@@ -52,9 +52,9 @@ app.use(bodyParser.urlencoded({
   });
 })*/
 
-app.use("/css", express.static(__dirname + '/css'));
-app.use("/js", express.static(__dirname + '/js'));
-app.use("/fonts", express.static(__dirname + '/fonts'));
+app.use("/Online_Shopping/css", express.static(__dirname + '/Online_Shopping/css'));
+app.use("/Online_Shopping/js", express.static(__dirname + '/Online_Shopping/js'));
+app.use("/Online_Shopping/fonts", express.static(__dirname + '/Online_Shopping/fonts'));
 app.use(express.static(__dirname + '/'));
 app.use(function(req, res, next) {
     if (req.headers.origin) {
