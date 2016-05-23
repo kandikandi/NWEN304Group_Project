@@ -8,5 +8,9 @@ $.ajax({
     type: "GET",
     }).then(redraw, ERROR_LOG);
 
+function redraw(data){
+    console.log('redrawing', data);
+    };
+
 });
 
