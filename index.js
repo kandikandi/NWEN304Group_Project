@@ -77,9 +77,11 @@ app.get('/items',function(request,response){
     console.log('Getting items from the database');
     var query = client.query("SELECT * FROM items");
     var results = [];
+    
     //Stream results back one row at a time
     query.on('row', function(row){
-        results.push(row);
+    console.log(row);        
+    results.push(row);
         });
   
     //After all data is returned, close connection and return results
