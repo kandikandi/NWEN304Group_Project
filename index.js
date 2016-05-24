@@ -16,6 +16,9 @@ app.get('*',function(req,res,next){
 /*default to ssl connections so heroku will allow us to use the apps database*/
 pg.defaults.ssl = true;
 
+var client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+
 /*Connect to the apps pg database on heroku*/
 pg.connect(process.env.DATABASE_URL,function(err,client){
     if(err) throw err;
