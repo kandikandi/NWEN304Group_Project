@@ -91,27 +91,39 @@ app.get('/items',function(request,response){
 
 // GET ALL MENS ITEMS
 app.get('/catalogue/mens', function(request, response){
-	// //SQL Query > Select Data
-	// var query = client.query("SELECT * FROM todo");
-	// var results = [];
-	// //stream results back one row at a time
-	// query.on('row', function(row){
-	// 	results.push(row);
-	// });
-	// // after all data is returned close connection and return results
-	// query.on('end', function(){
-	// 	response.json(results);
-	//});
+  var query = client.query("SELECT * FROM items WHERE cat_id = 2");
+  var results = [];
+  query.on('row', function(row){
+    results.push(row);
+  });
+  query.on('end', function(){
+    response.json(results);
+  });
 });
 
 // GET ALL WOMENS ITEMS
 app.get('/catalogue/womens', function(request, response){
-
+  var query = client.query("SELECT * FROM items WHERE cat_id = 1");
+  var results = [];e
+  query.on('row', function(row){
+    results.push(row);
+  });
+  query.on('end', function(){
+    response.json(results);
+  });
 });
 
 //GET ALL CHILDREN ITEMS
 app.get('/catalogue/kids', function(request, response){
-
+    var query = client.query("SELECT * FROM items WHERE cat_id = 0");
+  var results = [];e
+  query.on('row', function(row){
+    results.push(row);
+  });
+  query.on('end', function(){
+    response.json(results);
+  });
+});
 });
 
 //LOGIN
