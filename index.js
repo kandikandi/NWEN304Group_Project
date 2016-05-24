@@ -37,24 +37,6 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-//var connectionString = "postgres://znufrplxsrwegg:HnOak8O2Rz_px-Yl_-WSRBuLws@ec2-54-225-94-145.compute-1.amazonaws.com:5432/d5fnuc5ovc0p76";
-//var connectionString = "postgres://huntdani1:password@depot:5432/huntdani1_nodejs";
-//var connectionString = "postgres://ygpsmtdckladgb:GO050OIP0M3Q5rU9ciSjV3Na0a@ec2-54-235-177-62.compute-1.amazonaws.com:5432/d7cihg4lmsobh0";
-
-//var pg = require('pg');
-
-/*app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM items', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
-})*/
-
 app.use("/Online_Shopping/css", express.static(__dirname + '/Online_Shopping/css'));
 app.use("/Online_Shopping/js", express.static(__dirname + '/Online_Shopping/js'));
 app.use("/Online_Shopping/fonts", express.static(__dirname + '/Online_Shopping/fonts'));
@@ -156,8 +138,6 @@ app.put('/register', function(req, res){
 // 	var query = client.query("DELETE FROM todo WHERE task = '" + req.body.task +"'");
 // 	res.send("Deleted\n");
 // });
-
-
 
 //Add headers
 app.use(function(req, res, next){
