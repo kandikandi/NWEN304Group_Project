@@ -72,21 +72,21 @@ app.get('/', function(req, res){
 
 
 //GET ALL ITEMS
-app.get('/items',function(request,response){
+//app.get('/items',function(request,response){
     //SQL QUERY
-    console.log('Getting items from the database');
-    var query = client.query("SELECT * FROM items");
-    var results = [];
+  //  console.log('Getting items from the database');
+    //var query = client.query("SELECT * FROM items");
+    //var results = [];
     //Stream results back one row at a time
-    query.on('row', function(row){
-        results.push(row);
-        });
+    //query.on('row', function(row){
+      //  results.push(row);
+        //});
   
     //After all data is returned, close connection and return results
-    query.on('end', function(){
-        response.json(results);
-        });
-    });
+   // query.on('end', function(){
+     //   response.json(results);
+       // });
+   // });
 
 
 // GET ALL MENS ITEMS
@@ -104,7 +104,7 @@ app.get('/catalogue/mens', function(request, response){
 // GET ALL WOMENS ITEMS
 app.get('/catalogue/womens', function(request, response){
   var query = client.query("SELECT * FROM items WHERE cat_id = 1");
-  var results = [];e
+  var results = [];
   query.on('row', function(row){
     results.push(row);
   });
@@ -116,7 +116,7 @@ app.get('/catalogue/womens', function(request, response){
 //GET ALL CHILDREN ITEMS
 app.get('/catalogue/kids', function(request, response){
     var query = client.query("SELECT * FROM items WHERE cat_id = 0");
-  var results = [];e
+  var results = [];
   query.on('row', function(row){
     results.push(row);
   });
@@ -124,7 +124,7 @@ app.get('/catalogue/kids', function(request, response){
     response.json(results);
   });
 });
-});
+
 
 //LOGIN
 app.get('/login', function(request, response){
