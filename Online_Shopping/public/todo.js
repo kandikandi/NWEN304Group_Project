@@ -14,7 +14,7 @@ function redraw(data){
 
 
 
-	function registerUser(userName, email, password){
+	/*function registerUser(userName, email, password){
 		$.ajax({
 			method: 'PUT',
 			url: ip+'/register',
@@ -26,6 +26,6 @@ function redraw(data){
 			contentType: "application/json",
 			dataType: "json"
 		}).then(ERROR_LOG);
-	};
+	};*/
 
 });
