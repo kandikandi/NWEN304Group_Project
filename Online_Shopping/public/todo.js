@@ -4,7 +4,7 @@ var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 //GET recieves the information from the items table in database, no changes are made
 $.ajax({
-    url: "https://evening-cove-32171.herokuapp.com/items",
+    url: "https://evening-cove-32171.herokuapp.com",
     type: "GET",
     }).then(redraw, ERROR_LOG);
 
