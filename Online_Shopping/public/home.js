@@ -11,6 +11,10 @@ $.ajax({
 
 function redraw(data){
     console.log('redrawing', data);
+    $.each(data, function(i){
+    	var item_image = data[i].image;
+    	console.log("IMAGE IS: " item_image);
+    })
     };
 
 
