@@ -12,3 +12,4 @@ $.ajax({
 function redraw(data){
     console.log('redrawing', data);
     };  
+});
