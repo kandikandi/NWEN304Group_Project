@@ -8,8 +8,8 @@ var passport = require('passport');
 var util = require('util');
 var HerokuStrategy = require('passport-heroku').Strategy;
 
-var HEROKU_CLIENT_ID = process.env.HEROKU_CLIENT_ID;
-var HEROKU_CLIENT_SECRET = process.env.HEROKU_CLIENT_SECRET;
+var HEROKU_CLIENT_ID = 123456; //process.env.HEROKU_CLIENT_ID;
+var HEROKU_CLIENT_SECRET = 'abc123';//process.env.HEROKU_CLIENT_SECRET;
 
 /*set up passport*/
 passport.serializeUser(function(user,done){
@@ -34,19 +34,19 @@ passport.use(new HerokuStrategy({
   }
 ));
 
-app.configure(function() {
+//app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  app.use(express.logger());
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.session({ secret: 'keyboard cat' }));
+  //app.use(express.logger());
+//  app.use(express.cookieParser());
+//  app.use(express.bodyParser());
+  //app.use(express.methodOverride());
+//  app.use(express.session({ secret: 'keyboard cat' }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(app.router);
+ // app.use(app.router);
   app.use(express.static(__dirname + '/public'));
-});
+//});
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -176,7 +176,7 @@ app.get('/auth/heroku',
     // function will not be called.
   });
 
-pp.get('/auth/heroku/callback', 
+app.get('/auth/heroku/callback', 
         passport.authenticate('heroku', { failureRedirect: '/login' }),
         function(req, res) {
           res.redirect('/');
