@@ -86,8 +86,8 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
-  //  res.sendFile(__dirname+'/pages/index.ejs');
-  res.render('pages/index');
+  res.sendFile(__dirname+'/pages/index.ejs');
+//  res.render('pages/index');
 });
 
 
