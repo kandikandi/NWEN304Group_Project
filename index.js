@@ -110,41 +110,113 @@ app.get('/items',function(request,response){
     });
 
 
-// GET ALL MENS ITEMS
-app.get('/catalogue/mens', function(request, response){
-  var query = client.query("SELECT * FROM items WHERE cat_id = 2");
+app.get('/mens', function(request, response){
   var results = [];
+  var query = client.query("SELECT * FROM items WHERE cat_id = 2;");
+
+  //console.log(query.results);
+  
+  // var results = [];
   query.on('row', function(row){
+    //console.log(row);    
     results.push(row);
   });
-  query.on('end', function(){
-    response.json(results);
+
+  query.on('end', function(row){
+    response.render('pages/mens', {
+      results: results
+    });  
   });
+
+  //var results1 = JSON.stringify(results);
+
+  // query.on('end', function(){
+  //   response.json(results);
+  // });  
 });
 
+
 // GET ALL WOMENS ITEMS
-app.get('/catalogue/womens', function(request, response){
-  var query = client.query("SELECT * FROM items WHERE cat_id = 1");
+app.get('/womens', function(request, response){
   var results = [];
+  var query = client.query("SELECT * FROM items WHERE cat_id = 1;");
+
+  //console.log(query.results);
+  
+  // var results = [];
   query.on('row', function(row){
+    //console.log(row);    
     results.push(row);
   });
-  query.on('end', function(){
-    response.json(results);
+
+  query.on('end', function(row){
+    response.render('pages/womens', {
+      results: results
+    });  
   });
+
+  //var results1 = JSON.stringify(results);
+
+  // query.on('end', function(){
+  //   response.json(results);
+  // });  
 });
 
 //GET ALL CHILDREN ITEMS
-app.get('/catalogue/kids', function(request, response){
+app.get('/kids', function(request, response){
+  var results = [];
+  var result_itemid = [];
 
-    var query = client.query("SELECT * FROM items WHERE cat_id = 0");
-    var results = [];
-    query.on('row', function(row){
-        results.push(row);
-    });
-    query.on('end', function(){
-    response.json(results);
+  var query = client.query("SELECT * FROM items WHERE cat_id = 0;");
+
+  //console.log(query.results);
+  
+  // var results = [];
+  query.on('row', function(row){
+    console.log(row);    
+    results.push(row);
   });
+
+  query.on('end', function(row){
+    response.render('pages/kids', {
+      results: results
+    });  
+  });
+  // var query = client.query("SELECT * FROM items WHERE cat_id = 0", function(err, result){
+  //   var q = JSON.stringify(result.rows);
+  //   var qResult = JSON.parse(q);
+    
+
+  //   for(var i = 0; i < qResult.length; i++){
+  //     result_name[i] = qResult[i].name;
+  //     result_itemid[i] = qResult[i].item_id;
+  //     console.log("NAME IS: " + result_name[i]);
+  //     console.log("ID IS: " + result_itemid[i]);
+
+  //   }  
+
+  //   response.render('pages/kids', {
+  //     result_name: result_name,
+  //     result_itemid: result_itemid
+  //   }); 
+    
+  // }); 
+  
+  // var results = [];
+  // query.on('row', function(row){
+  //   results.push(row);
+    
+  // });
+  // query.on('end', function(){
+  //   results.forEach(function(data){
+  //     console.log("NAME IS: " + data.name);
+  //   });
+  // });
+  
+
+  // response.render('pages/kids', {
+  //   results: results
+  // });
 });
 
 
@@ -157,7 +229,42 @@ app.get('/login',ensureAuthenticated, function(request, response){
     else{
         res.send(1);
     }
-    res.render('login',{user: req.user});      
+    res.render('pages/login',{user: req.user});      
+});
+
+//PRODUCTS
+app.get('/products', function(request, response){
+  console.log("BODY: "+request.query.name);
+  var results = [];
+
+  var query = client.query("SELECT * FROM items WHERE name = '" + request.query.name +"';");
+
+  query.on('row', function(row){
+    console.log(row);    
+    results.push(row);
+  });
+
+  query.on('end', function(row){
+    response.render('pages/products', {
+      results: results
+    });  
+  });
+  // var query = client.query("SELECT * FROM items WHERE name = '" + request.query.name +"';", function(err, result){
+  //   var q = JSON.stringify(result.rows);
+  //   var qResult = JSON.parse(q);
+
+  //   for(var i = 0; i < qResult.length; i++){
+  //     des[i] = qResult[i].description;
+  //     price[i] = qResult[i].price;
+  //   }
+
+  //   response.render('pages/products', {
+  //   des: des,
+  //   price: price
+  // });
+    
+  // });
+  
 });
 
 //REGISTER
@@ -166,7 +273,7 @@ app.put('/register', function(req, res){
 	console.log('Creating...\n');
     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
 	res.send("Created\n");
-    res.render('register',{user: req.user});
+    res.render('pages/register',{user: req.user});
 });
 
 app.get('/auth/facebook',

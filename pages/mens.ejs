@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- load up the scripts, links, etc. -->
+    <% include ../partials/head %>
+</head>
+
+<body>
+	<% include ../partials/header %>  
+
+	<div class="jumbotron">
+      <h2>This is the Mens page</h2>
+      <div id="items_view">
+        <% results.forEach(function(data) { %>
+          <li><a href="/products?name=<%= data %>" id="product_redirect"><button class = "btn btn-default"> <%= data.name %> </button></a></li>
+        <% }); %>
+      </div>
+    </div>  
+</body>
+
+<script>
+
+var ERROR_LOG = console.error.bind(console);
+var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
+
+//GET recieves the information from the items table in database, no changes are made
+$.ajax({
+    url: ip+'/mens',
+    type: "GET",
+    }).then(redraw, ERROR_LOG);
+
+function redraw(data){
+    console.log('redrawing', data);
+    };  
+
+</script>
+
+</html>

@@ -1,5 +1,23 @@
- $(document).ready(function(e) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- load up the scripts, links, etc. -->
+    <% include ../partials/head %>
+</head>
 
+<body>
+	<% include ../partials/header %>  
+
+	<div class="jumbotron">
+      <h2>This is the home page</h2>
+      <div id="items_view">
+        
+      </div>
+    </div>  
+</body>
+
+<!-- PUT CLIENT SIDE CODE HERE! -->
+<script>
 var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
@@ -18,21 +36,7 @@ function redraw(data){
 };
 
 
+</script>
 
+</html>
 
-
-	/*function registerUser(userName, email, password){
-		$.ajax({
-			method: 'PUT',
-			url: ip+'/register',
-			data: JSON.stringify({
-				username: userName
-				email: email
-				password: password
-			}),
-			contentType: "application/json",
-			dataType: "json"
-		}).then(ERROR_LOG);
-	};*/
-
-});
