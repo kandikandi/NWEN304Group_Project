@@ -222,7 +222,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login'/*,ensureAuthenticated*/, function(request, response){
+app.get('/log_in'/*,ensureAuthenticated*/, function(request, response){
     var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
     if(query == "null"){
         response.send(0);
@@ -269,7 +269,7 @@ app.get('/products', function(request, response){
 });
 
 //REGISTER
-app.put('/register', function(req, res){
+app.put('/_register', function(req, res){
     
 	console.log('Creating...\n');
     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
@@ -283,7 +283,7 @@ app.get('/auth/facebook',
   });
 
 app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { failureRedirect: '/login' }),
+        passport.authenticate('facebook', { failureRedirect: '/log_in' }),
         function(req, res) {
          return res.redirect('/');
         });
@@ -295,7 +295,7 @@ app.get('/logout', function(req, res){
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/log_in');
 }
 
 
