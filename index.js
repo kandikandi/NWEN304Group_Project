@@ -155,9 +155,9 @@ app.get('/login',ensureAuthenticated, function(request, response){
 //REGISTER
 app.put('/register', function(req, res){
     res.render('register',{user: req.user});
-	// console.log('Creating...\n');
-	// var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
-	// res.send("Created\n");
+	console.log('Creating...\n');
+    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
+	res.send("Created\n");
 });
 
 app.get('/auth/facebook',
