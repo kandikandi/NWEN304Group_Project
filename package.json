@@ -20,7 +20,7 @@
     "pg": "4.x",
     "pg-native": "^1.10.0",
     "passport": ">= 0.0.0",
-    "passport-heroku":">= 0.0.0"
+    "passport-facebook":">= 0.0.0"
   },
   "keywords": []
 }
