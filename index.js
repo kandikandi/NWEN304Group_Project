@@ -223,14 +223,14 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login',ensureAuthenticated, function(request, response){
- /*   var query = client.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "'");  
+    var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
     if(query == "null"){
-        res.send(0);
+        response.send(0);
     }
     else{
-        res.send(1);
-    }*/
-    res.render('pages/login',{user: req.user});      
+        response.send(1);
+    }
+    response.render('pages/login',{user: request.user});      
 });
 
 //PRODUCTS
