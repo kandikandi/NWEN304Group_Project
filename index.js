@@ -137,7 +137,9 @@ app.get('/catalogue/womens', function(request, response){
 //GET ALL CHILDREN ITEMS
 app.get('/catalogue/kids', function(request, response){
 var query = client.query("SELECT * FROM users WHERE username = 'hi' AND password = 'k'"); 
-console.log(query); 
+if(query = null){
+console.log("i am a fish");
+} 
   //  var query = client.query("SELECT * FROM items WHERE cat_id = 0");
   var results = [];
   query.on('row', function(row){
