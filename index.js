@@ -223,13 +223,13 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login',ensureAuthenticated, function(request, response){
-    var query = client.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "'");  
+ /*   var query = client.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "'");  
     if(query == "null"){
         res.send(0);
     }
     else{
         res.send(1);
-    }
+    }*/
     res.render('pages/login',{user: req.user});      
 });
 
@@ -273,7 +273,7 @@ app.put('/register', function(req, res){
     
 	console.log('Creating...\n');
     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
-	res.send("Created\n");
+	//res.send("Created\n");
     res.render('pages/register',{user: req.user});
 });
 
