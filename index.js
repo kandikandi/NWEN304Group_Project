@@ -32,11 +32,11 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname);
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + 'public'));
 
 
 /*For defaulting back to https*/
@@ -86,8 +86,8 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname+'/pages/index.ejs');
-//  res.render('pages/index');
+ // res.sendFile(__dirname+'/pages/index.ejs');
+  res.render('pages/index');
 });
 
 
