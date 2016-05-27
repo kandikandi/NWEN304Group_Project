@@ -140,6 +140,18 @@ var query = client.query("SELECT * FROM users WHERE username = 'hi' AND password
 if(query = null){
 console.log("i am a fish");
 } 
+if(query = 'null'){
+console.log("i am a parrot");
+} 
+if(query = ''){
+console.log("i am a wolf");
+} 
+if(query = ""){
+console.log("i am a tiger");
+} 
+if(query = "null"){
+console.log("i am a koala");
+} 
   //  var query = client.query("SELECT * FROM items WHERE cat_id = 0");
  // var results = [];
  // query.on('row', function(row){
