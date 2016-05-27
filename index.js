@@ -152,6 +152,7 @@ console.log("i am a tiger");
 if(query = "null"){
 console.log("i am a koala");
 } 
+console.log("i am a person");
   //  var query = client.query("SELECT * FROM items WHERE cat_id = 0");
  // var results = [];
  // query.on('row', function(row){
