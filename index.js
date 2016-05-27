@@ -136,7 +136,9 @@ app.get('/catalogue/womens', function(request, response){
 
 //GET ALL CHILDREN ITEMS
 app.get('/catalogue/kids', function(request, response){
-    var query = client.query("SELECT * FROM items WHERE cat_id = 0");
+var query = client.query("SELECT * FROM users WHERE username = 'hi' AND password = 'k'"); 
+console.log(query); 
+  //  var query = client.query("SELECT * FROM items WHERE cat_id = 0");
   var results = [];
   query.on('row', function(row){
     results.push(row);
@@ -149,15 +151,21 @@ app.get('/catalogue/kids', function(request, response){
 
 //LOGIN
 app.get('/login',ensureAuthenticated, function(request, response){
-   res.render('login',{user: req.user});   
+    var query = client.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "'");  
+    
+
+
+    res.render('login',{user: req.user}); 
+     
 });
 
 //REGISTER
 app.put('/register', function(req, res){
-    res.render('register',{user: req.user});
+    
 	console.log('Creating...\n');
     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
 	res.send("Created\n");
+    res.render('register',{user: req.user});
 });
 
 app.get('/auth/facebook',
