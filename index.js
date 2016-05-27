@@ -136,42 +136,28 @@ app.get('/catalogue/womens', function(request, response){
 
 //GET ALL CHILDREN ITEMS
 app.get('/catalogue/kids', function(request, response){
-var query = client.query("SELECT * FROM users WHERE username = 'hi' AND password = 'k'"); 
-if(query = null){
-console.log("i am a fish");
-} 
-if(query = 'null'){
-console.log("i am a parrot");
-} 
-if(query = ''){
-console.log("i am a wolf");
-} 
-if(query = ""){
-console.log("i am a tiger");
-} 
-if(query = "null"){
-console.log("i am a koala");
-} 
-console.log("i am a person");
-  //  var query = client.query("SELECT * FROM items WHERE cat_id = 0");
- // var results = [];
- // query.on('row', function(row){
-  //  results.push(row);
- // });
-  //query.on('end', function(){
-   // response.json(results);
- // });
+
+    var query = client.query("SELECT * FROM items WHERE cat_id = 0");
+    var results = [];
+    query.on('row', function(row){
+        results.push(row);
+    });
+    query.on('end', function(){
+    response.json(results);
+  });
 });
 
 
 //LOGIN
 app.get('/login',ensureAuthenticated, function(request, response){
     var query = client.query("SELECT * FROM users WHERE username = '" + req.body.username + "' AND password = '" + req.body.password + "'");  
-    
-
-
-    res.render('login',{user: req.user}); 
-     
+    if(query == "null"){
+        res.send(0);
+    }
+    else{
+        res.send(1);
+    }
+    res.render('login',{user: req.user});      
 });
 
 //REGISTER
