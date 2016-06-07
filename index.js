@@ -26,7 +26,7 @@ passport.use(new FacebookStrategy({
   function(token, refreshToken, profile, done) {
    
     process.nextTick(function () {
-    
+      //check if user in database
       return done(null, profile);
     });
   }
@@ -34,9 +34,11 @@ passport.use(new FacebookStrategy({
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
+  app.use(cookieParser());
+  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(__dirname + 'public'));
+  app.use(express.static(__dirname + '/public'));
 
 
 /*For defaulting back to https*/
@@ -223,15 +225,29 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login'/*,ensureAuthenticated,*/, function(request, response){
-   /* var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
-    if(query == "null"){
-        response.send(0);
-    }
-    else{
-        response.send(1);
-    }*/
-    response.render('pages/login');      
+    response.render('pages/login', user: request.user });      
 });
+
+app.get('/auth/facebook',passport.authenticate('facebook'));
+app.get('/auth/facebook/callback', 
+        passport.authenticate('facebook', { 
+        successRedurect: '/',        
+        failureRedirect: '/login' 
+        }),
+        function(req, res) {
+           res.redirect('/');
+        });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
+
 
 //PRODUCTS
 app.get('/products', function(request, response){
@@ -281,26 +297,6 @@ app.get('/register',function(request,response){
         
     });
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'),
-  function(req, res){   
-  });
-
-app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { failureRedirect: '/login' }),
-        function(req, res) {
-         return res.redirect('/');
-        });
-
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
-});
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/');
-}
 
 
 
