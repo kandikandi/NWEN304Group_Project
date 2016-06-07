@@ -222,16 +222,15 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login'/*,ensureAuthenticated*/, function(request, response){
-    var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
+app.get('/login',ensureAuthenticated, function(request, response){
+   /* var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
     if(query == "null"){
         response.send(0);
     }
     else{
         response.send(1);
-    }
-    response.render('pages/login',{
-    user: request.user});      
+    }*/
+    response.render('pages/login');      
 });
 
 //PRODUCTS
@@ -278,7 +277,7 @@ app.put('/register', function(req, res){
 });
 
 app.get('/register',function(request,response){
-          res.render('pages/register');     
+          response.render('pages/register');     
         
     });
 
