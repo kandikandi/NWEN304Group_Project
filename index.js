@@ -64,7 +64,7 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
     });
 });
 
-//just testing
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
