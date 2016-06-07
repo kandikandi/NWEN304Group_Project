@@ -224,8 +224,8 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login'/*,ensureAuthenticated,*/, function(request, response){
-    response.render('pages/login', user: request.user });      
+app.get('/login',ensureAuthenticated, function(request, response){
+    response.render('pages/login', { user: request.user });      
 });
 
 app.get('/auth/facebook',passport.authenticate('facebook'));
