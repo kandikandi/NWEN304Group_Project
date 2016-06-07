@@ -222,15 +222,16 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login',/*,ensureAuthenticated,*/ function(request, response){
+app.get('/login',ensureAuthenticated, function(request, response){
     var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
- /*   if(query == "null"){
+    if(query == "null"){
         response.send(0);
     }
     else{
         response.send(1);
-    }*/
-    response.render('pages/login'/*,{user: request.user}*/);      
+    }
+    response.render('pages/login',{
+    user: request.user});      
 });
 
 //PRODUCTS
@@ -273,8 +274,7 @@ app.put('/register', function(req, res){
     
 	console.log('Creating...\n');
     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
-	//res.send("Created\n");
-    res.render('pages/register'/*,{user: req.user}*/);
+	res.render('pages/register',{user: req.user});
 });
 
 app.get('/register',function(request,response){
@@ -291,7 +291,9 @@ app.get('/register',function(request,response){
   
     //After all data is returned, close connection and return results
     query.on('end', function(){
-        response.json(results);
+         res.render('pages/register',{
+         user: req.user
+         ,results:results});
         });
     });
 
@@ -313,7 +315,7 @@ app.get('/logout', function(req, res){
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/');
 }
 
 
