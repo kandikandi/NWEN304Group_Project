@@ -222,7 +222,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login',ensureAuthenticated, function(request, response){
+app.get('/login'/*,ensureAuthenticated,*/ function(request, response){
     var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
  /*   if(query == "null"){
         response.send(0);
