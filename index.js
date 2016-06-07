@@ -277,6 +277,24 @@ app.put('/register', function(req, res){
     res.render('pages/register',{user: req.user});
 });
 
+app.get('/register',function(request,response){
+    //SQL QUERY
+    console.log('Getting items from the database');
+    var query = client.query("SELECT * FROM users");
+    var results = [];
+    
+    //Stream results back one row at a time
+    query.on('row', function(row){
+    console.log(row);        
+    results.push(row);
+        });
+  
+    //After all data is returned, close connection and return results
+    query.on('end', function(){
+        response.json(results);
+        });
+    });
+
 app.get('/auth/facebook',
   passport.authenticate('facebook'),
   function(req, res){   
