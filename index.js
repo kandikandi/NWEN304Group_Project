@@ -222,14 +222,14 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login',ensureAuthenticated, function(request, response){
+app.get('/login'/*,ensureAuthenticated*/, function(request, response){
     response.render('pages/login', { user: request.user });      
 });
 
 app.get('/auth/facebook',passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
         passport.authenticate('facebook', { 
-        successRedurect: '/',        
+        successRedirect: '/',        
         failureRedirect: '/login' 
         }),
         function(req, res) {
