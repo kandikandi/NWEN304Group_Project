@@ -222,7 +222,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login',ensureAuthenticated, function(request, response){
+app.get('/login'/*,ensureAuthenticated*/, function(request, response){
     var query = client.query("SELECT * FROM users WHERE username = '" + request.body.username + "' AND password = '" + request.body.password + "'");  
     if(query == "null"){
         response.send(0);
@@ -278,23 +278,8 @@ app.put('/register', function(req, res){
 });
 
 app.get('/register',function(request,response){
-    //SQL QUERY
-    console.log('Getting items from the database');
-    var query = client.query("SELECT * FROM users");
-    var results = [];
-    
-    //Stream results back one row at a time
-    query.on('row', function(row){
-    console.log(row);        
-    results.push(row);
-        });
-  
-    //After all data is returned, close connection and return results
-    query.on('end', function(){
-         res.render('pages/register',{
-         user: req.user
-         ,results:results});
-        });
+          res.render('pages/register');     
+        
     });
 
 app.get('/auth/facebook',
