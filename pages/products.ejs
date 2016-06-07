@@ -12,7 +12,9 @@
       <h2>This is the products page</h2>
       <div id="items_view">
         <% results.forEach(function(data) { %>
-          <li><p>Description: <%= data.descriptions %></p></li>
+          <li><p>Name: <%= data.name %></p></li>
+          <li><p>Description: <%= data.description %></p></li>
+          <li><p>Price: $<%= data.price %></p></li>
         <% }); %>        
       </div>
     </div>  
