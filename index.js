@@ -34,7 +34,6 @@ passport.use(new FacebookStrategy({
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
-  app.use(express.bodyParser());
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
@@ -76,6 +75,7 @@ app.use("/public/css", express.static(__dirname + '/public/css'));
 app.use("/public/js", express.static(__dirname + '/public/js'));
 app.use("/public/fonts", express.static(__dirname + '/public/fonts'));
 app.use(express.static(__dirname + '/'));
+
 app.use(function(req, res, next) {
     if (req.headers.origin) {
         res.header('Access-Control-Allow-Origin', '*')
@@ -232,10 +232,8 @@ app.get('/auth/facebook/callback',
         passport.authenticate('facebook', { 
         successRedirect: '/',        
         failureRedirect: '/login' 
-        }),
-        function(req, res) {
-           res.redirect('/');
-        });
+        })
+    );
 
 app.get('/logout', function(req, res){
   req.logout();
