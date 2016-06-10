@@ -8,16 +8,15 @@ var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-/*set up passport*/
-passport.serializeUser(function(user,done){
-  done(null,user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
 
 
+  app.set('views', __dirname);
+  app.set('view engine', 'ejs');
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(express.static(__dirname + '/public'));
+
+/*set up passport for facebook login*/
 passport.use(new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
@@ -32,11 +31,28 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-  app.set('views', __dirname);
-  app.set('view engine', 'ejs');
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(express.static(__dirname + '/public'));
+app.get('/auth/facebook',passport.authenticate('facebook'));
+app.get('/auth/facebook/callback', 
+        passport.authenticate('facebook', { 
+        successRedirect: '/',        
+        failureRedirect: '/login' 
+        })
+    );
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+passport.serializeUser(function(user,done){
+  done(null,user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+
 
 
 /*For defaulting back to https*/
@@ -225,19 +241,6 @@ app.get('/kids', function(request, response){
 //LOGIN
 app.get('/login'/*,ensureAuthenticated*/, function(request, response){
     response.render('pages/login', { user: request.user });      
-});
-
-app.get('/auth/facebook',passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { 
-        successRedirect: '/',        
-        failureRedirect: '/login' 
-        })
-    );
-
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
 });
 
 function ensureAuthenticated(req, res, next) {
