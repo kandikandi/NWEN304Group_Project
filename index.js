@@ -77,7 +77,7 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-passport.serializeUser(function(user,done){
+/*passport.serializeUser(function(user,done){
   console.log("Serialise ", user);
   done(null, user.username);
 });
@@ -88,7 +88,15 @@ passport.deserializeUser(function(username, done) {
     done(err, user);
     };
 });
+*/
 
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
