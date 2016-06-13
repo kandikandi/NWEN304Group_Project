@@ -61,7 +61,7 @@ passport.use('facebook', new FacebookStrategy({
 
 
 app.get('/auth/facebook', 
-    passport.authenticate('facebook'/*, {scope: 'email' }*/
+    passport.authenticate('facebook', {scope: 'email' }
 ));
 
 app.get('/auth/facebook/callback', 
