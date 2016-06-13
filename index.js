@@ -250,7 +250,7 @@ app.get('/login', function(request, response){
 
    query.on('row', function(row){
    console.log(row);    
-   results.push(row); });
+   });
 
    response.render('pages/login', { user: request.user });      
 });
@@ -264,6 +264,7 @@ app.get('/products', function(request, response){
 
   query.on('row', function(row){
     console.log(row);    
+    results.push(row);
   });
 
   query.on('end', function(row){
