@@ -50,7 +50,7 @@ passport.use('facebook', new FacebookStrategy({
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
      var user = client.query("SELECT * FROM users WHERE username = '" + profile.access_token + "';");
-     if(user){
+     if(user!='undefined'){
        return done(null, user);
      }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.access_token + "', '" + profile.email[0].value + "', 'facebook');");
@@ -62,7 +62,7 @@ passport.use('facebook', new FacebookStrategy({
 ));
 
 app.get('/auth/facebook', 
-    passport.authenticate('facebook', {scope: 'email' }
+    passport.authenticate('facebook'/*, {scope: 'email' }*/
 ));
 
 app.get('/auth/facebook/callback', 
