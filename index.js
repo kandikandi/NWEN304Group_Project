@@ -86,7 +86,7 @@ passport.deserializeUser(function(username, done) {
   log.debug("deserualize ", username);
   var user = client.query("SELECT 1 FROM users WHERE username = '" + username + "';");{  
     done(err, user);
-    });
+    };
 });
 
 
