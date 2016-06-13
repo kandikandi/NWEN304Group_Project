@@ -50,11 +50,13 @@ passport.use('facebook', new FacebookStrategy({
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
      var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
-     if(user!='undefined'){
+     if(user){
+       console.log("logged in found in db");
        return done (null, profile);
      }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
        var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+       console.log("logged in added to db");
        return done(null, newUser);  
        }       
         })
