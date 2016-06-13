@@ -42,7 +42,7 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 });
 
 /*set up passport for facebook login*/
-passport.use(new FacebookStrategy({
+passport.use('facebook', new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
