@@ -48,8 +48,7 @@ passport.use('facebook', new FacebookStrategy({
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
   },
   function(access_token, refreshToken, profile, done) {
-   
-    process.nextTick(function () {
+     process.nextTick(function () {
      var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" + profile.emails[0].value + "';");
      if(user){
        return done(null, user);
@@ -79,12 +78,14 @@ app.get('/logout', function(req, res){
 });
 
 passport.serializeUser(function(user,done){
-  done(null,user.id);
+  console.log("Serialise ",user);
+  done(null,user.username);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user){  
-    done(err, obj);
+passport.deserializeUser(function(username, done) {
+  log.debug("deserualize ", username);
+  var user = client.query("SELECT 1 FROM users WHERE username = '" + username + "';");{  
+    done(err, user);
     });
 });
 
