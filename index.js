@@ -58,8 +58,7 @@ passport.use('facebook', new FacebookStrategy({
        return done(null, newUser);  
        }     */   
      }));
-  }
-));
+
 
 app.get('/auth/facebook', 
     passport.authenticate('facebook'/*, {scope: 'email' }*/
