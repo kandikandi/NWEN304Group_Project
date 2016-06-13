@@ -245,7 +245,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login',ensureAuthenticated, function(request, response){
+app.get('/login', function(request, response){
    var query = client.query("SELECT * FROM users;");
 
    query.on('row', function(row){
@@ -254,12 +254,6 @@ app.get('/login',ensureAuthenticated, function(request, response){
 
    response.render('pages/login', { user: request.user });      
 });
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
-
 
 //PRODUCTS
 app.get('/products', function(request, response){
