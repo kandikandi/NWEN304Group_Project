@@ -49,12 +49,12 @@ passport.use('facebook', new FacebookStrategy({
   },
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-     var user = client.query("SELECT * FROM users WHERE username = '" + profile.access_token + "';");
+     var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
      if(user!='undefined'){
        return done(null, user);
      }else{
-       client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.access_token + "', '" + profile.email[0].value + "', 'facebook');");
-       var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.access_token + "';");
+       client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
+       var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
        return done(null, newUser);  
        }        
      });
