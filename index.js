@@ -65,8 +65,7 @@ passport.use('facebook', new FacebookStrategy({
 
 
 app.get('/auth/facebook', 
-    passport.authenticate('facebook'/* {scope: 'email' }*/
-));
+    passport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', 
         passport.authenticate('facebook', { 
@@ -79,19 +78,6 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-
-/*passport.serializeUser(function(user,done){
-  console.log("Serialise ", user);
-  done(null, user.username);
-});
-
-passport.deserializeUser(function(username, done) {
-  log.debug("deserialize ", username);
-  var user = client.query("SELECT 1 FROM users WHERE username = '" + username + "';");{  
-    done(err, user);
-    };
-});
-*/
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
@@ -259,8 +245,14 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login'/*,ensureAuthenticated*/, function(request, response){
-    response.render('pages/login', { user: request.user });      
+app.get('/login',ensureAuthenticated, function(request, response){
+   var query = client.query("SELECT * FROM users;");
+
+   query.on('row', function(row){
+   console.log(row);    
+   results.push(row); });
+
+   response.render('pages/login', { user: request.user });      
 });
 
 function ensureAuthenticated(req, res, next) {
