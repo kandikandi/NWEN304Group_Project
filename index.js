@@ -49,6 +49,7 @@ passport.use('facebook', new FacebookStrategy({
   },
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
+     console.log("logged in via fb");
      var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
      if(user){
        console.log("logged in found in db");
@@ -64,7 +65,7 @@ passport.use('facebook', new FacebookStrategy({
 
 
 app.get('/auth/facebook', 
-    passport.authenticate('facebook', {scope: 'email' }
+    passport.authenticate('facebook',/* {scope: 'email' }*/
 ));
 
 app.get('/auth/facebook/callback', 
