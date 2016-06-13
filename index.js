@@ -49,12 +49,12 @@ passport.use('facebook', new FacebookStrategy({
   },
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" + profile.emails[0].value + "';");
+     var user = client.query("SELECT * FROM users WHERE username = '" + profile.access_token + "' AND email = '" + profile.emails[0].value + "';");
      if(user){
        return done(null, user);
      }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.access_token + "', '" + profile.email[0].value + "', 'facebook');");
-       var newUser = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
+       var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
        return done(null, newUser);  
        }        
      });
@@ -78,12 +78,12 @@ app.get('/logout', function(req, res){
 });
 
 passport.serializeUser(function(user,done){
-  console.log("Serialise ",user);
-  done(null,user.username);
+  console.log("Serialise ", user);
+  done(null, user.username);
 });
 
 passport.deserializeUser(function(username, done) {
-  log.debug("deserualize ", username);
+  log.debug("deserialize ", username);
   var user = client.query("SELECT 1 FROM users WHERE username = '" + username + "';");{  
     done(err, user);
     };
