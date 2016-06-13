@@ -25,9 +25,14 @@ passport.use(new FacebookStrategy({
   function(token, refreshToken, profile, done) {
    
     process.nextTick(function () {
-      //check if user in database
-      return done(null, profile);
-    });
+     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
+     if(user){
+       return done(null, user);
+     }else{
+       var newUser = client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.acess_token + "', '" + profile.email[0].value + "', 'facebook');");
+       return done(null, newUser);  
+       }        
+     });
   }
 ));
 
