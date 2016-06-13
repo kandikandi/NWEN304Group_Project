@@ -51,8 +51,13 @@ passport.use('facebook', new FacebookStrategy({
      process.nextTick(function () {
      console.log("USERNAME IS :: " + profile.id);
      console.log("logged in via fb");
-     client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", function(err,result){
-     var user = result.rows[0];//.username;
+     var result  = []     
+     var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+    query.on('row', function(row){
+    console.log(row);    
+    result.push(row);
+    });
+     var user = result.row[0];//.username;
      console.log("USER IS : " + user);
      if(user!=undefined){
        console.log("logged in found in db");
@@ -64,7 +69,7 @@ passport.use('facebook', new FacebookStrategy({
        console.log("logged in added to db");
        return done(null, newUser);  
        }       
-       });})
+       );})
      }));
 
 
