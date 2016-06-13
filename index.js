@@ -57,7 +57,7 @@ passport.use('facebook', new FacebookStrategy({
        var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
        return done(null, newUser);  
        }     */   
-     });
+     }));
   }
 ));
 
