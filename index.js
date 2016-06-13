@@ -59,7 +59,7 @@ passport.use('facebook', new FacebookStrategy({
             });
       */
         console.log("USER IS : " + user);
-        if(user!=undefined){
+        if(user){
             console.log("logged in found in db");
             return done (null, profile);
         }else{
