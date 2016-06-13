@@ -53,6 +53,7 @@ passport.use('facebook', new FacebookStrategy({
         console.log("logged in via fb");
         var result  = []     
         var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+        console.log("GOT TO THIS PART!");
         query.on('row', function(row){
             console.log(row);    
             result.push(row);
