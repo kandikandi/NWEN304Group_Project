@@ -51,14 +51,16 @@ passport.use('facebook', new FacebookStrategy({
      process.nextTick(function () {
      console.log("USERNAME IS :: " + profile.id);
      console.log("logged in via fb");
-     var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+     var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+     var user = JSON.stringify(query);
      console.log("USER IS : " + user);
      if(user){
        console.log("logged in found in db");
        return done (null, profile);
      }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
-       var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+       query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
+       var newUser = JSON.stringify(query);
        console.log("logged in added to db");
        return done(null, newUser);  
        }       
