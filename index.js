@@ -16,51 +16,6 @@ var FacebookStrategy = require('passport-facebook').Strategy;
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
 
-/*set up passport for facebook login*/
-passport.use(new FacebookStrategy({
-    clientID: '236128690099176',
-    clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
-    callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
-  },
-  function(token, refreshToken, profile, done) {
-   
-    process.nextTick(function () {
-     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
-     if(user){
-       return done(null, user);
-     }else{
-       client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.acess_token + "', '" + profile.email[0].value + "', 'facebook');");
-       var newUser = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
-       return done(null, newUser);  
-       }        
-     });
-  }
-));
-
-app.get('/auth/facebook',passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { 
-        successRedirect: '/',        
-        failureRedirect: '/login' 
-        })
-    );
-
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
-});
-
-passport.serializeUser(function(user,done){
-  done(null,user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-
-
-
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
   if(req.headers['x-forwarded-proto']!='https'&&process.env.NODE_ENV === 'production')
@@ -84,6 +39,51 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
     .on('row', function(row) {
         console.log(JSON.stringify(row));
     });
+});
+
+/*set up passport for facebook login*/
+passport.use(new FacebookStrategy({
+    clientID: '236128690099176',
+    clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
+    callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
+  },
+  function(access_token, refreshToken, profile, done) {
+   
+    process.nextTick(function () {
+     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
+     if(user){
+       return done(null, user);
+     }else{
+       client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.access_token + "', '" + profile.email[0].value + "', 'facebook');");
+       var newUser = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
+       return done(null, newUser);  
+       }        
+     });
+  }
+));
+
+app.get('/auth/facebook', 
+    passport.authenticate('facebook', {scope: 'email' }
+));
+
+app.get('/auth/facebook/callback', 
+        passport.authenticate('facebook', { 
+        successRedirect: '/',        
+        failureRedirect: '/login' 
+        })
+    );
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+passport.serializeUser(function(user,done){
+  done(null,user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
 });
 
 
