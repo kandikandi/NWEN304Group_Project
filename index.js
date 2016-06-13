@@ -51,13 +51,13 @@ passport.use('facebook', new FacebookStrategy({
      process.nextTick(function () {/*
      var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
      if(user!='undefined'){*/
-       return done(null, user);
+       return done (null, profile);
   /*   }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
        var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
        return done(null, newUser);  
        }     */   
-        }
+        })
      }));
 
 
