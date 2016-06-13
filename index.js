@@ -48,15 +48,15 @@ passport.use('facebook', new FacebookStrategy({
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
   },
   function(access_token, refreshToken, profile, done) {
-     process.nextTick(function () {/*
+     process.nextTick(function () {
      var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
-     if(user!='undefined'){*/
+     if(user!='undefined'){
        return done (null, profile);
-  /*   }else{
+     }else{
        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
        var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
        return done(null, newUser);  
-       }     */   
+       }       
         })
      }));
 
