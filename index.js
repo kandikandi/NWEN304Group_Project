@@ -53,7 +53,7 @@ passport.use('facebook', new FacebookStrategy({
      console.log("logged in via fb");
      var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
      var user = JSON.stringify(query);
-     console.log("USER IS : " + user);
+     console.log("USER IS : " + user[0]);
      if(user[0]!=null){
        console.log("logged in found in db");
        return done (null, profile);
