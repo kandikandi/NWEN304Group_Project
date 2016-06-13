@@ -53,22 +53,17 @@ passport.use('facebook', new FacebookStrategy({
         console.log("logged in via fb");     
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
         console.log("GOT TO THIS PART!");
-      /*  query.on('row', function(row){
-            console.log(row);    
-            result.push(row);
-            });
-      */
         console.log("USER IS : " + user);
         if(user){
             console.log("logged in found in db");
             return done (null, profile);
         }else{
            client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
-           query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
-           var newUser = JSON.stringify(query);
+           var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
            console.log("logged in added to db");
            return done(null, newUser);  
            }    
+    console.log("AT THE END OF PROCESS NEXT TICK!");
   });
 }));
 
