@@ -50,7 +50,7 @@ passport.use('facebook', new FacebookStrategy({
   function(access_token, refreshToken, profile, done) {
    
     process.nextTick(function () {
-     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
+     var user = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" + profile.emails[0].value + "';");
      if(user){
        return done(null, user);
      }else{
@@ -79,11 +79,13 @@ app.get('/logout', function(req, res){
 });
 
 passport.serializeUser(function(user,done){
-  done(null,user);
+  done(null,user.id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user){  
+    done(err, obj);
+    });
 });
 
 
