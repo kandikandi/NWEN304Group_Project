@@ -51,10 +51,10 @@ passport.use('facebook', new FacebookStrategy({
      process.nextTick(function () {
      console.log("USERNAME IS :: " + profile.id);
      console.log("logged in via fb");
-     var query = client.query("SELECT (SELECT * FROM users WHERE username = '" + profile.id + "') AS username;");
+     var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
      var user = JSON.stringify(query);
      console.log("USER IS : " + user);
-     if(user!=null){
+     if(user[0]!=null){
        console.log("logged in found in db");
        return done (null, profile);
      }else{
