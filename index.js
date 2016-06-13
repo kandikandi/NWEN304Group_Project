@@ -64,7 +64,7 @@ passport.use('facebook', new FacebookStrategy({
        console.log("logged in added to db");
        return done(null, newUser);  
        }       
-       }})
+       });})
      }));
 
 
