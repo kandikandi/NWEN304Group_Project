@@ -29,7 +29,8 @@ passport.use(new FacebookStrategy({
      if(user){
        return done(null, user);
      }else{
-       var newUser = client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.acess_token + "', '" + profile.email[0].value + "', 'facebook');");
+       client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.acess_token + "', '" + profile.email[0].value + "', 'facebook');");
+       var newUser = client.query("SELECT 1 FROM users WHERE username = '" + profile.access_token + "' AND email = '" +profile.emails[0].value + "';");
        return done(null, newUser);  
        }        
      });
