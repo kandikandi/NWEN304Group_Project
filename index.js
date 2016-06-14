@@ -65,13 +65,14 @@ passport.use('facebook', new FacebookStrategy({
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
 
         function callback(err,res){
-            if(res.username!=undefined){
+            console.log(res.row[0];
+            if(res.row[0]!=undefined){
                  console.log("in if statement");
                  return done(null,profile);
             }
             else{
                  console.log("in the else statement");
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[ profile.id, profile.emails[0].value, 'facebook']); 
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, 'facebook']); 
                  return done(null,profile);      
             }   
          }              
@@ -271,11 +272,11 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
-   var query = client.query("SELECT * FROM users;");
+ /*  var query = client.query("SELECT * FROM users;");
 
    query.on('row', function(row){
    console.log(row);    
-   });
+   });*/
 
    response.render('pages/login', { user: request.user });      
 });
