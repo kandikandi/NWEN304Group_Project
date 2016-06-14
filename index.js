@@ -267,6 +267,7 @@ app.get('/login', function(request, response){
 
 //PROFILE
 app.get('/profile', function(req, res){
+if(req.session.user
 var query = client.query("SELECT * FROM users WHERE username = '"+ req.session.user + "';");
 var results = [];
 
@@ -331,6 +332,7 @@ app.put('/register', function(req, res){
   console.log('USERNAME: ' + user_details.username)
   console.log('Creating new user');
   //console.log('USERNAME: ' + req.body.userdetails);
+  var success = false;
   var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + user_details.username + "','" + user_details.email + "','" + user_details.password + "')",
     function(error, response){
       if(error){
@@ -343,6 +345,7 @@ app.put('/register', function(req, res){
       
     });
         req.session.user = user_details.username;
+        console.log("SESSION: " + req.session.user);
         if(success){        
         console.log("REDIRECTING");
         res.send({redirect: '/'});
