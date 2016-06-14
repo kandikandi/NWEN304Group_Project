@@ -62,7 +62,7 @@ passport.use('facebook', new FacebookStrategy({
             return done(null,profile);
         }else{
             console.log("in the else statement");
-            client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.emails[0].value + "', 'facebook';");
+            var newUser =  client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.emails[0].value + "', 'facebook';");
             var query = client.query("SELECT * FROM users WHERE username = '"+ profile.id +"';");
             var results = [];
             query.on('row', function(row){
