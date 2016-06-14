@@ -73,8 +73,7 @@ function add_user(user){
             userdetails: user
         }),
         contentType: "application/json",
-        dataType: "json",
-        success:  window.location.href = '/'
+        dataType: "json"        
     }).then(function success_add(data){
         console.log('Successfully added user', data);       
     }, console.error.bind(console));
