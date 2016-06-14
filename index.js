@@ -59,6 +59,8 @@ passport.use('facebook', new FacebookStrategy({
         query.on('end',function(result){
             user = result.rows.username;
         });
+            
+        console.log("USER : " + user);
 
         if(user!=undefined){
             console.log("in if statement");
@@ -74,15 +76,6 @@ passport.use('facebook', new FacebookStrategy({
      });
   }
 ));
-
-/*app.put('/user/add', function (req,res){
-    var addTodo = client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.emails[0].value + "', 'facebook';");
-    res.send({response: "200"})
-    req.on('error', function () {
-        res.send(404).send({message: "failed to add item"});
-        });
-    });*/
-
 
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}));
