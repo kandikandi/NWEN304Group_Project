@@ -65,8 +65,9 @@ passport.use('facebook', new FacebookStrategy({
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
 
         function callback(err,res){
-            console.log(res.row[0]);
-            if(res.row[0]!=undefined){
+            console.log(res.rows[0].username);
+
+            if(res.rows[0].username!=undefined){
                  console.log("in if statement");
                  return done(null,profile);
             }
