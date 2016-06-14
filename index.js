@@ -62,7 +62,7 @@ passport.use('facebook', new FacebookStrategy({
             
         console.log("USER : " + user);
 
-        if(user!=undefined){
+        if(user!=""){
             console.log("in if statement");
             return done(null,profile);
         }else{
