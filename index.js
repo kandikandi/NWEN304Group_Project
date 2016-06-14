@@ -7,19 +7,21 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
-//var session = require('express-session');
+var session = require('client-sessions');
+
+  app.use(session({
+    cookieName: 'session',
+    secret: 'itsasecret',
+    duration: 2 * 60 * 1000,
+    activeDuration: 1 * 60 *1000,
+  }));
+
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
- /* app.use(session({
-     secret: 'itsasecret',
-     cookie: { maxAge: 60000}
-    }));
-     
-
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -258,10 +260,27 @@ app.get('/kids', function(request, response){
 //LOGIN
 app.get('/login', function(request, response){
  
-  response.render('pages/login', { user: request.user }); 
-  
+  response.render('pages/login', { user: request.user });   
      
 });
+
+//PROFILE
+app.get('/profile', function(req, res){
+    var query = client.query("SELECT * FROM users WHERE username = '"+ req.session.user + "';");
+    var results = [];
+
+    query.on('row', function(row){
+        console.log(row);    
+        results.push(row);
+    });
+
+    query.on('end', function(row){
+        response.render('pages/profile', {
+        results: results
+    });  
+  });
+    
+
 
 //PRODUCTS
 app.get('/products', function(request, response){
@@ -318,15 +337,16 @@ app.put('/register', function(req, res){
         res.status(500).send("Internal Server Error when adding ");   
       }else{
         success = true;
-        console.log("SUCCES: " + success);
+        console.log("SUCCESS: " + success);
         console.log(user_details.username + " has been added to users");        
       }
-      if(success){
+      
+    });
+        req.session.user = user_details.username;
+        if(success){        
         console.log("REDIRECTING");
         res.send({redirect: '/'});
       }
-    });
-
   
 
   //res.render('pages/register',{user: req.user});
@@ -338,6 +358,7 @@ app.put('/register', function(req, res){
 });
 
 app.get('/register', function(req, res){
+
   console.log("In register page!");
   // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
   // res.send("Created\n");
