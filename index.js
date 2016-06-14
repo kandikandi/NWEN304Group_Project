@@ -55,7 +55,7 @@ passport.use('facebook', new FacebookStrategy({
             results.push(row);
         });
 
-        console.log(query.results);
+        console.log(JSON.stringify(query.results));
         
         
         return done(null,profile);
