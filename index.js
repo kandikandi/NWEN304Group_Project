@@ -8,13 +8,13 @@ var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-
-
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
+  app.use(express.session({ secret: 'so secret' }));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
+  app.use(app.router)
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -49,24 +49,21 @@ passport.use('facebook', new FacebookStrategy({
   },
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-        console.log("USERNAME IS :: " + profile.id);
-        console.log("logged in via fb");     
-        var query = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
-        console.log("GOT TO THIS PART!");
-        console.log("USER IS : " + user);
-        //if(user){
-        query.on('row', function(row) {
-            console.log("logged in found in db");
-            return done (null, profile);
-        }
-        client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.email[0].value + "', 'facebook');");
-        var newUser = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';");
-        console.log("logged in added to db");
-        return done(null, newUser);  
-               
-    console.log("AT THE END OF PROCESS NEXT TICK!");
-  });
-}));
+        var query = client.query("SELECT * FROM users WHERE username = '"+ profile.id +"';");
+         
+        var results = [];
+        query.on('row', function(row){
+           // console.log(row);    
+            results.push(row);
+        });
+
+        console.log(query.results);
+        
+        
+        return done(null,profile);
+     });
+  }
+));
 
 
 app.get('/auth/facebook', 
