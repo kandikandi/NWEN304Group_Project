@@ -7,7 +7,7 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var session = require('client-session');
+var session = require('client-sessions');
 
   app.use(session({
     cookieName: 'session',
