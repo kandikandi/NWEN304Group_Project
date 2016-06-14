@@ -7,14 +7,14 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var session = require('express-session');
+//var session = require('express-session');
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
-  app.use(session({
+ /* app.use(session({
      secret: 'itsasecret',
      cookie: { maxAge: 60000}
     }));
