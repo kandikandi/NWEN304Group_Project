@@ -10,7 +10,6 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
-  app.use(express.session({ secret: 'so secret' }));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
