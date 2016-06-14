@@ -9,6 +9,7 @@ var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var session = require('client-sessions');
 
+//set up client side sessions
   app.use(session({
     cookieName: 'session',
     secret: 'itsasecret',
@@ -366,7 +367,7 @@ app.get('/register', function(req, res){
   // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
   // res.send("Created\n");
   res.render('pages/register',{
-    success: success
+    //success: success
   });
 });
 
