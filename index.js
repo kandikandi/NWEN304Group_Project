@@ -11,7 +11,7 @@ var session = require('client-sessions');
 
 //set up client side sessions
   app.use(session({
-    cookieName: 'session',
+    cookieName: 'user',
     secret: 'itsasecret',
     duration: 2 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
@@ -91,6 +91,7 @@ app.get('/auth/facebook/callback',
 
 app.get('/logout', function(req, res){
   req.logout();
+  req.user.reset();
   res.redirect('/');
 });
 
@@ -260,10 +261,37 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
- 
+
+  var user_details = request.body.userdeatils;
+  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
+  var success = false;
+  function callback(err,res){
+       if(res.rows[0]!=undefined){
+          success = true;
+       }
+       else{
+            console.log("UNSUCCESSFUL LOGIN");
+       }
+    }
+  if(success==true){
+        request.user.username = rows[0].username;
+        request.user.email = res.rows[0].email;
+        res.redirect('pages/profile');
+    }
+  
   response.render('pages/login', { user: request.user });   
      
 });
+
+//AUTHENTICATE
+app.get('/auth', function(req, res, next){
+    if(req.user && req.user.username) {
+        return next(); }
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+}
 
 
 //PROFILE
@@ -345,7 +373,8 @@ app.put('/register', function(req, res){
       }
       
     });
-        req.session.user = user_details.username;
+        req.user.username = user_details.username;
+        req.user.email = user_details.email;
         console.log("SESSION: " + req.session.user);
         if(success){        
         console.log("REDIRECTING");

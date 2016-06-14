@@ -16,9 +16,9 @@
         	<input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
         	<label for="inputPassword" class="sr-only">Password</label>
         	<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        	<button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        	<a href="/login"><button id="login_button" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button></a>
       	</form>
-        <a href="/auth/facebook"><button class="btn btn-default">Log in with Facebook</button></a>
+        <button class="btn btn-default">Log in with Facebook</button>
     </div>
 </body>
 
@@ -35,7 +35,29 @@ $.ajax({
 
 function redraw(data){
     console.log('redrawing', data);
-    };  
+    }; 
+
+$('#login_button').on('click', function(){
+
+    var username = $('#inputUsername').val();
+    var password = $('#inputPassword').val();
+
+    var userdetail = {username, password};
+    check_user(userdetail);
+});
+
+function check_user(user){
+    $.ajax({
+        method: 'GET',
+        url: ip+'/login',
+        data: JSON.stringify({
+            userdetails: user}),
+        contentType: "application/json",
+        dataType: "json"
+        }).then(function success_login(data){
+             console.log("USER LOGGED IN");      
+        }, console.error.bind(console));
+}
 
 </script>
 
