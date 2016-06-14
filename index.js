@@ -322,7 +322,7 @@ app.put('/register', function(req, res){
       }
       if(success){
         console.log("REDIRECTING");
-        res.send();
+        res.send({redirect: '/'});
       }
     });
 
