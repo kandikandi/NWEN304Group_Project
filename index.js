@@ -54,10 +54,8 @@ passport.use('facebook', new FacebookStrategy({
         var results = [];
         query.on('row', function(row){
             results.push(row);
+            var user = row.username;
         });
-
-        var user = JSON.stringify(query.results);
-        console.log(user);
 
         if(user!=undefined){
             console.log("in if statement");
