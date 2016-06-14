@@ -43,8 +43,10 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 passport.use('facebook', new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
-    callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback"
+    callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
+    profileFields: ['id', 'emails', 'name']
   },
+
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
         var query = client.query("SELECT * FROM users WHERE username = '"+ profile.id +"';");
@@ -77,6 +79,14 @@ passport.use('facebook', new FacebookStrategy({
      });
   }
 ));
+
+/*app.put('/user/add', function (req,res){
+    var addTodo = client.query("INSERT INTO users (username, email, password) VALUES ('" + profile.id + "', '" + profile.emails[0].value + "', 'facebook';");
+    res.send({response: "200"})
+    req.on('error', function () {
+        res.send(404).send({message: "failed to add item"});
+        });
+    });*/
 
 
 app.get('/auth/facebook', 
