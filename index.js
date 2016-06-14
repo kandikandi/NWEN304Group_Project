@@ -49,24 +49,26 @@ passport.use('facebook', new FacebookStrategy({
 
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-        var query = client.query("SELECT * FROM users WHERE username = $1'", [profile.id]);
-        var user = "";
-        query.on('row',function(row) {
-            user = row.email;
-            console.log("USER : " + user);
-            console.log(JSON.stringify(user));
-        });       
-                          
-        console.log("USER : " + user);
 
-        if(user!=""){
+        var user = client.query("SELECT * FROM users WHERE username = $1'", [profile.id])
+        .on('row', function(row) {
+            console.log(JSON.stringify(row));
+        });
+       
+        /*query.on('row',function(row) {
+            assert.equal(profile.email, row.email); 
+       /*     user = row.email;
+            console.log("USER : " + user);
+            console.log(JSON.stringify(user));*/
+   //     });                               
+
+        if(user){
             console.log("in if statement");
             return done(null,profile);
         }else{
             console.log("in the else statement");
             console.log("PROFILE IS: " + profile.id + " EMAIL IS: " + profile.emails[0].value);
             client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[ profile.id, profile.emails[0].value, 'facebook']); 
-            console.log("ADDED THE NEW USER!?!?!?");
             return done(null,profile);
         }
                        
