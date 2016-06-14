@@ -57,7 +57,7 @@ passport.use('facebook', new FacebookStrategy({
         });
         var user = "";
         query.on('end',function(result){
-            user = result.rows.username;
+            user = JSON.stringify(result.rows.username,null," ");
             console.log("USER : " + user);
         });
             
