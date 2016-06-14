@@ -9,16 +9,22 @@
     <% include ../partials/header %>  
 
     <div class="jumbotron">
-        <h2>This is the registration page</h2>
-        <form class="form-login">
-            <h2>Please log in</h2>
+        <h2>This is the register page</h2>
+        <% if(success) { %> 
+            <div class="alert alert-success">
+                <strong>Success!</strong> You have been registered
+            </div>
+        <% }%>
+        
+        <form action="register" method="put" class="form-login">
+            <h2>Please Register in</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
             <label for="inputUsername" class="sr-only">Username</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            <button id="reg_button" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
         </form>
     </div>
 </body>
@@ -29,14 +35,51 @@ var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
 //GET recieves the information from the items table in database, no changes are made
-$.ajax({
-    url: ip+'/register',
-    type: "GET",
-    }).then(redraw, ERROR_LOG);
+// $.ajax({
+//     url: ip+'/register',
+//     type: "GET",
+//     }).then(redraw, ERROR_LOG);
 
-function redraw(data){
-    console.log('redrawing', data);
-    };  
+// function redraw(data){
+//     console.log('redrawing', data);
+//     };  
+
+
+$.ajax({
+    method: 'GET',
+    url: 'http://localhost:8080/register'
+    }).then(function success_delete(data){
+                       
+    }, ERROR_LOG);
+
+
+$('#reg_button').on('click', function(){
+
+    var email = $('#inputEmail').val();
+    var username = $('#inputUsername').val();
+    var password = $('#inputPassword').val();
+
+    var userdetail = {email, username, password};
+    console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
+    add_user(userdetail);
+    
+});
+
+function add_user(user){
+    $.ajax({
+        method: 'PUT',
+        url: 'http://localhost:8080/register',
+        data: JSON.stringify({
+            userdetails: user
+        }),
+        contentType: "application/json",
+        dataType: "json"
+    }).then(function success_add(data){
+        console.log('Successfully added user', data);
+        window.location.href = '/';
+    }, console.error.bind(console));
+}
+
 
 </script>
 

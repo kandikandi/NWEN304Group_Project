@@ -299,16 +299,51 @@ app.get('/products', function(request, response){
 
 //REGISTER
 app.put('/register', function(req, res){
-    
-	console.log('Creating...\n');
-    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + req.body.username + "','" + req.body.email + "','" + req.body.password + "')");
-	res.render('pages/register',{user: req.user});
+  // console.log('Creating...\n');
+  // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
+  // res.send("Created\n");
+
+  
+  //console.log("USER DETAILS" + req.body.userdetails);
+  var user_details = req.body.userdetails;
+  console.log('Clicked register button!');
+  console.log("SUCCESS: " + success);
+  console.log('USERNAME: ' + user_details.username)
+  console.log('Creating new user');
+  //console.log('USERNAME: ' + req.body.userdetails);
+  var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + user_details.username + "','" + user_details.email + "','" + user_details.password + "')",
+    function(error, response){
+      if(error){
+        res.status(500).send("Internal Server Error when adding ");   
+      }else{
+        success = true;
+        console.log("SUCCES: " + success);
+        console.log(user_details.username + " has been added to users");        
+      }
+      if(success){
+        console.log("REDIRECTING");
+        res.send();
+      }
+    });
+
+  
+
+  //res.render('pages/register',{user: req.user});
+  //console.log(req.body.task + " has been added to users");
+  // res.render('pages/register', {
+  //   success: success
+  // });
+  //res.redirect('/');
 });
 
-app.get('/register',function(request,response){
-          response.render('pages/register');     
-        
-    });
+app.get('/register', function(req, res){
+  console.log("In register page!");
+  // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
+  // res.send("Created\n");
+  res.render('pages/register',{
+    success: success
+  });
+});
 
 //Add headers
 app.use(function(req, res, next){
