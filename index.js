@@ -7,12 +7,19 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var session = require('express-session');
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
+  app.use(session({
+     secret: 'itsasecret',
+     cookie: { maxAge: 60000}
+    }));
+     
+
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -50,23 +57,10 @@ passport.use('facebook', new FacebookStrategy({
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
 
-   /*     var user = client.query("SELECT * FROM users WHERE username = $1'", [profile.id])
-        .on('row', function(row) {
-            console.log(JSON.stringify(row));
-        });
-       
-        /*query.on('row',function(row) {
-            assert.equal(profile.email, row.email); 
-       /*     user = row.email;
-            console.log("USER : " + user);
-            console.log(JSON.stringify(user));*/
-   //     });        
-
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
 
         function callback(err,res){
-            //console.log(res.rows[0].username);
-
+         
             if(res.rows[0]!=undefined){
                  console.log("in if statement");
                  return done(null,profile);
@@ -77,15 +71,6 @@ passport.use('facebook', new FacebookStrategy({
                  return done(null,profile);      
             }   
          }              
-
-/*        if(user){
-            console.log("in if statement");
-            return done(null,profile);
-        }else{
-            console.log("in the else statement");
-            console.log("PROFILE IS: " + profile.id + " EMAIL IS: " + profile.emails[0].value);
-           
-        }*/
                        
      });
   }
@@ -136,7 +121,6 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
- // res.sendFile(__dirname+'/pages/index.ejs');
   res.render('pages/index');
 });
 
@@ -273,13 +257,9 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
- /*  var query = client.query("SELECT * FROM users;");
-
-   query.on('row', function(row){
-   console.log(row);    
-   });*/
-
-   response.render('pages/login', { user: request.user });      
+ 
+  response.render('pages/login', { user: request.user }); 
+     
 });
 
 //PRODUCTS
@@ -329,9 +309,6 @@ app.get('/register',function(request,response){
           response.render('pages/register');     
         
     });
-
-
-
 
 //Add headers
 app.use(function(req, res, next){
