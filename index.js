@@ -263,6 +263,7 @@ app.get('/kids', function(request, response){
 app.get('/login', function(request, response){
 
   var user_details = request.body.userdeatils;
+  if(user_details!=undefined){
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
   var success = false;
   function callback(err,res){
@@ -278,6 +279,7 @@ app.get('/login', function(request, response){
         request.user.email = res.rows[0].email;
         res.redirect('pages/profile');
     }
+  }
   
   response.render('pages/login', { user: request.user });   
      
