@@ -13,7 +13,6 @@ var FacebookStrategy = require('passport-facebook').Strategy;
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
-  app.use(app.router)
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
