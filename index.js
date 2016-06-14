@@ -49,18 +49,14 @@ passport.use('facebook', new FacebookStrategy({
 
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-        var query = client.query("SELECT * FROM users WHERE username = '"+ profile.id +"';");
-         
-        var results = [];
-        query.on('row', function(row, result){
-            result.addRow(row);            
-        });
+        var query = client.query("SELECT * FROM users WHERE username = $1'", [profile.id]);
         var user = "";
-        query.on('end',function(result){
-            user = JSON.stringify(result.rows.username,null," ");
+        query.on('row',function('row') {
+            user = row.email;
             console.log("USER : " + user);
-        });
-            
+            console.log(JSON.stringify(user));
+        });       
+                          
         console.log("USER : " + user);
 
         if(user!=""){
