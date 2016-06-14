@@ -51,7 +51,7 @@ passport.use('facebook', new FacebookStrategy({
      process.nextTick(function () {
         var query = client.query("SELECT * FROM users WHERE username = $1'", [profile.id]);
         var user = "";
-        query.on('row',function('row') {
+        query.on('row',function(row) {
             user = row.email;
             console.log("USER : " + user);
             console.log(JSON.stringify(user));
