@@ -55,9 +55,14 @@ passport.use('facebook', new FacebookStrategy({
             results.push(row);
         });
 
-        console.log(JSON.stringify(query.results));
-        
-        
+        var user = JSON.stringify(query.results);
+        console.log(user);
+        if(user!=undefined){
+            console.log("in if statement");
+        }else{
+            console.log("in the else statement");
+        }
+                
         return done(null,profile);
      });
   }
