@@ -259,6 +259,7 @@ app.get('/kids', function(request, response){
 app.get('/login', function(request, response){
  
   response.render('pages/login', { user: request.user }); 
+  
      
 });
 
