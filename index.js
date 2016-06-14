@@ -262,10 +262,17 @@ app.get('/kids', function(request, response){
 //LOGIN
 app.get('/login', function(request, response){
 
+  response.render('pages/login', { user: request.user });   
+     
+});
+
+app.get('/login/check', function(request, response){
+
   var user_details = request.body.userdeatils;
-  if(user_details!=undefined){
+
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
   var success = false;
+
   function callback(err,res){
        if(res.rows[0]!=undefined){
           success = true;
@@ -274,15 +281,13 @@ app.get('/login', function(request, response){
             console.log("UNSUCCESSFUL LOGIN");
        }
     }
+
   if(success==true){
         request.user.username = rows[0].username;
         request.user.email = res.rows[0].email;
-        res.redirect('pages/profile');
+        response.redirect('pages/profile');
     }
-  }
-  
-  response.render('pages/login', { user: request.user });   
-     
+  response.redirect('pages/login');
 });
 
 //AUTHENTICATE
