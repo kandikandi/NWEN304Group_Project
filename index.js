@@ -264,23 +264,23 @@ app.get('/login', function(request, response){
      
 });
 
+
 //PROFILE
 app.get('/profile', function(req, res){
-    var query = client.query("SELECT * FROM users WHERE username = '"+ req.session.user + "';");
-    var results = [];
+var query = client.query("SELECT * FROM users WHERE username = '"+ req.session.user + "';");
+var results = [];
 
-    query.on('row', function(row){
-        console.log(row);    
-        results.push(row);
-    });
-
-    query.on('end', function(row){
-        response.render('pages/profile', {
-        results: results
-    });  
+  query.on('row', function(row){
+    console.log(row);    
+    results.push(row);
   });
-    
 
+  query.on('end', function(row){
+    response.render('pages/profile', {
+      results: results
+    });
+  });
+});
 
 //PRODUCTS
 app.get('/products', function(request, response){
