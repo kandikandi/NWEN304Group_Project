@@ -228,8 +228,8 @@ app.post('/login/check', function(request, response){
   
   var success = false;
  
-  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
-  function callback(err,res){
+  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
+  function (err,res){
        if(res.rows[0]!=undefined){
           console.log("SUCCESS is TRUE"); 
           success = true;
@@ -237,7 +237,7 @@ app.post('/login/check', function(request, response){
        else{
             console.log("UNSUCCESSFUL LOGIN");
        }
-    };
+    });
     
      query.on('end',function(){
          console.log("GOT TO HERE and SUCCESS IS " + success);
@@ -246,12 +246,12 @@ app.post('/login/check', function(request, response){
         request.user.username = "'" + user_details.username + "'";
         console.log(request.user.username);
         //response.send({redirect: 'pages/login'});
-       // response.redirect('pages/profile');
+        response.redirect('pages/profile');
      }
      else{
      console.log("JUST REDIRECTING.....");
    //  response.send({redirect: 'pages/login'});
-    // response.redirect('pages/login');
+     response.redirect('pages/login');
      }
      console.log("FINISHED LOGIN PROCESS");
     });
@@ -271,7 +271,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-console.log(req.user.username);
+console.log("'"+req.user.username"'");
 var str = req.user.username;
 var user = str.slice(1, -1);
 console.log(user);
