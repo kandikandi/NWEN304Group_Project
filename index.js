@@ -266,6 +266,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
+console.log(req.user.username);
 var query = client.query("SELECT * FROM users WHERE username = '"+ req.user.username + "';");
 var results = [];
 
