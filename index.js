@@ -83,6 +83,7 @@ app.get('/auth/facebook',
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
         req.user.username = "'" + req.user.id + "'";
+        console.log(req.user.username);
     }
 );
 
