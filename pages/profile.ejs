@@ -10,16 +10,16 @@
 
 	<div class="jumbotron">
       <h2>This is the Profile page</h2>
-      <div id="items_view">
-          <% if results == NULL { %>
+      <div id="profile_view">
+     <!--     <% if results == NULL { %>
             <p><strong>Please Log In!!</strong></p>            
           <% } %>
-          <% else { %>
+          <% else { %>-->
             <% results.forEach(function(data) { %>
-              <li><p>Username: <% data.username %></p></li>
-              <li><p>Email: <% data.email %></p></li>
+              <li><p>Username: <%= data.username %></p></li>
+              <li><p>Email: <%= data.email %></p></li>
             <% }); %> 
-          <% } %>
+    <!--      <% } %>-->
               
         
       </div>
