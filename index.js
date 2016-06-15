@@ -13,7 +13,7 @@ var session = require('client-sessions');
   app.use(session({
     cookieName: 'user',
     secret: 'itsasecret',
-    duration: 2 * 60 * 1000,
+    duration: 2000 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
   }));
 
