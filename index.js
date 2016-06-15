@@ -230,11 +230,11 @@ app.post('/login/check', function(request, response){
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
   function (err,res){
        if(res.rows[0]!=undefined){
-          console.log("SUCCESS is TRUE"); 
+         // console.log("SUCCESS is TRUE"); 
           success = true;
        }
        else{
-            console.log("UNSUCCESSFUL LOGIN");
+          //  console.log("UNSUCCESSFUL LOGIN");
        }
     });
     
