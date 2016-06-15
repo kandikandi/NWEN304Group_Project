@@ -63,7 +63,7 @@ $('#reg_button').on('click', function(){
 function add_user(user){
     $.ajax({
         method: 'PUT',
-        url: 'http://localhost:8080/register',
+        url: ip + '/register',
         data: JSON.stringify({
             userdetails: user
         }),
