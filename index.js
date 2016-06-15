@@ -237,14 +237,15 @@ app.post('/login/check', function(request, response){
             console.log("UNSUCCESSFUL LOGIN");
        }
     });
-  console.log("GOT TO HERE and SUCCESS IS " + success);
-  query.on('end',function(){
+     console.log("GOT TO HERE and SUCCESS IS " + success);
+     query.on('end',function(){
      if(success==true){
         request.user.username = JSON.stringify(user_details.username);
         response.redirect('pages/profile');
-    }
+     }
+     else{
      response.redirect('pages/login');
-
+     }
     });
 });
 
