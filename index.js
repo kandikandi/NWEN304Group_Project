@@ -266,7 +266,7 @@ app.get('/login', function(request, response){
      
 });
 
-app.get('/login/check', function(request, response){
+app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
   console.log('Clicked login button!');

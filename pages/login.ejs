@@ -48,7 +48,7 @@ $('#login_button').on('click', function(){
 
 function check_user(user){
     $.ajax({
-        method: 'GET',
+        method: 'POST',
         url: ip+'/login/check',
         data: JSON.stringify({
             userdetails: user
