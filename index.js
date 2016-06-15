@@ -261,7 +261,7 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
-
+  request.user.username = "admin_1";
   response.render('pages/login', { user: request.user });   
      
 });
@@ -272,12 +272,12 @@ app.post('/login/check', function(request, response){
   console.log('Clicked login button!');
   console.log('USERNAME: ' + user_details.username);
   console.log('PASSWORD: ' + user_details.password);
-  console.log('Checking user');
-
-  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
+  console.log('Checking user..............');
+  
   var success = false;
-  console.log("GOT TO HERE");
-  function callback(err,res){
+ 
+  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callbacklog);
+  function callbacklog(err,res){
        if(res.rows[0]!=undefined){
           console.log("SUCCESS is TRUE"); 
           success = true;
@@ -308,7 +308,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-var query = client.query("SELECT * FROM users WHERE username = '"+ req.session.user + "';");
+var query = client.query("SELECT * FROM users WHERE username = '"+ req.user.username + "';");
 var results = [];
 
   query.on('row', function(row){
