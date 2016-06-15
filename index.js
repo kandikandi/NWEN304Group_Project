@@ -272,8 +272,8 @@ app.post('/login/check', function(request, response){
   
   var success = false;
  
-  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callbacklog);
-  function callbacklog(err,res){
+  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
+  function (err,res){
        if(res.rows[0]!=undefined){
           console.log("SUCCESS is TRUE"); 
           success = true;
@@ -281,7 +281,7 @@ app.post('/login/check', function(request, response){
        else{
             console.log("UNSUCCESSFUL LOGIN");
        }
-    }
+    });
   console.log("GOT TO HERE and SUCCESS IS " + success);
   if(success==true){
         request.currentuser.username = user_details.username;
