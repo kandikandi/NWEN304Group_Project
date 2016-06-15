@@ -270,21 +270,23 @@ app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
   console.log('Clicked login button!');
-  console.log('USERNAME: ' + user_details.username)
+  console.log('USERNAME: ' + user_details.username);
+  console.log('PASSWORD: ' + user_details.password);
   console.log('Checking user');
 
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
   var success = false;
-
+  console.log("GOT TO HERE");
   function callback(err,res){
        if(res.rows[0]!=undefined){
+          console.log("SUCCESS is TRUE"); 
           success = true;
        }
        else{
             console.log("UNSUCCESSFUL LOGIN");
        }
     }
-
+  console.log("GOT TO HERE and SUCCESS IS " + success);
   if(success==true){
         request.user.username = user_details.username;
         response.redirect('pages/profile');
