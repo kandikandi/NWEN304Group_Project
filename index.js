@@ -221,9 +221,9 @@ app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
   console.log('Clicked login button!');
-  console.log('USERNAME: ' + user_details.username);
-  console.log('PASSWORD: ' + user_details.password);
-  console.log('Checking user..............');
+ // console.log('USERNAME: ' + user_details.username);
+ // console.log('PASSWORD: ' + user_details.password);
+ // console.log('Checking user..............');
   
   var success = false;
  
