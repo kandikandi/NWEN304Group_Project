@@ -268,7 +268,7 @@ app.get('/login', function(request, response){
 
 app.get('/login/check', function(request, response){
 
-  var user_details = request.body.userdetail;
+  var user_details = request.body.userdetails;
   console.log('Clicked login button!');
   console.log('USERNAME: ' + user_details.username)
   console.log('Checking user');
