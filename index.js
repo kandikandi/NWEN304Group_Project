@@ -268,7 +268,7 @@ app.get('/login', function(request, response){
 
 app.get('/login/check', function(request, response){
 
-  var user_details = request.body.userdeatils;
+  var user_details = request.body.userdetails;
 
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
   var success = false;
