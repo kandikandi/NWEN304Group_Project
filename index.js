@@ -271,7 +271,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-console.log("'"+req.user.username"'");
+console.log("'"+req.user.username+"'");
 var str = req.user.username;
 var user = str.slice(1, -1);
 console.log(user);
