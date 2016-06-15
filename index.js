@@ -243,11 +243,11 @@ app.post('/login/check', function(request, response){
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
         request.user.username = "'"+user_details.username+"'";
-        response.redirect('pages/profile');
+      //  response.redirect('pages/profile');
      }
      else{
      console.log("JUST REDIRECTING.....");
-     response.redirect('pages/login');
+  //   response.redirect('pages/login');
      }
     });
 });
