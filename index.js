@@ -242,7 +242,7 @@ app.post('/login/check', function(request, response){
          console.log("GOT TO HERE and SUCCESS IS " + success);
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.user.username = user_details.username;
+        request.user.username = "'" + user_details.username + "'";
         console.log(request.user.username);
         //response.send({redirect: 'pages/login'});
        // response.redirect('pages/profile');
@@ -271,7 +271,7 @@ app.get('/auth', function(req, res, next){
 app.get('/profile', function(req, res){
 
 console.log(req.user.username);
-var str = "'" + req.user.username + "'";
+var str = req.user.username;
 var user = str.slice(1, -1);
 console.log(user);
 var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
