@@ -268,7 +268,7 @@ app.get('/profile', function(req, res){
 
 console.log(req.user.username);
 var str = req.user.username;
-var user = str.substring(1,str.length-1);
+var user = str.slice(1, -1);
 var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
 var results = [];
 
