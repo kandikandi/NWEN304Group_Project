@@ -211,8 +211,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login', function(request, response){
-  //request.user.username = "admin_1";
+app.get('/login', function(request, response){  
   response.render('pages/login', { user: request.user });   
      
 });
