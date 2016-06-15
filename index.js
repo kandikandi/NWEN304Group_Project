@@ -1,3 +1,19 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @kandikandi
+ Unwatch 4
+  Star 0
+  Fork 0 kandikandi/NWEN304Group_Project
+ Code  Issues 0  Pull requests 0  Wiki  Pulse  Graphs  Settings
+Tree: 0c29d4faf5 Find file Copy pathNWEN304Group_Project/index.js
+0c29d4f  19 hours ago
+ Kandice McLean Login and cookies
+0 contributors
+RawBlameHistory    373 lines (296 sloc)  9.75 KB
 var express = require('express');
 var path = require('path');
 var app = express();
@@ -13,7 +29,7 @@ var session = require('client-sessions');
   app.use(session({
     cookieName: 'user',
     secret: 'itsasecret',
-    duration: 2000 * 60 * 1000,
+    duration: 2 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
   }));
 
@@ -82,8 +98,7 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
-        req.user.username = "'" + req.user.id + "'";
-        console.log(req.user.username);
+        req.user.username = req.user.id;
     }
 );
 
@@ -213,7 +228,7 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
-  request.user.username = "gg";
+  //request.user.username = "admin_1";
   response.render('pages/login', { user: request.user });   
      
 });
@@ -221,7 +236,11 @@ app.get('/login', function(request, response){
 app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
-   
+  console.log('Clicked login button!');
+  console.log('USERNAME: ' + user_details.username);
+  console.log('PASSWORD: ' + user_details.password);
+  console.log('Checking user..............');
+  
   var success = false;
  
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
@@ -236,18 +255,16 @@ app.post('/login/check', function(request, response){
     });
     
      query.on('end',function(){
-        
+         console.log("GOT TO HERE and SUCCESS IS " + success);
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.user.username = "'" + user_details.username + "'";
-        console.log(request.user.username);
+        request.user.username = "'"+user_details.username+"'";
         response.redirect('pages/profile');
      }
      else{
      console.log("JUST REDIRECTING.....");
      response.redirect('pages/login');
      }
-     console.log("FINISHED LOGIN PROCESS");
     });
 });
 
@@ -265,11 +282,8 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-console.log("'"+req.user.username+"'");
-var str = req.user.username;
-var user = str.slice(1, -1);
-console.log(user);
-var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
+console.log(req.user.username);
+var query = client.query("SELECT * FROM users WHERE username = '"+ req.user.username + "';");
 var results = [];
 
   query.on('row', function(row){
@@ -372,3 +386,5 @@ app.listen(port, function () {
 
 //TEST CASES
 
+Status API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
