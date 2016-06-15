@@ -268,7 +268,10 @@ app.get('/login', function(request, response){
 
 app.get('/login/check', function(request, response){
 
-  var user_details = request.body.userdetails;
+  var user_details = request.body.userdetail;
+  console.log('Clicked login button!');
+  console.log('USERNAME: ' + user_details.username)
+  console.log('Checking user');
 
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",callback);
   var success = false;
@@ -363,7 +366,7 @@ app.put('/register', function(req, res){
   //console.log("USER DETAILS" + req.body.userdetails);
   var user_details = req.body.userdetails;
   console.log('Clicked register button!');
-  console.log("SUCCESS: " + success);
+//  console.log("SUCCESS: " + success);
   console.log('USERNAME: ' + user_details.username)
   console.log('Creating new user');
   //console.log('USERNAME: ' + req.body.userdetails);

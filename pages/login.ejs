@@ -51,7 +51,8 @@ function check_user(user){
         method: 'GET',
         url: ip+'/login/check',
         data: JSON.stringify({
-            userdetails: user}),
+            userdetails: user
+        }),
         contentType: "application/json",
         dataType: "json"
         }).then(function success_login(data){
