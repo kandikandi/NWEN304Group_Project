@@ -237,8 +237,9 @@ app.post('/login/check', function(request, response){
             console.log("UNSUCCESSFUL LOGIN");
        }
     });
-     console.log("GOT TO HERE and SUCCESS IS " + success);
+    
      query.on('end',function(){
+         console.log("GOT TO HERE and SUCCESS IS " + success);
      if(success==true){
         request.user.username = JSON.stringify(user_details.username);
         response.redirect('pages/profile');
