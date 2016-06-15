@@ -11,7 +11,7 @@ var session = require('client-sessions');
 
 //set up client side sessions
   app.use(session({
-    cookieName: 'currentuser',
+    cookieName: 'user',
     secret: 'itsasecret',
     duration: 2 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
@@ -82,7 +82,7 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
-        req.currentuser.username = req.user.id;
+        req.user.username = req.user.id;
     }
 );
 
@@ -95,7 +95,7 @@ app.get('/auth/facebook/callback',
 
 app.get('/logout', function(req, res){
   req.logout();
-  req.currentuser.reset();
+  req.user.reset();
   res.redirect('/');
 });
 
@@ -212,8 +212,8 @@ app.get('/kids', function(request, response){
 
 //LOGIN
 app.get('/login', function(request, response){
-  //request.currentuser.username = "admin_1";
-  response.render('pages/login', { user: request.currentuser });   
+  request.user.username = "admin_1";
+  response.render('pages/login', { user: request.user });   
      
 });
 
@@ -239,7 +239,7 @@ app.post('/login/check', function(request, response){
     });
   console.log("GOT TO HERE and SUCCESS IS " + success);
   if(success==true){
-        request.currentuser.username = user_details.username;
+        request.user.username = user_details.username;
         response.redirect('pages/profile');
     }
   response.redirect('pages/login');
@@ -247,7 +247,7 @@ app.post('/login/check', function(request, response){
 
 //AUTHENTICATE
 app.get('/auth', function(req, res, next){
-    if(req.currentuser && req.currentuser.username) {
+    if(req.user && req.user.username) {
         return next(); }
     if(req.isAuthenticated()){
         return next();
@@ -259,7 +259,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-var query = client.query("SELECT * FROM users WHERE username = '"+ req.currentuser.username + "';");
+var query = client.query("SELECT * FROM users WHERE username = '"+ req.user.username + "';");
 var results = [];
 
   query.on('row', function(row){
@@ -320,8 +320,8 @@ app.put('/register', function(req, res){
       }
       
     });
-        req.currentuser.username = user_details.username;
-        console.log("SESSION: " + req.currentuser.username);
+        req.user.username = user_details.username;
+        console.log("SESSION: " + req.user.username);
         if(success){        
         console.log("REDIRECTING");
         res.send({redirect: '/'});
