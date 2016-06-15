@@ -221,11 +221,7 @@ app.get('/login', function(request, response){
 app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
-  console.log('Clicked login button!');
-  console.log('USERNAME: ' + user_details.username);
-  console.log('PASSWORD: ' + user_details.password);
-  console.log('Checking user..............');
-  
+   
   var success = false;
  
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
@@ -240,17 +236,15 @@ app.post('/login/check', function(request, response){
     });
     
      query.on('end',function(){
-         console.log("GOT TO HERE and SUCCESS IS " + success);
+        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
         request.user.username = "'" + user_details.username + "'";
         console.log(request.user.username);
-        //response.send({redirect: 'pages/login'});
         response.redirect('pages/profile');
      }
      else{
      console.log("JUST REDIRECTING.....");
-   //  response.send({redirect: 'pages/login'});
      response.redirect('pages/login');
      }
      console.log("FINISHED LOGIN PROCESS");
