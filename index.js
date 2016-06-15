@@ -224,9 +224,10 @@ app.post('/login/check', function(request, response){
   var user_details = request.body.userdetails;
     
   var success = false;
- 
+  console.log("here");
   var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
   function (err,res){
+       console.log("AND here");
        if(res.rows[0]!=undefined){
           success = true;
        }       
