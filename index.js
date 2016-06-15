@@ -84,7 +84,7 @@ app.get('/auth/facebook',
     function(req,res) {
         req.currentuser.username = req.user.id;
     }
-));
+);
 
 app.get('/auth/facebook/callback', 
         passport.authenticate('facebook', { 
