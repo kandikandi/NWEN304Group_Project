@@ -239,7 +239,7 @@ app.post('/login/check', function(request, response){
     });
   console.log("GOT TO HERE and SUCCESS IS " + success);
   if(success==true){
-        request.user.username = user_details.username;
+        request.user.username = JSON.stringify(user_details.username);
         response.redirect('pages/profile');
     }
   response.redirect('pages/login');
