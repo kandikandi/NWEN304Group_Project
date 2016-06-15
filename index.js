@@ -15,6 +15,9 @@ var session = require('client-sessions');
     secret: 'itsasecret',
     duration: 2 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
+    cookie: {
+        maxAge: 5000
+    }
   }));
 
 
