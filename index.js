@@ -249,6 +249,7 @@ app.post('/login/check', function(request, response){
      console.log("JUST REDIRECTING.....");
      response.redirect('pages/login');
      }
+     console.log("FINISHED LOGIN PROCESS");
     });
 });
 
