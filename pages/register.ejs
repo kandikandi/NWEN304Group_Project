@@ -69,9 +69,11 @@ function add_user(user){
         }),
         contentType: "application/json",
         dataType: "json"        
-    }).then(function success_add(data){
-        console.log('Successfully added user', data);       
-    }, console.error.bind(console));
+    }).then(success_add(), ERROR_LOG);
+}
+
+function success_add(){
+    console.log("Successfully added user");
 }
 
 
