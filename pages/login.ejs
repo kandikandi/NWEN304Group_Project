@@ -54,7 +54,7 @@ function check_user(user){
             userdetails: user
         }),
         contentType: "application/json",
-        dataType: "json"
+        dataType: "json",
         }).then(function success_login(data){
              console.log("USER LOGGED IN");      
         }, console.error.bind(console));

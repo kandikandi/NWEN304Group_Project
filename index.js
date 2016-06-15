@@ -243,11 +243,14 @@ app.post('/login/check', function(request, response){
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
         request.user.username = "'" + user_details.username + "'";
-        response.redirect('pages/profile');
+        console.log("USER set to: " + request.user.username);
+        //response.send({redirect: 'pages/login'});
+       // response.redirect('pages/profile');
      }
      else{
      console.log("JUST REDIRECTING.....");
-     response.redirect('pages/login');
+   //  response.send({redirect: 'pages/login'});
+    // response.redirect('pages/login');
      }
      console.log("FINISHED LOGIN PROCESS");
     });
