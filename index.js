@@ -275,6 +275,7 @@ var results = [];
   query.on('row', function(row){
     console.log(row);    
     results.push(row);
+    console.log(results);
   });
 
   query.on('end', function(row){
