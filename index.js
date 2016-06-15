@@ -13,10 +13,10 @@ var session = require('client-sessions');
   app.use(session({
     cookieName: 'user',
     secret: 'itsasecret',
-    duration: 2 * 60 * 1000,
+    duration: 15 * 60 * 1000,
     activeDuration: 1 * 60 *1000,
     cookie: {
-        maxAge: 5000
+        maxAge: 50000
     }
   }));
 
