@@ -317,7 +317,7 @@ var results = [];
   });
 
   query.on('end', function(row){
-    response.render('pages/profile', {
+    res.render('pages/profile', {
       results: results
     });
   });
