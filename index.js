@@ -153,11 +153,8 @@ app.get('/mens', function(request, response){
   var results = [];
   var query = client.query("SELECT * FROM items WHERE cat_id = 2;");
 
-  //console.log(query.results);
-  
-  // var results = [];
   query.on('row', function(row){
-    //console.log(row);    
+ 
     results.push(row);
   });
 
@@ -167,11 +164,6 @@ app.get('/mens', function(request, response){
     });  
   });
 
-  //var results1 = JSON.stringify(results);
-
-  // query.on('end', function(){
-  //   response.json(results);
-  // });  
 });
 
 
