@@ -1,19 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @kandikandi
- Unwatch 4
-  Star 0
-  Fork 0 kandikandi/NWEN304Group_Project
- Code  Issues 0  Pull requests 0  Wiki  Pulse  Graphs  Settings
-Tree: 0c29d4faf5 Find file Copy pathNWEN304Group_Project/index.js
-0c29d4f  19 hours ago
- Kandice McLean Login and cookies
-0 contributors
-RawBlameHistory    373 lines (296 sloc)  9.75 KB
 var express = require('express');
 var path = require('path');
 var app = express();
