@@ -242,7 +242,7 @@ app.post('/login/check', function(request, response){
          console.log("GOT TO HERE and SUCCESS IS " + success);
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.user.username = " " + user_details.username + " ";
+        request.user.username = "'" + user_details.username + "'";
         response.redirect('pages/profile');
      }
      else{
