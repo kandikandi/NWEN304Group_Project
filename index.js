@@ -82,7 +82,7 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
-        req.user.username = req.user.id;
+        req.user.username = "'" + req.user.id + "'";
     }
 );
 
@@ -242,7 +242,7 @@ app.post('/login/check', function(request, response){
          console.log("GOT TO HERE and SUCCESS IS " + success);
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.user.username = "'" + user_details.username;
+        request.user.username = "'" + user_details.username + "'";
         response.redirect('pages/profile');
      }
      else{
@@ -268,7 +268,7 @@ app.get('/profile', function(req, res){
 
 console.log(req.user.username);
 var str = req.user.username;
-var user = str.substring(1);
+var user = str.substring(1,str.length-1);
 var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
 var results = [];
 
@@ -330,7 +330,7 @@ app.put('/register', function(req, res){
       }
       
     });
-        req.user.username = "" + user_details.username + "";
+        req.user.username = "'" + user_details.username + "'";
         console.log("SESSION: " + req.user.username);
         if(success){        
         console.log("REDIRECTING");
