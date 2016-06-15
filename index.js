@@ -283,8 +283,7 @@ app.get('/login/check', function(request, response){
     }
 
   if(success==true){
-        request.user.username = rows[0].username;
-        request.user.email = res.rows[0].email;
+        request.user.username = user_details.username;
         response.redirect('pages/profile');
     }
   response.redirect('pages/login');
