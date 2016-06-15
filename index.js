@@ -176,11 +176,8 @@ app.get('/womens', function(request, response){
   var results = [];
   var query = client.query("SELECT * FROM items WHERE cat_id = 1;");
 
-  //console.log(query.results);
-  
-  // var results = [];
   query.on('row', function(row){
-    //console.log(row);    
+   
     results.push(row);
   });
 
@@ -190,11 +187,7 @@ app.get('/womens', function(request, response){
     });  
   });
 
-  //var results1 = JSON.stringify(results);
 
-  // query.on('end', function(){
-  //   response.json(results);
-  // });  
 });
 
 //GET ALL CHILDREN ITEMS
@@ -204,9 +197,6 @@ app.get('/kids', function(request, response){
 
   var query = client.query("SELECT * FROM items WHERE cat_id = 0;");
 
-  //console.log(query.results);
-  
-  // var results = [];
   query.on('row', function(row){
     console.log(row);    
     results.push(row);
@@ -217,47 +207,12 @@ app.get('/kids', function(request, response){
       results: results
     });  
   });
-  // var query = client.query("SELECT * FROM items WHERE cat_id = 0", function(err, result){
-  //   var q = JSON.stringify(result.rows);
-  //   var qResult = JSON.parse(q);
-    
-
-  //   for(var i = 0; i < qResult.length; i++){
-  //     result_name[i] = qResult[i].name;
-  //     result_itemid[i] = qResult[i].item_id;
-  //     console.log("NAME IS: " + result_name[i]);
-  //     console.log("ID IS: " + result_itemid[i]);
-
-  //   }  
-
-  //   response.render('pages/kids', {
-  //     result_name: result_name,
-  //     result_itemid: result_itemid
-  //   }); 
-    
-  // }); 
-  
-  // var results = [];
-  // query.on('row', function(row){
-  //   results.push(row);
-    
-  // });
-  // query.on('end', function(){
-  //   results.forEach(function(data){
-  //     console.log("NAME IS: " + data.name);
-  //   });
-  // });
-  
-
-  // response.render('pages/kids', {
-  //   results: results
-  // });
 });
 
 
 //LOGIN
 app.get('/login', function(request, response){
-  request.currentuser.username = "admin_1";
+  //request.currentuser.username = "admin_1";
   response.render('pages/login', { user: request.currentuser });   
      
 });
@@ -336,21 +291,6 @@ app.get('/products', function(request, response){
       results: results
     });  
   });
-  // var query = client.query("SELECT * FROM items WHERE name = '" + request.query.name +"';", function(err, result){
-  //   var q = JSON.stringify(result.rows);
-  //   var qResult = JSON.parse(q);
-
-  //   for(var i = 0; i < qResult.length; i++){
-  //     des[i] = qResult[i].description;
-  //     price[i] = qResult[i].price;
-  //   }
-
-  //   response.render('pages/products', {
-  //   des: des,
-  //   price: price
-  // });
-    
-  // });
   
 });
 
