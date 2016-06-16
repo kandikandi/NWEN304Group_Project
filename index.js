@@ -313,7 +313,7 @@ app.put('/register', function(req, res){
       }
       
     });
-        req.user.reset(); 
+        req.user.username.reset(); 
         req.user.username = "'" + user_details.username + "'";
         console.log(req.user.username);
         if(success){        
