@@ -98,6 +98,7 @@ app.get('/logout', function(req, res){
       else{
         res.redirect('/');
       }
+    }
 });
 
 // Passport session setup.
@@ -338,5 +339,4 @@ app.listen(port, function () {
 
 
 //TEST CASES
-
 
