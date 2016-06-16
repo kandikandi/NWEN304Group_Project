@@ -266,11 +266,16 @@ app.get('/profile/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
+
 var str = req.session.username;
-console.log(str);
-var user = str.slice(1, -1);
-console.log(user);
-var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
+if(str!=undefined){
+    console.log(str);
+    var user = str.slice(1, -1);
+    console.log(user);
+}else{
+    var user = "";
+}
+var query = client.query("SELECT * FROM users WHERE username = '" + user + "';");
 var results = [];
 
   query.on('row', function(row){
@@ -283,6 +288,8 @@ var results = [];
       results: results
     });
   });
+}
+
 });
 
 //PRODUCTS
