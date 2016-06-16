@@ -26,22 +26,10 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a class="btn btn-default" href="/register" role="button">Register</a></li>
             <li><a class="btn btn-default" href="/login" role="button">Log in</a></li>     
-            <li><button id="profile_button" class="btn btn-default" type="submit">Profile</button></li>    
+            <li><a class="btn btn-default" href="/profile" role="button">Profile</a></li>    
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
 <script>
-
-
-$('#profile_button').on('click', function(){
-
- $.ajax({
-    url: ip+'profile/auth',
-    type: "GET",
-    });
-});
-
-
-</script>
