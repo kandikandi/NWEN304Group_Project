@@ -239,7 +239,7 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.session.username = user_details.username; 
+        request.session.username = "'" + user_details.username + "'"; 
         console.log("User is : " + request.session.username);       
      }
      else{
@@ -257,7 +257,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-var str = "'"+req.session.username+"'";
+var str = req.session.username;
 console.log(str);
 var user = str.slice(1, -1);
 console.log(user);
@@ -309,7 +309,7 @@ app.put('/register', function(req, res){
         success = true;
         console.log("SUCCESS: " + success);
         console.log(user_details.username + " has been added to users");   
-        req.session.username = user_details.username;       
+        req.session.username = "'" + user_details.username + "'";     
       }
       
     });        
