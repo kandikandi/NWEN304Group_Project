@@ -98,7 +98,7 @@ app.get('/auth/facebook/callback',
 
 app.get('/logout', function(req, res){
   req.logout();
-  req.user.destroy();
+  req.user.reset();
   res.redirect('/');
 });
 
