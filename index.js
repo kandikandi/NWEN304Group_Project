@@ -253,8 +253,13 @@ app.post('/login/check', function(request, response){
 });
 
 //AUTHENTICATE
-app.get('/auth', function(req, res, next){    
+app.get('/profile/auth', function(req, res, next){
+    if(req.session && req.session.username){    
+        res.redirect('/profile');
+    }
+    else{
     res.redirect('/login');
+    }
 });
 
 
