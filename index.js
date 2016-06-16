@@ -8,6 +8,8 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var FileStore = require('session-file-store')(session);
+
 
 
   app.set('views', __dirname);
