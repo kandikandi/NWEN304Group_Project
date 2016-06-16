@@ -306,10 +306,6 @@ app.put('/register', function(req, res){
   //console.log("USER DETAILS" + req.body.userdetails);
   var user_details = req.body.userdetails;
   console.log('Clicked register button!');
-//  console.log("SUCCESS: " + success);
-  console.log('USERNAME: ' + user_details.username)
-  console.log('Creating new user');
-  //console.log('USERNAME: ' + req.body.userdetails);
   var success = false;
   var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + user_details.username + "','" + user_details.email + "','" + user_details.password + "')",
     function(error, response){
@@ -323,19 +319,12 @@ app.put('/register', function(req, res){
       
     });
         req.user.username = "'" + user_details.username + "'";
-        console.log("SESSION: " + req.user.username);
+      
         if(success){        
         console.log("REDIRECTING");
-        res.send({redirect: '/'});
-      }
-  
+      
+      }  
 
-  //res.render('pages/register',{user: req.user});
-  //console.log(req.body.task + " has been added to users");
-  // res.render('pages/register', {
-  //   success: success
-  // });
-  //res.redirect('/');
 });
 
 app.get('/register', function(req, res){
