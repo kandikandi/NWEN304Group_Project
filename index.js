@@ -288,7 +288,6 @@ var results = [];
       results: results
     });
   });
-}
 
 });
 
