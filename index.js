@@ -1,6 +1,5 @@
 var express = require('express');
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
 var path = require('path');
 var app = express();
 var port = process.env.PORT || 3030;
@@ -9,7 +8,7 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var FileStore = require('session-file-store')(session);
+
 
 
 
@@ -21,8 +20,7 @@ var FileStore = require('session-file-store')(session);
   app.use(session({
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
-        resave: true,
-        store: new FileStore
+        resave: true       
   }));
   app.use(express.static(__dirname + '/public'));
 
