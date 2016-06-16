@@ -235,6 +235,7 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
+        request.user.reset(); 
         request.user.username = "'"+user_details.username+"'";      
      }
      else{
@@ -312,6 +313,7 @@ app.put('/register', function(req, res){
       }
       
     });
+        req.user.reset(); 
         req.user.username = "'" + user_details.username + "'";
         console.log(req.user.username);
         if(success){        
