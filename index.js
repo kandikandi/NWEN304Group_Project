@@ -1,26 +1,29 @@
 var express = require('express');
-var session = require('express-session');
 var path = require('path');
 var app = express();
 var port = process.env.PORT || 3030;
 var pg = require('pg');
 var http = require('http');
 var passport = require('passport');
+var session = require('express-session');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-
-
-
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
-  app.use(passport.initialize());
-  app.use(passport.session());
+ 
   app.use(session({
+        cookie: {
+            path    : '/',
+            httpOnly: false,
+            maxAge  : 24*60*60*1000
+        }
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
         resave: true       
   }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
 
 /*for storing session information*/
@@ -240,7 +243,8 @@ app.post('/login/check', function(request, response){
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
         request.session.username = "'" + user_details.username + "'"; 
-        console.log("User is : " + request.session.username);       
+        console.log("User is : " + request.session.username);  
+        request.session.save()     
      }
      else{
      console.log("JUST REDIRECTING....."); 
@@ -310,6 +314,7 @@ app.put('/register', function(req, res){
         console.log("SUCCESS: " + success);
         console.log(user_details.username + " has been added to users");   
         req.session.username = "'" + user_details.username + "'";     
+        req.session.save();
       }
       
     });        
