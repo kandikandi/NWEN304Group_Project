@@ -17,7 +17,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
             path    : '/',
             httpOnly: false,
             maxAge  : 24*60*60*1000
-        }
+        },
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
         resave: true       
