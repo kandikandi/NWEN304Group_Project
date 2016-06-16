@@ -20,9 +20,9 @@ var FileStore = require('session-file-store')(session);
   app.use(passport.session());
   app.use(session({
         secret: 'sssshhhhhhhh',
-        saveUninitialized: false,
+        saveUninitialized: true,
         resave: true,
-        store: new FileStore()
+        store: new FileStore
   }));
   app.use(express.static(__dirname + '/public'));
 
