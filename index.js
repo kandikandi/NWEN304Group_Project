@@ -239,7 +239,8 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.session.username = user_details.username;        
+        request.session.username = user_details.username; 
+        console.log("User is : " + request.session.username);       
      }
      else{
      console.log("JUST REDIRECTING....."); 
