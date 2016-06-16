@@ -14,11 +14,15 @@ var FacebookStrategy = require('passport-facebook').Strategy;
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(session({secret: 'sssshhhhhhhh'}));
+  app.use(session({
+        secret: 'sssshhhhhhhh',
+        saveUninitialized: true,
+        resave: true,
+        store: new FileStore()
+  }));
   app.use(express.static(__dirname + '/public'));
 
 /*for storing session information*/
-var usersession;
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -78,8 +82,8 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
-        usersession.username = req.user.id;
-        usersession.loggedin = true;       
+        req.session.username = req.user.id;
+        req.session.loggedin = true;       
     }
 );
 
@@ -131,9 +135,7 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
-  //setup the user session as soon as logs in
-  usersession = req.session;
-  res.render('pages/index');
+    res.render('pages/index');
 });
 
 
@@ -236,8 +238,8 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        usersession.username = user_details.username; 
-        usersession.loggedin = true;     
+        request.session.username = user_details.username; 
+        request.session.loggedin = true;     
      }
      else{
      console.log("JUST REDIRECTING....."); 
@@ -254,7 +256,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-var str = "'"+req.usersession.username+"'";
+var str = "'"+req.session.username+"'";
 console.log(str);
 var user = str.slice(1, -1);
 console.log(user);
@@ -306,8 +308,8 @@ app.put('/register', function(req, res){
         success = true;
         console.log("SUCCESS: " + success);
         console.log(user_details.username + " has been added to users");   
-        usersession.username = user_details.username; 
-        usersession.loggedin = true;     
+        req.session.username = user_details.username; 
+        req.session.loggedin = true;     
       }
       
     });        
