@@ -98,7 +98,7 @@ app.get('/logout', function(req, res){
       else{
         res.redirect('/');
       }
-    }
+    })
 });
 
 // Passport session setup.
