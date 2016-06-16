@@ -298,12 +298,6 @@ app.get('/products', function(request, response){
 
 //REGISTER
 app.put('/register', function(req, res){
-  // console.log('Creating...\n');
-  // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
-  // res.send("Created\n");
-
-  
-  //console.log("USER DETAILS" + req.body.userdetails);
   var user_details = req.body.userdetails;
   console.log('Clicked register button!');
   var success = false;
@@ -324,16 +318,12 @@ app.put('/register', function(req, res){
         console.log("REDIRECTING");
       
       }  
-
 });
 
 app.get('/register', function(req, res){
-
   console.log("In register page!");
-  // var query = client.query("INSERT INTO todo (task, isDone) VALUES ('" + req.body.task + "',False)");
-  // res.send("Created\n");
   res.render('pages/register',{
-    //success: success
+   
   });
 });
 
