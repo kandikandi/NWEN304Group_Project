@@ -236,7 +236,7 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        usersession.user = user_details.username; 
+        usersession.username = user_details.username; 
         usersession.loggedin = true;     
      }
      else{
@@ -306,7 +306,7 @@ app.put('/register', function(req, res){
         success = true;
         console.log("SUCCESS: " + success);
         console.log(user_details.username + " has been added to users");   
-        usersession.user = user_details.username; 
+        usersession.username = user_details.username; 
         usersession.loggedin = true;     
       }
       
