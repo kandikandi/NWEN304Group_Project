@@ -254,7 +254,7 @@ app.post('/login/check', function(request, response){
 
 //AUTHENTICATE
 app.get('/profile/auth', function(req, res, next){
-    if(req.session && req.session.username){    
+    if(req.session && req.session.username!=undefined){    
         res.redirect('/profile');
     }
     else{
