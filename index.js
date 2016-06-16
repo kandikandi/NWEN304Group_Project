@@ -1,4 +1,5 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var app = express();
 var port = process.env.PORT || 3030;
@@ -7,25 +8,17 @@ var http = require('http');
 var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var session = require('client-sessions');
-
-//set up client side sessions
-  app.use(session({
-    cookieName: 'user',
-    secret: 'itsasecret',
-    duration: 15 * 60 * 1000,
-    activeDuration: 1 * 60 *1000,
-    cookie: {
-        maxAge: 50000
-    }
-  }));
 
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(session({secret: 'sssshhhhhhhh'}));
   app.use(express.static(__dirname + '/public'));
+
+/*for storing session information*/
+var usersession;
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -85,7 +78,8 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
-        req.user.username = req.user.id;
+        usersession.username = req.user.id;
+        usersession.loggedin = true;       
     }
 );
 
@@ -97,9 +91,13 @@ app.get('/auth/facebook/callback',
     );
 
 app.get('/logout', function(req, res){
-  req.logout();
-  req.user.reset();
-  res.redirect('/');
+   req.session.destroy(function(err) {
+      if(err){
+        console.log(err);
+      }
+      else{
+        res.redirect('/');
+      }
 });
 
 // Passport session setup.
@@ -132,6 +130,8 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
+  //setup the user session as soon as logs in
+  usersession = req.session;
   res.render('pages/index');
 });
 
@@ -155,7 +155,7 @@ app.get('/items',function(request,response){
         });
     });
 
-
+// GET ALL MENS ITEMS
 app.get('/mens', function(request, response){
   var results = [];
   var query = client.query("SELECT * FROM items WHERE cat_id = 2;");
@@ -235,8 +235,8 @@ app.post('/login/check', function(request, response){
     query.on('end',function(){        
      if(success==true){
         console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.user.reset(); 
-        request.user.username = "'"+user_details.username+"'";      
+        usersession.user = user_details.username; 
+        usersession.loggedin = true;     
      }
      else{
      console.log("JUST REDIRECTING....."); 
@@ -245,12 +245,7 @@ app.post('/login/check', function(request, response){
 });
 
 //AUTHENTICATE
-app.get('/auth', function(req, res, next){
-    if(req.user && req.user.username) {
-        return next(); }
-    if(req.isAuthenticated()){
-        return next();
-    }
+app.get('/auth', function(req, res, next){    
     res.redirect('/login');
 });
 
@@ -258,7 +253,7 @@ app.get('/auth', function(req, res, next){
 //PROFILE
 app.get('/profile', function(req, res){
 
-var str = req.user.username;
+var str = "'"+req.usersession.username+"'";
 var user = str.slice(1, -1);
 console.log(user);
 var query = client.query("SELECT * FROM users WHERE username = '"+ user + "';");
@@ -266,8 +261,7 @@ var results = [];
 
   query.on('row', function(row){
     console.log(row);    
-    results.push(row);
-    console.log(results);
+    results.push(row);    
   });
 
   query.on('end', function(row){
@@ -279,7 +273,7 @@ var results = [];
 
 //PRODUCTS
 app.get('/products', function(request, response){
-  console.log("BODY: "+request.query.name);
+  console.log("BODY: " + request.query.name);
   var results = [];
 
   var query = client.query("SELECT * FROM items WHERE name = '" + request.query.name +"';");
@@ -309,13 +303,12 @@ app.put('/register', function(req, res){
       }else{
         success = true;
         console.log("SUCCESS: " + success);
-        console.log(user_details.username + " has been added to users");        
+        console.log(user_details.username + " has been added to users");   
+        usersession.user = user_details.username; 
+        usersession.loggedin = true;     
       }
       
-    });
-        req.user.username.reset(); 
-        req.user.username = "'" + user_details.username + "'";
-        console.log(req.user.username);
+    });        
         if(success){        
         console.log("REDIRECTING");
       
