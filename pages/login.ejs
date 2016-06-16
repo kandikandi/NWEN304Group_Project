@@ -47,6 +47,7 @@ $('#login_button').on('click', function(){
 });
 
 function check_user(user){
+    console.log("calling post");
     $.ajax({
         method: 'POST',
         url: ip+'/login/check',
