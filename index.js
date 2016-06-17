@@ -21,7 +21,7 @@ var LocalStrategy = require('passport-local').Strategy;
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 15*60*1000//15 minute timeout
+            maxAge  : 60*1000//15 minute timeout
         },
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
