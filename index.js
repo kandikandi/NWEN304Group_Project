@@ -139,7 +139,8 @@ passport.use('facebook', new FacebookStrategy({
   },
 
   function(access_token, refreshToken, profile, done) {
-     process.nextTick(function () {
+
+   //  process.nextTick(function () {
 
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
 
@@ -156,7 +157,7 @@ passport.use('facebook', new FacebookStrategy({
             }   
          }              
                        
-     });
+    // });
   }
 ));
 
