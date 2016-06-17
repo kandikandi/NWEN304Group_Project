@@ -135,7 +135,7 @@ passport.use('local-register', new LocalStrategy({
 
 }));
 
-app.post('/register', function(req,res, next){   
+app.put('/register', function(req,res, next){   
     console.log("reg shows user as " + req.username + "and password is " + req.password);
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }
@@ -429,7 +429,7 @@ app.put('add_cart', function(req, res){
 
 
 //REGISTER
-app.put('/register', function(req, res){
+/*app.put('/register', function(req, res){
   var user_details = req.body.userdetails;
   console.log('Clicked register button!');
   var success = false;
@@ -450,7 +450,7 @@ app.put('/register', function(req, res){
         console.log("REDIRECTING");
       
       }  
-});
+});*/
 
 app.get('/register', function(req, res){
   console.log("In register page!");
