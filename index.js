@@ -117,7 +117,7 @@ passport.use('local-register', new LocalStrategy({
   function(req, username, password, done) {
     process.nextTick(function() {
         console.log("USER is " + username + " PASSOWRD is " + password);
-        console.log("USER is " + req.username + " PASSOWRD is " + req.password);
+        console.log("USERreq is " + req.username + " PASSOWRDreq is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){
          
@@ -406,9 +406,14 @@ app.get('/cart', function(req, res){
 //add an item to cart
 app.put('add_cart', function(req, res){
     var results = [];
-    var query = client.query("SELECT * FROM cart WHERE item_id = '" + req.query.item_id + "';", function(err, result){
+    //get the item from items db
+    var query = client.query("SELECT * FROM item WHERE item_id = '" + req.item_id + "';", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
+        }else{  
+            //add item to cart db
+            var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ('" + result.rows[0].item_id + "','" + result.rows[0].item_name + "','" + result.rows[0].item_price + "','" + req.session.username + "')");
+            console.log("Added item to cart");
         }
     });
 });
