@@ -59,7 +59,8 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 
 /*Set up passport for local login*/
 passport.use('local-login', new LocalStrategy({
-  
+    passReqToCallBack : true
+  },
 
   function(req, username, password, done) {
    
@@ -67,26 +68,28 @@ passport.use('local-login', new LocalStrategy({
         console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){
-         
-            if(res.rows[0]!=undefined){   
-                 req.session.username = "'"+username+"'";   
-                 req.session.save();     
-                 console.log(req.session.username);     
+             if(res.rows[0]!=undefined){                      
                  return done(null,user);
             }
             else{
                 console.log("login failed");
                 return done(null,false);
             }          
-        }  
-    }
-}));
+        }      
+));
 
-app.post('/login/auth', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error        
-    }));
-
+app.post('/login/auth', passport.authenticate('local'),
+    function(req,res){
+        if(req.user){
+            req.session.username = "'" + req.user.username + "'";
+            req.session.save();
+            res.redirect('/profile');
+        }
+        else{
+            console.log("Login unsucessful");
+        }
+});
+  
 /*Set up passport for local registration*/
 passport.use('local-register', new LocalStrategy({
     usernameField : 'username',
