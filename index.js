@@ -16,7 +16,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 60*1000
+            maxAge  : 15*60*1000//15 minutes
         },
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
@@ -52,6 +52,37 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
         console.log(JSON.stringify(row));
     });
 });
+
+/*Set up passport for local login*/
+passport.use('local-login', new LocalStrategy({
+    usernameField : 'username',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+
+  function(req, username, password, done) {
+    process.nextTick(function() {
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
+        function callback(err,res){
+         
+            if(res.rows[0]!=undefined){   
+                 req.session.username = "'"+username+"'";   
+                 req.session.save();          
+                 return done(null,user);
+            }
+            else{
+                return done(null,false);
+            }          
+        }
+    });
+
+}));
+
+app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error        
+    }));
+
 
 /*set up passport for facebook login*/
 passport.use('facebook', new FacebookStrategy({
@@ -97,6 +128,7 @@ app.get('/auth/facebook/callback',
         })
     );
 
+//Logout function
 app.get('/logout', function(req, res){
    req.session.destroy(function(err) {
       if(err){
@@ -226,7 +258,7 @@ app.get('/login', function(request, response){
      
 });
 
-app.post('/login/check', function(request, response){
+/*app.post('/login/check', function(request, response){
 
   var user_details = request.body.userdetails;
     
@@ -250,7 +282,7 @@ app.post('/login/check', function(request, response){
      console.log("JUST REDIRECTING....."); 
      }
     });
-});
+});*/
 
 //AUTHENTICATE
 app.get('/profile/auth', function(req, res, next){
