@@ -15,6 +15,7 @@ var LocalStrategy = require('passport-local').Strategy;
   app.set('view engine', 'ejs'); 
   app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded
   app.use(bodyParser.json()) // parse application/json
+
  /*for storing session information*/
   app.use(session({
         cookie: {
@@ -58,6 +59,15 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
     });
 });
 
+
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
 /*Set up passport for local login*/
 passport.use('local-login', new LocalStrategy({
             usernameField : 'username',
@@ -82,6 +92,7 @@ passport.use('local-login', new LocalStrategy({
 
 app.post('/login/auth', function(req,res, next){
     console.log("in here");
+     console.log("login shows user as " + req.username + "and password is " + req.password);
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){
@@ -190,13 +201,6 @@ app.get('/logout', function(req, res){
     })
 });
 
-// Passport session setup.
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -392,6 +396,24 @@ app.get('/products', function(request, response){
   });
   
 });
+
+//CART STUFF
+
+app.get('/cart', function(req, res){
+    res.render('pages/cart');
+});
+
+//add an item to cart
+app.put('add_cart', function(req, res){
+    var results = []'
+    var query = client.query("SELECT * FROM cart WHERE item_id = '" + req.query.item_id + "';", function(err, result){
+        if(err){
+            console.log("Cannot add item to cart!");
+        }
+    });
+});
+
+
 
 //REGISTER
 app.put('/register', function(req, res){
