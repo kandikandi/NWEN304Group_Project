@@ -91,7 +91,7 @@ app.post('/login/auth', function(req,res, next){
         }
         else{
             console.log("Login unsucessful");
-            res.redirect('/');
+            res.redirect('/login');
         }
     })(req,res,next);
 });
@@ -135,8 +135,8 @@ passport.use('facebook', new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
-    profileFields: ['id', 'emails', 'name'],
-    passReqToCallback: true
+    profileFields: ['id', 'emails']
+   // passReqToCallback: true
   },
 
   function(access_token, refreshToken, profile, done) {
@@ -301,7 +301,7 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login', function(request, response){  
+app.get('/login', function(request, usernameresponse){  
   response.render('pages/login', { user: request.user });   
      
 });
