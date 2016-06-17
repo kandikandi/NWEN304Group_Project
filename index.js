@@ -134,7 +134,8 @@ passport.use('facebook', new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
-    profileFields: ['id', 'emails', 'name']
+    profileFields: ['id', 'emails', 'name'],
+    passReqToCallback: true
   },
 
   function(access_token, refreshToken, profile, done) {
