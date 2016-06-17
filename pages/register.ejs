@@ -47,8 +47,8 @@ $.ajax({
                        
     }, ERROR_LOG);
 
-$('#reg_button').on('click', function(e){
-e.preventDefault()
+$('#reg_button').on('click', function(){
+
     $.ajax({
         type: 'PUT',
         url: ip+/'register',
