@@ -79,7 +79,7 @@ passport.use('local-login', new LocalStrategy({
      }     
 ));
 
-app.post('/login/auth', passport.authenticate('local'),
+app.post('/login/auth', passport.authenticate('local-login'),
     function(req,res){
         if(req.user){
             req.session.username = "'" + req.user.username + "'";
