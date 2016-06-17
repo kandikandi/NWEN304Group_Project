@@ -11,7 +11,7 @@
 	<div class="jumbotron">
       <h2>This is the Profile page</h2>
       <div id="profile_view"> 
-            <% if (typeof results == "undefined") { %> 
+            <% if (locals.results) { %> 
                 <li><p>You are not logged on</p></li>
             <% }else{ %>                 
                 <% results.forEach(function(data) { %>
@@ -34,3 +34,5 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 </script>
 
 </html>
+
+
