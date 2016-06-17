@@ -62,7 +62,7 @@ passport.use('local-login', new LocalStrategy({
   },
 
   function(req, username, password, done) {
-    process.nextTick(function() {
+   
         console.log("USER is " + username + " PASSOWRD is " + password);
         console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
@@ -78,8 +78,7 @@ passport.use('local-login', new LocalStrategy({
                 console.log("login failed");
                 return done(null,false);
             }          
-        }
-    });
+        }  
 
 }));
 
@@ -88,6 +87,39 @@ app.post('/login', passport.authenticate('local-login', {
         failureRedirect : '/login', // redirect back to the signup page if there is an error        
     }));
 
+/*Set up passport for local registration*/
+passport.use('local-login', new LocalStrategy({
+    usernameField : 'username',
+    passwordField : 'password',
+    passReqToCallback : true
+  },
+
+  function(req, username, password, done) {
+    process.nextTick(function() {
+        console.log("USER is " + username + " PASSOWRD is " + password);
+        console.log("USER is " + req.username + " PASSOWRD is " + req.password);
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
+        function callback(err,res){
+         
+            if(res.rows[0]!=undefined){   
+                 req.session.username = "'"+username+"'";   
+                 req.session.save();     
+                 console.log(req.session.username);     
+                 return done(null,user);
+            }
+            else{
+                console.log("registration failed");
+                return done(null,false);
+            }          
+        }
+    });
+
+}));
+
+app.put('/register', passport.authenticate('local-register', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/register', // redirect back to the register page if there is an error        
+    }));
 
 /*set up passport for facebook login*/
 passport.use('facebook', new FacebookStrategy({
