@@ -405,7 +405,7 @@ app.get('/cart', function(req, res){
 
 //add an item to cart
 app.put('add_cart', function(req, res){
-    var results = []'
+    var results = [];
     var query = client.query("SELECT * FROM cart WHERE item_id = '" + req.query.item_id + "';", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
