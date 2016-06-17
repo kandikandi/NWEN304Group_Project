@@ -47,35 +47,26 @@ $.ajax({
                        
     }, ERROR_LOG);
 
-
-$('#reg_button').on('click', function(){
-
-    var email = $('#inputEmail').val();
-    var username = $('#inputUsername').val();
-    var password = $('#inputPassword').val();
-
-    var userdetail = {email, username, password};
-    console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
-    add_user(userdetail);
-    
-});
-
-function add_user(user){
+$('#reg_button').on('click', function(e){
+e.preventDefault()
     $.ajax({
-        method: 'PUT',
-        url: ip + '/register',
-        data: JSON.stringify({
-            userdetails: user
+        type: 'PUT',
+        url: ip+/'register',
+        data: JSON.stringify({            
+            username = $('#inputUsername').val();
+            password = $('#inputPassword').val();
+            email = $('#inputEmail').val();
         }),
         contentType: "application/json",
-        dataType: "json"        
-    }).then(success_add(), ERROR_LOG);
-}
-
-function success_add(){
-    console.log("Successfully added user");
-}
-
+        dataType: "json",
+        success: function(){
+            console.log("register success");
+            },
+        error: function(){
+            console.log("register failed");
+            }
+    });
+});
 
 </script>
 
