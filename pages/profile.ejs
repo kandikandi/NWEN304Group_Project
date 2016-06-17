@@ -14,9 +14,8 @@
             <% results.forEach(function(data) { %>
               <li><p>Username: <%= data.username %></p></li>
               <li><p>Email: <%= data.email %></p></li>
+              <li><a class="btn btn-default" href="/logout" role="button">Logout</a></li>
             <% }); %>
-          
-            <li><a class="btn btn-default" href="/logout" role="button">Logout</a></li>  
       </div>
     </div>  
 </body>

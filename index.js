@@ -143,7 +143,7 @@ passport.use('facebook', new FacebookStrategy({
 
      process.nextTick(function () {
 
-        var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
+        var user = client.query("SELECT * FROM users WHERE username = '" + profile.givenName + "';", callback);
 
         function callback(err,res){
          
@@ -153,7 +153,7 @@ passport.use('facebook', new FacebookStrategy({
             }
             else{
                  console.log("in the else statement");
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, 'facebook']); 
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.givenName, profile.emails[0].value, 'facebook']); 
                  return done(null,profile);      
             }   
          }              
