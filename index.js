@@ -21,7 +21,7 @@ var LocalStrategy = require('passport-local').Strategy;
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 60*1000//15 minute timeout
+            maxAge  : 15*60*1000//15 minute timeout
         },
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
@@ -75,8 +75,6 @@ passport.use('local-login', new LocalStrategy({
             passReqToCallback : true   
   },  
   function(req,username, password, done) {
-        console.log("USER is " + username + " PASSOWRD is " + password);
-       // console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
@@ -111,16 +109,14 @@ app.post('/login/auth', function(req,res, next){
 passport.use('local-register', new LocalStrategy({
     usernameField : 'username',
     passwordField : 'password',
+    
     passReqToCallback : true
   },
 
   function(req, username, password, done) {
-    process.nextTick(function() {
-        console.log("USER is " + username + " PASSOWRD is " + password);
-        console.log("USERreq is " + req.username + " PASSOWRDreq is " + req.password);
+    process.nextTick(function() {    
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
-        function callback(err,res){
-         
+        function callback(err,res){         
             if(res.rows[0]!=undefined){   
                  req.session.username = "'"+username+"'";   
                  req.session.save();     
@@ -128,18 +124,30 @@ passport.use('local-register', new LocalStrategy({
                  return done(null,user);
             }
             else{
-                console.log("registration failed");
-                return done(null,false);
+                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.email + "','" + password + "')");
+                req.session.username = "'"+username+"'";   
+                req.session.save();    
+                console.log("Registration successful"); 
+                return done(null,user);
             }          
         }
     });
 
 }));
 
-app.put('/register', passport.authenticate('local-register', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/register', // redirect back to the register page if there is an error        
-    }));
+app.post('/register', function(req,res, next){   
+    console.log("reg shows user as " + req.username + "and password is " + req.password);
+    passport.authenticate('local-register',function(err,user,info){
+        if (err) { return next(err); }
+        if(user){            
+            res.redirect('/profile');
+        }
+        else{
+            console.log("registration unsucessful");
+            res.redirect('/register');
+        }
+    })(req,res,next);
+});
 
 /*set up passport for facebook login*/
 passport.use('facebook', new FacebookStrategy({
