@@ -79,7 +79,9 @@ passport.use('local-login', new LocalStrategy({
        // console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){
-             if(res.rows[0]!=undefined){                      
+             if(res.rows[0]!=undefined){   
+                 req.session.username = "'" + username + "'";
+                 req.session.save();                   
                  return done(null,user);
             }
             else{
@@ -95,9 +97,7 @@ app.post('/login/auth', function(req,res, next){
      console.log("login shows user as " + req.username + "and password is " + req.password);
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
-        if(user){
-            req.session.username = "'" + req.user.username + "'";
-            req.session.save();
+        if(user){            
             res.redirect('/profile');
         }
         else{
