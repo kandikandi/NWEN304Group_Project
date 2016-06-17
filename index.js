@@ -68,7 +68,8 @@ passport.use('local-login', new LocalStrategy({
          
             if(res.rows[0]!=undefined){   
                  req.session.username = "'"+username+"'";   
-                 req.session.save();          
+                 req.session.save();     
+                 console.log(req.session.username);     
                  return done(null,user);
             }
             else{
@@ -301,6 +302,7 @@ app.get('/profile', function(req, res){
 
 
 var str = req.session.username;
+console.log(str);
 if(str!=undefined){
     console.log(str);
     var user = str.slice(1, -1);
