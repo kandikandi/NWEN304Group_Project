@@ -12,7 +12,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
   app.set('views', __dirname);
-  app.set('view engine', 'ejs');
+  app.set('view engine', 'ejs'); 
   app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded
   app.use(bodyParser.json()) // parse application/json
  /*for storing session information*/
@@ -30,6 +30,7 @@ var LocalStrategy = require('passport-local').Strategy;
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
 
+ 
 
 
 /*For defaulting back to https*/
@@ -59,13 +60,13 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 
 /*Set up passport for local login*/
 passport.use('local-login', new LocalStrategy({
-    passReqToCallBack : true
-  },
-  
-  function(req, username, password, done) {
-   
+            usernameField : 'username',
+            passwordField : 'password',
+            passReqToCallback : true   
+  },  
+  function(username, password, done) {
         console.log("USER is " + username + " PASSOWRD is " + password);
-        console.log("USER is " + req.username + " PASSOWRD is " + req.password);
+       // console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){                      
@@ -81,6 +82,7 @@ passport.use('local-login', new LocalStrategy({
 
 app.post('/login/auth', function(req,res, next){
     passport.authenticate('local-login',function(err,user,info){
+        if (err) { return next(err); }
         if(user){
             req.session.username = "'" + req.user.username + "'";
             req.session.save();
