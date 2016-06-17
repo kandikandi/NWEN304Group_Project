@@ -114,7 +114,7 @@ passport.use('local-register', new LocalStrategy({
 
   function(req, username, password, done) {
     process.nextTick(function() {    
-        console.log("USER is: " + username + "PW: " + password + "email" + req.email);
+        console.log("USER is: " + username + "PW: " + password + "email" + req.body.email);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
         function callback(err,res){         
             if(res.rows[0]!=undefined){   
