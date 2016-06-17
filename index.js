@@ -84,7 +84,7 @@ passport.use('local-login', new LocalStrategy({
             }
             else{
                 console.log("login failed");
-                return done(null,false);
+                return done(null,user);
             }          
         } 
      }     
