@@ -12,12 +12,13 @@ var LocalStrategy = require('passport-local').Strategy;
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
- 
+
+ /*for storing session information*/
   app.use(session({
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 15*60*1000//15 minutes
+            maxAge  : 15*60*1000//15 minute timeout
         },
         secret: 'sssshhhhhhhh',
         saveUninitialized: true,
@@ -27,7 +28,7 @@ var LocalStrategy = require('passport-local').Strategy;
   app.use(passport.session());
   app.use(express.static(__dirname + '/public'));
 
-/*for storing session information*/
+
 
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
@@ -88,7 +89,7 @@ app.post('/login', passport.authenticate('local-login', {
     }));
 
 /*Set up passport for local registration*/
-passport.use('local-login', new LocalStrategy({
+passport.use('local-register', new LocalStrategy({
     usernameField : 'username',
     passwordField : 'password',
     passReqToCallback : true
