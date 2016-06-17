@@ -75,7 +75,8 @@ passport.use('local-login', new LocalStrategy({
                 console.log("login failed");
                 return done(null,false);
             }          
-        }      
+        } 
+     }     
 ));
 
 app.post('/login/auth', passport.authenticate('local'),
