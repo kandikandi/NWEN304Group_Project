@@ -8,6 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
