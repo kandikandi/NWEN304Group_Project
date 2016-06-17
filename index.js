@@ -74,7 +74,7 @@ passport.use('local-login', new LocalStrategy({
             passwordField : 'password',
             passReqToCallback : true   
   },  
-  function(username, password, done) {
+  function(req,username, password, done) {
         console.log("USER is " + username + " PASSOWRD is " + password);
        // console.log("USER is " + req.username + " PASSOWRD is " + req.password);
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
@@ -84,7 +84,7 @@ passport.use('local-login', new LocalStrategy({
             }
             else{
                 console.log("login failed");
-                return done(null,user);
+                    return done(null,user);
             }          
         } 
      }     
