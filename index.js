@@ -7,12 +7,14 @@ var http = require('http');
 var passport = require('passport');
 var session = require('express-session');
 var util = require('util');
+var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs');
-
+  app.use(bodyParser.urlencoded({ extended: false })) // parse application/x-www-form-urlencoded
+  app.use(bodyParser.json()) // parse application/json
  /*for storing session information*/
   app.use(session({
         cookie: {
@@ -57,10 +59,7 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 
 /*Set up passport for local login*/
 passport.use('local-login', new LocalStrategy({
-    usernameField : 'username',
-    passwordField : 'password',
-    passReqToCallback : true
-  },
+  
 
   function(req, username, password, done) {
    
