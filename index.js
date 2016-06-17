@@ -170,7 +170,7 @@ app.get('/auth/facebook/callback',
         failureRedirect: '/login' }),
         (req, res)=>{          
         console.log("Actually do stuff in here");
-        req.session.username = req.user.id;     
+        req.session.username = "'"+req.user.id+"'";     
         req.session.save();        
         res.redirect('/profile');
         }
