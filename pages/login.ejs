@@ -37,9 +37,9 @@ function redraw(data){
     console.log('redrawing', data);
     }; 
 
-$('#login_button').on('click', function(){
-
-    var username = $('#inputUsername').val();
+$('#login_button').on('click', function(e){
+e.preventDefault()
+/*    var username = $('#inputUsername').val();
     var password = $('#inputPassword').val();
 
     var userdetail = {username, password};
@@ -47,19 +47,22 @@ $('#login_button').on('click', function(){
 });
 
 function check_user(user){
-    console.log("calling post");
+    console.log("calling post");*/
     $.ajax({
-        method: 'POST',
+        type: 'POST',
         url: ip+'/login/auth',
-        data: JSON.stringify({
-            userdetails: user
-        }),
-        contentType: "application/json",
-        dataType: "json",
-        }).then(function success_login(data){
-             console.log("USER LOGGED IN");      
-        }, console.error.bind(console));
-}
+        data: {
+              username: $('#inputUsername').val(),
+              password: $('#inputPassword').val()
+        },
+        success: function(){
+                console.log("success")
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
 
 </script>
 

@@ -9,13 +9,15 @@
 	<% include ../partials/header %>  
     
 	<div class="jumbotron">
-      <h2>This is the Profile page</h2>
-      <div id="profile_view">
-            <% results.forEach(function(data) { %>
-              <li><p>Username: <%= data.username %></p></li>
-              <li><p>Email: <%= data.email %></p></li>
-              <li><a class="btn btn-default" href="/logout" role="button">Logout</a></li>
-            <% }); %>
+      <h2>This is the Cart page</h2>
+      <div id="cart_view">
+
+      <div id="items_view">
+        <% results.forEach(function(data) { %>
+          <li><a href="/products?name=<%= data.name %>" id="product_redirect"><button class = "btn btn-default"> Add To Cart </button></a></li>
+        <% }); %>
+      </div>
+
       </div>
     </div>  
 </body>
