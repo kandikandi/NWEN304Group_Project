@@ -91,8 +91,7 @@ passport.use('local-login', new LocalStrategy({
 ));
 
 app.post('/login/auth', function(req,res, next){
-    console.log("in here");
-     console.log("login shows user as " + req.username + "and password is " + req.password);
+      
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
@@ -154,8 +153,7 @@ passport.use('facebook', new FacebookStrategy({
     clientID: '236128690099176',
     clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
-    profileFields: ['id', 'emails']
-   // passReqToCallback: true
+    profileFields: ['id', 'emails']   
   },
 
   function(access_token, refreshToken, profile, done) {
