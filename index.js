@@ -61,7 +61,7 @@ pg.connect(process.env.DATABASE_URL,function(err,client){
 passport.use('local-login', new LocalStrategy({
     passReqToCallBack : true
   },
-  console.log("GOT HERE!!");
+  
   function(req, username, password, done) {
    
         console.log("USER is " + username + " PASSOWRD is " + password);
@@ -158,6 +158,7 @@ passport.use('facebook', new FacebookStrategy({
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}),
     function(req,res) {
+        console.log("Actually do stuff in here");
         req.session.username = req.user.id;             
     }
 );
