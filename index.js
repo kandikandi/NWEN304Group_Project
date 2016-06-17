@@ -107,8 +107,7 @@ app.post('/login/auth', function(req,res, next){
 /*Set up passport for local registration*/
 passport.use('local-register', new LocalStrategy({
     usernameField : 'username',
-    passwordField : 'password',
-    
+    passwordField : 'password',    
     passReqToCallback : true
   },
 
@@ -136,7 +135,7 @@ passport.use('local-register', new LocalStrategy({
 }));
 
 app.put('/register', function(req,res, next){   
-    console.log("reg shows user as " + req.username + "and password is " + req.password);
+    console.log("reg shows user as " + req.body.username + "and password is " + req.body.password);
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }
         if(user){            

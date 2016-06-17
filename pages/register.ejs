@@ -52,10 +52,10 @@ e.preventDefault()
     $.ajax({
         type: 'PUT',
         url: ip+/'register',
-        data: JSON.stringify({            
+        data: JSON.stringify({       
+            email = $('#inputEmail').val();     
             username = $('#inputUsername').val();
-            password = $('#inputPassword').val();
-            email = $('#inputEmail').val();
+            password = $('#inputPassword').val();            
         }),
         contentType: "application/json",
         dataType: "json",
