@@ -79,16 +79,18 @@ passport.use('local-login', new LocalStrategy({
      }     
 ));
 
-app.post('/login/auth', passport.authenticate('local-login'),
-    function(req,res){
-        if(req.user){
+app.post('/login/auth', function(req,res, next){
+    passport.authenticate('local-login',function(err,user,info){
+        if(user){
             req.session.username = "'" + req.user.username + "'";
             req.session.save();
             res.redirect('/profile');
         }
         else{
             console.log("Login unsucessful");
+            res.send({redirect: '/'});
         }
+    })(req,res,next);
 });
   
 /*Set up passport for local registration*/
