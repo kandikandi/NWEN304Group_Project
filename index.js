@@ -81,6 +81,7 @@ passport.use('local-login', new LocalStrategy({
 ));
 
 app.post('/login/auth', function(req,res, next){
+    console.log("in here");
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){
@@ -90,7 +91,7 @@ app.post('/login/auth', function(req,res, next){
         }
         else{
             console.log("Login unsucessful");
-            res.send({redirect: '/'});
+            res.redirect('/');
         }
     })(req,res,next);
 });
