@@ -140,7 +140,7 @@ passport.use('facebook', new FacebookStrategy({
 
   function(access_token, refreshToken, profile, done) {
 
-   //  process.nextTick(function () {
+     process.nextTick(function () {
 
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
 
@@ -157,23 +157,23 @@ passport.use('facebook', new FacebookStrategy({
             }   
          }              
                        
-    // });
+     });
   }
 ));
 
 app.get('/auth/facebook', 
-    passport.authenticate('facebook',{ scope: 'email'}),
-    function(req,res) {
-        console.log("Actually do stuff in here");
-        req.session.username = req.user.id;             
-    }
+    passport.authenticate('facebook',{ scope: 'email'}),   
 );
 
 app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { 
-        successRedirect: '/',        
-        failureRedirect: '/login' 
-        })
+        passport.authenticate('facebook', {  
+        failureRedirect: '/login' }),
+        (req, res)=>{          
+        console.log("Actually do stuff in here");
+        req.session.username = req.user.id;             
+        res.redirect('/profile');
+        }
+        
     );
 
 //Logout function
