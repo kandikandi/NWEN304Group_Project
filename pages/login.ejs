@@ -10,7 +10,7 @@
 
 	<div class="jumbotron">
     	<h2>This is the login page</h2>
-    	<form action="login/auth" method ="post" class="form-login">
+    	<form action="/login/auth" method ="post" class="form-login">
         	<h2>Please log in</h2>
         	<label for="inputUsername" class="sr-only">Username</label>
         	<input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
@@ -51,10 +51,12 @@ function check_user(user){
     $.ajax({
         type: 'POST',
         url: ip+'/login/auth',
-        data: {
+        data: JSON.stringify({
               username: $('#inputUsername').val(),
               password: $('#inputPassword').val()
-        },
+        }),
+        contentType: "application/json",
+        dataType: "json", 
         success: function(){
                 console.log("success")
                 },
