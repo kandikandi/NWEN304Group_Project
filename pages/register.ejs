@@ -50,13 +50,22 @@ $.ajax({
 
 $('#reg_button').on('click', function(){
 
+    var email = $('#inputEmail').val();
+    var username = $('#inputUsername').val();
+    var password = $('#inputPassword').val();
+
+    var userdetail = {email, username, password};
+    console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
+    add_user(userdetail);
+    
+});
+
+function add_user(user){
     $.ajax({
         method: 'PUT',
         url: ip + '/register',
         data: JSON.stringify({
-            email = $('#inputEmail').val();
-            username = $('#inputUsername').val();
-            password = $('#inputPassword').val();
+            userdetails: user
         }),
         contentType: "application/json",
         dataType: "json"        
