@@ -317,18 +317,6 @@ app.get('/auth/facebook/callback',
         
     );
 
-
-//AUTHENTICATE
-app.get('/profile/auth', function(req, res, next){
-    if(req.session && req.session.username!=undefined){    
-        res.redirect('/profile');
-    }
-    else{
-    res.redirect('/login');
-    }
-});
-
-
 //PROFILE
 app.get('/profile', function(req, res){
 
@@ -363,7 +351,7 @@ app.get('/products', function(request, response){
   console.log("BODY: " + request.query.name);
   var results = [];
 
-  var query = client.query("SELECT * FROM items WHERE name = '" + request.query.name +"';");
+  var query = client.query("SELECT * FROM items WHERE item_id = '" + request.query.item_id +"';");
 
   query.on('row', function(row){
     console.log(row);    
