@@ -48,7 +48,29 @@ $.ajax({
     }, ERROR_LOG);
 
 
-$('#reg_button').on('click', function(){
+$('#reg_button').on('click', function(e){
+    e.preventDefault()
+    var data = $.param({
+          username: $('#inputUsername').val();
+          password = $('#inputPassword').val();
+          email = $('#inputEmail').val();
+    });
+    $.ajax({
+        url: ip + 'register',
+        method: "PUT",
+        data: data,
+        }.then(function success_add(data){
+            console.log("200 ok");
+        }, ERROR_LOG);
+});
+          
+
+
+
+
+
+
+/*$('#reg_button').on('click', function(){
 
     var email = $('#inputEmail').val();
     var username = $('#inputUsername').val();
@@ -75,7 +97,7 @@ function add_user(user){
 function success_add(){
     console.log("Successfully added user");
 }
-
+*/
 
 </script>
 
