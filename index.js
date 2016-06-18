@@ -121,7 +121,7 @@ passport.use('local-register', new LocalStrategy({
 
 }));
 
-app.put('/register/auth', function(req,res, next){   
+app.post('/register/auth', function(req,res, next){   
     console.log(req.body);
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }

@@ -39,15 +39,6 @@ function redraw(data){
 
 $('#login_button').on('click', function(e){
 e.preventDefault()
-/*    var username = $('#inputUsername').val();
-    var password = $('#inputPassword').val();
-
-    var userdetail = {username, password};
-    check_user(userdetail);
-});
-
-function check_user(user){
-    console.log("calling post");*/
     $.ajax({
         type: 'POST',
         url: ip+'/login/auth',

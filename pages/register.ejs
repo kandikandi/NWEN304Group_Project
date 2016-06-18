@@ -29,29 +29,36 @@
 var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
+//GET recieves the information from the items table in database, no changes are made
+$.ajax({
+    url: ip+'/register',
+    type: "GET",
+    }).then(redraw, ERROR_LOG);
 
-$('#reg_button').on('click', function(){
-    var data = "data";           
-    add_user(data);    
-});
-function add_user(){
+function redraw(data){
+    console.log('redrawing', data);
+    }; 
+
+$('#reg_button').on('click', function(e){
+e.preventDefault()
     $.ajax({
-        method: 'PUT',
-        url: ip + '/register/auth',
+        type: 'POST',
+        url: ip+'/register/auth',
         data: JSON.stringify({
               username: $('#inputUsername').val(),
               password: $('#inputPassword').val(),
               email: $('#inputEmail').val()
         }),
         contentType: "application/json",
-        dataType: "json"        
-    }).then(success_add(), ERROR_LOG);
-}
-function success_add(){
-    console.log("Successfully added user");
-}
-
-
+        dataType: "json", 
+        success: function(){
+                console.log("success")
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
 
 </script>
 
