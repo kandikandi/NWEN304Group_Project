@@ -10,6 +10,7 @@ var util = require('util');
 var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+var configAuth = require('../config/auth'); 
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs'); 
@@ -23,7 +24,7 @@ var LocalStrategy = require('passport-local').Strategy;
             httpOnly: false,
             maxAge  : 15*60*1000//15 minute timeout
         },
-        secret: 'sssshhhhhhhh',
+        secret: configAuth.expressSession.secret,
         saveUninitialized: true,
         resave: true       
   }));
@@ -124,8 +125,8 @@ passport.use('local-register', new LocalStrategy({
 
 /*set up passport for facebook login*/
 passport.use('facebook', new FacebookStrategy({
-    clientID: '236128690099176',
-    clientSecret: 'c522eb05e7a97cd5e68739655df582c0',
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret, 
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
     profileFields: ['id', 'emails']   
   },
