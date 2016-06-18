@@ -52,7 +52,7 @@ e.preventDefault()
         contentType: "application/json",
         dataType: "json", 
         success: function(){
-                console.log("success")
+                window.location.replace(ip + "/profile");
                 },
         error:  function(){
                 console.log("fail");
