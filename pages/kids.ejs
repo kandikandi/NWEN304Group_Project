@@ -24,7 +24,7 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
 //GET recieves the information from the items table in database, no changes are made
 $.ajax({
-    url: 'http://localhost:8080/kids',
+    url: ip+'/catalogue/kids',
     type: "GET",
     }).then(redraw, ERROR_LOG);
 
