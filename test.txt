@@ -10,6 +10,7 @@
 
 
 ********************************************************************************************
+
 //Display Mens Items- WORKS
 curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/mens
 
@@ -23,15 +24,17 @@ curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herok
 curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/
 
 //Register -WORKS
-curl -H "Content-Type: application/json" -X PUT -d '{"username":"test-user", "email":"email@email","password":"password"}' https://evening-cove-32171.herokuapp.com/register
+curl -H "Content-Type: application/json" -X PUT -d '{"username":"test-user1", "email":"email@email","password":"password"}' https://evening-cove-32171.herokuapp.com/register
 
-//Login -WORKS
-curl -H "Content-Type: application/json" -X PUT -d '{"username":"test-user", "password":"password"}' https://evening-cove-32171.herokuapp.com/register
+//Login 
+curl -H "Content-Type: application/json" -X PUT -d '{"username":"test-user", "password":"password"}' https://evening-cove-32171.herokuapp.com/login
 
 //Logout
 
 //Profile
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/profile
 
-//Item tests
+//Item tests -curl
+WORKS -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/products
 
 //
