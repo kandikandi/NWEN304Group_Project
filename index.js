@@ -83,7 +83,7 @@ passport.use('local-login', new LocalStrategy({
              if(res.rows[0]!=undefined){   
                 console.log("saddasdas");
                 bcrypt.compare(password, res.rows[0].password, function(err, res) {
-                    if(res==true){
+                    if(res){
                     console.log("IN HERE");
                     req.session.username = "'"+username+"'";   
                     req.session.save();     
