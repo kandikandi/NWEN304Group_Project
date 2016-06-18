@@ -39,7 +39,7 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 //     console.log('redrawing', data);
 //     };  
 
-
+/*
 $.ajax({
     method: 'GET',
     url: 'http://localhost:8080/register'
@@ -64,19 +64,20 @@ $('#reg_button').on('click', function(){
         }, ERROR_LOG);
 });
           
+*/
 
 
 
 
 
+$('#reg_button').on('click', function(){
 
-/*$('#reg_button').on('click', function(){
-
-    var email = $('#inputEmail').val();
+    
     var username = $('#inputUsername').val();
     var password = $('#inputPassword').val();
+    var email = $('#inputEmail').val();
 
-    var userdetail = {email, username, password};
+    var userdetail = {username, password, email};
     console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
     add_user(userdetail);
     
