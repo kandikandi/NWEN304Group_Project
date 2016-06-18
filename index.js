@@ -77,9 +77,8 @@ passport.use('local-login', new LocalStrategy({
             passReqToCallback : true   
   },  
   function(req,username, password, done) {
-
-        var pCheck = bcrypt.hashSync(password, saltRounds);
-        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + pCheck + "';", callback);  
+        
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
                  bcrypt.compare(password, res.rows[0].password, function(err, res) {
@@ -87,8 +86,7 @@ passport.use('local-login', new LocalStrategy({
                  req.session.save();     
                  console.log(req.session.username);     
                  return done(null,user);
-                 });   
-                
+                 });                   
             }
             return done(null,user);      
         } 
@@ -117,6 +115,7 @@ passport.use('local-register', new LocalStrategy({
                 });               
             }
             else{
+                 var pCheck = bcrypt.hashSync(password, saltRounds);
                  var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + pCheck + "')");
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
@@ -146,12 +145,10 @@ passport.use('facebook', new FacebookStrategy({
 
         function callback(err,res){
          
-            if(res.rows[0]!=undefined){
-                 console.log("in if statement");
+            if(res.rows[0]!=undefined){                
                  return done(null,profile);
             }
-            else{
-                 console.log("in the else statement");
+            else{                
                  var password = bcypt.hashSync(profile.id,saltRounds);
                  client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, password]); 
                  return done(null,profile);      
