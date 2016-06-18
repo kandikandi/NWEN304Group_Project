@@ -45,7 +45,7 @@ $.ajax({
     url: 'http://localhost:8080/register'
     }).then(function success_delete(data){
                        
-    }, ERROR_LOG);
+    }, ERROR_LOG);*/
 
 
 $('#reg_button').on('click', function(){
@@ -58,13 +58,19 @@ $('#reg_button').on('click', function(){
     $.ajax({
         url: ip + 'register',
         method: "PUT",
-        data: data,
+        data: JSON.stringify({
+            username = $('#inputUsername').val();
+            password = $('#inputPassword').val();
+            email = $('#inputEmail').val();
+        }),
+        contentType: "application/json",
+        dataType: "json"        
         }.then(function success_add(data){
             console.log("200 ok");
         }, ERROR_LOG);
 });
           
-*/
+/*
 
 
 
@@ -78,7 +84,7 @@ $('#reg_button').on('click', function(){
     var userdetail = {username, password, email};
     console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
     add_user(userdetail);    
-});*/
+});
 
 
     $.ajax({
@@ -96,7 +102,7 @@ $('#reg_button').on('click', function(){
 
 function success_add(){
     console.log("Successfully added user");
-}
+}*/
 
 
 </script>
