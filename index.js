@@ -120,6 +120,7 @@ passport.use('local-register', new LocalStrategy({
             else{
                  var pCheck = bcrypt.hashSync(password, saltRounds);
                  var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + pCheck + "')");
+                console.log("Password is : " + password + " and Hash is : "  + pCheck);
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
