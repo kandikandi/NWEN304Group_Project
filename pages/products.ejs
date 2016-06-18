@@ -42,7 +42,7 @@ e.preventDefault()
         type: 'POST',
         url: ip+'/cart/add',
         data: JSON.stringify({
-              data
+              data.item_id
         }),
         dataType: "json", 
         success: function(){
