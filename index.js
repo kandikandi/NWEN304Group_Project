@@ -386,6 +386,12 @@ app.get('/cart', function(req, res){
   });
 });
 
+app.delete('/cart', function(req, res){
+    console.log("BODY: " + req.body);
+    var query = client.query("DELETE * FROM cart WHERE item_id = '" + req.item_id +"';");
+    res.render('/cart');
+});
+
 //add an item to cart
 app.post('add_cart', function(req, res){
     var results = [];
@@ -397,7 +403,7 @@ app.post('add_cart', function(req, res){
             //add item to cart db
             var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ('" + result.rows[0].item_id + "','" + result.rows[0].item_name + "','" + result.rows[0].item_price + "','" + req.session.username + "')");
             console.log("Added item to cart");
-            res.redirect('/cart');
+           // res.redirect('/cart');
         }
     });
 });
