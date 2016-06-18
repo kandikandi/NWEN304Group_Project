@@ -89,15 +89,14 @@ passport.use('local-login', new LocalStrategy({
                     req.session.save();     
                     console.log(req.session.username);     
                     return done(null,user);
-                    }
-                    console.log("other");
-                 });    
+                }});
+                 console.log("other");
+              }    
                 console.log("end of if");               
             }
             console.log("failed to login user");
             return done(null,user);      
-        } 
-     }     
+        }         
 ));
 
   
@@ -124,7 +123,7 @@ passport.use('local-register', new LocalStrategy({
             }
             else{
                  bcrypt.hash(password, saltRounds,function(err,hash){
-                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");}                
+                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
@@ -158,7 +157,7 @@ passport.use('facebook', new FacebookStrategy({
             }
             else{                
                   bcrypt.hash(password, saltRounds,function(err,hash){
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, hash]); }
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, hash]); });
                  return done(null,profile);      
             }   
          }              
