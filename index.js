@@ -351,7 +351,7 @@ app.get('/products', function(request, response){
   console.log("BODY: " + request.query.name);
   var results = [];
 
-  var query = client.query("SELECT * FROM items WHERE item_id = '" + request.query.item_id +"';");
+  var query = client.query("SELECT * FROM items WHERE item_id = " + request.query.item_id +";");
 
   query.on('row', function(row){
     console.log(row);    
