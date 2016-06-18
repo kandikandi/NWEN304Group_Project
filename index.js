@@ -110,7 +110,7 @@ passport.use('local-register', new LocalStrategy({
                  return done(null,user);
             }
             else{
-                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.email + "','" + password + "')");
+                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + password + "')");
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
