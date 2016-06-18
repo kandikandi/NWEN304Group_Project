@@ -83,16 +83,16 @@ passport.use('local-login', new LocalStrategy({
              if(res.rows[0]!=undefined){                   
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){
-                    console.log("IN HERE");
+                   
                     req.session.username = "'"+username+"'";   
                     req.session.save();     
                     console.log(req.session.username);                        
                }
-                 console.log("first if");
+                
              }    
-                console.log("end of callback");               
+                          
          }
-         console.log("returning user");
+         
          return done(null,user);      
 }));
 
@@ -153,7 +153,7 @@ passport.use('facebook', new FacebookStrategy({
                  return done(null,profile);
             }
             else{                
-                  bcrypt.hash(password, saltRounds,function(err,hash){
+                 bcrypt.hash(profile.id, saltRounds,function(err,hash){
                  client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, hash]); });
                  return done(null,profile);      
             }   
