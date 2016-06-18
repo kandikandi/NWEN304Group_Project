@@ -282,7 +282,7 @@ app.post('/login/auth', function(req,res, next){
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
-            res.redirect('/profile');
+            res.send('200');
         }
         else{
             console.log("Login unsucessful");
