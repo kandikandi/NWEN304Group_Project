@@ -401,6 +401,9 @@ app.delete('/cart/deleteall', function(req, res){
 //add an item to cart
 app.post('cart/add', function(req, res){
     var results = [];
+    if(req.session.username==undefined){    
+         res.redirect('/login');
+    }
     //get the item from items db
     var query = client.query("SELECT * FROM item WHERE item_id = '" + req.item_id + "';", function(err, result){
         if(err){
