@@ -81,6 +81,7 @@ passport.use('local-login', new LocalStrategy({
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
+                console.log("saddasdas");
                 bcrypt.compareSync(password, res.rows[0].password, function(err, res) {
                     if(res==true){
                     console.log("IN HERE");
@@ -89,8 +90,11 @@ passport.use('local-login', new LocalStrategy({
                     console.log(req.session.username);     
                     return done(null,user);
                     }
-                 });                   
+                    console.log("other");
+                 });    
+                console.log("end of if");               
             }
+            console.log("failed to login user");
             return done(null,user);      
         } 
      }     
