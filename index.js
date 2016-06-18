@@ -84,6 +84,7 @@ passport.use('local-login', new LocalStrategy({
                  var pCheck = bcrypt.hashSync(password, saltRounds);
                  console.log("Password is : " + password + " and Hash is : " + res.rows[0].password + " and hashed password is : " + pCheck);
                  bcrypt.compareSync(password, res.rows[0].password, function(err, res) {
+                    console.log("IN HERE");
                     req.session.username = "'"+username+"'";   
                     req.session.save();     
                     console.log(req.session.username);     
