@@ -348,7 +348,7 @@ var results = [];
 
 //PRODUCTS
 app.get('/products', function(request, response){
-  console.log("BODY: " + request.query.name);
+  console.log("BODY: " + request.query.item_id);
   var results = [];
 
   var query = client.query("SELECT * FROM items WHERE item_id = " + request.query.item_id +";");
