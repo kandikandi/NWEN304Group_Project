@@ -10,7 +10,7 @@ var util = require('util');
 var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
-var configAuth = require('../config/auth'); 
+var configAuth = require('/config/auth'); 
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs'); 
