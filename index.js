@@ -205,7 +205,7 @@ app.get('/', function(req, res){
 
 
 //GET ALL ITEMS
-app.get('/items',function(request,response){
+app.get('/items',function(req,res){
     //SQL QUERY
     console.log('Getting items from the database');
     var query = client.query("SELECT * FROM items");
@@ -219,12 +219,12 @@ app.get('/items',function(request,response){
   
     //After all data is returned, close connection and return results
     query.on('end', function(){
-        response.json(results);
+        res.json(results);
         });
     });
 
 // GET ALL MENS ITEMS
-app.get('/mens', function(request, response){
+app.get('/mens', function(req, res){
   var results = [];
   var query = client.query("SELECT * FROM items WHERE cat_id = 2;");
 
@@ -234,7 +234,7 @@ app.get('/mens', function(request, response){
   });
 
   query.on('end', function(row){
-    response.render('pages/mens', {
+    res.render('pages/mens', {
       results: results
     });  
   });
@@ -243,7 +243,7 @@ app.get('/mens', function(request, response){
 
 
 // GET ALL WOMENS ITEMS
-app.get('/womens', function(request, response){
+app.get('/womens', function(req, res){
   var results = [];
   var query = client.query("SELECT * FROM items WHERE cat_id = 1;");
 
@@ -253,7 +253,7 @@ app.get('/womens', function(request, response){
   });
 
   query.on('end', function(row){
-    response.render('pages/womens', {
+    res.render('pages/womens', {
       results: results
     });  
   });
@@ -262,7 +262,7 @@ app.get('/womens', function(request, response){
 });
 
 //GET ALL CHILDREN ITEMS
-app.get('/kids', function(request, response){
+app.get('/kids', function(req, res){
   var results = [];
   var result_itemid = [];
 
@@ -274,7 +274,7 @@ app.get('/kids', function(request, response){
   });
 
   query.on('end', function(row){
-    response.render('pages/kids', {
+    res.render('pages/kids', {
       results: results
     });  
   });
@@ -282,8 +282,8 @@ app.get('/kids', function(request, response){
 
 
 //LOGIN
-app.get('/login', function(request, response){  
-  response.render('pages/login', { user: request.user });   
+app.get('/login', function(req, res){  
+  res.render('pages/login', { user: req.user });   
      
 });
 
@@ -347,11 +347,11 @@ var results = [];
 });
 
 //PRODUCTS
-app.get('/products', function(request, response){
-  console.log("BODY: " + request.query.item_id);
+app.get('/products', function(req, res){
+  console.log("BODY: " + req.query.item_id);
   var results = [];
 
-  var query = client.query("SELECT * FROM items WHERE item_id = " + request.query.item_id +";");
+  var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
 
   query.on('row', function(row){
     console.log(row);    
@@ -359,7 +359,7 @@ app.get('/products', function(request, response){
   });
 
   query.on('end', function(row){
-    response.render('pages/products', {
+    res.render('pages/products', {
       results: results
     });  
   });
@@ -380,7 +380,7 @@ app.get('/cart', function(req, res){
   });
 
   query.on('end', function(row){
-    response.render('pages/products', {
+    res.render('pages/products', {
       results: results
     });  
   });
