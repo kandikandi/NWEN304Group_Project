@@ -80,24 +80,21 @@ passport.use('local-login', new LocalStrategy({
         
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
-             if(res.rows[0]!=undefined){   
-                console.log("saddasdas");
-                bcrypt.compare(password, res.rows[0].password, function(err, res) {
-                    if(res){
+             if(res.rows[0]!=undefined){                   
+               var isRight = bcrypt.compareSync(password, res.rows[0].password);
+               if(isRight){
                     console.log("IN HERE");
                     req.session.username = "'"+username+"'";   
                     req.session.save();     
-                    console.log(req.session.username);     
-                    return done(null,user);
-                }});
-                 console.log("other");
-              }    
-                console.log("end of if");               
-            }
-            console.log("failed to login user");
-            return done(null,user);      
-        }         
-));
+                    console.log(req.session.username);                        
+               }
+                 console.log("first if");
+             }    
+                console.log("end of callback");               
+         }
+         console.log("returning user");
+         return done(null,user);      
+}));
 
   
 /*Set up passport for local registration*/
