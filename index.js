@@ -393,7 +393,7 @@ app.delete('/cart', function(req, res){
 });
 
 //add an item to cart
-app.post('add_cart', function(req, res){
+app.post('cart/add', function(req, res){
     var results = [];
     //get the item from items db
     var query = client.query("SELECT * FROM item WHERE item_id = '" + req.item_id + "';", function(err, result){

@@ -15,7 +15,7 @@
           <li><p>Name: <%= data.name %></p></li>
           <li><p>Description: <%= data.description %></p></li>
           <li><p>Price: $<%= data.price %></p></li>
-          <a href="/add_cart %>" id="cart_redirect"><button class = "btn btn-default"> Add to Cart </button></a>
+          <button id="add_button" class="btn btn-lg btn-primary btn-block" type="submit">Add to Cart</button>
         <% }); %>        
       </div>
     </div>  
@@ -35,6 +35,26 @@ $.ajax({
 function redraw(data){
     console.log('redrawing', data);
     };  
+
+$('#add_button').on('click', function(e){
+e.preventDefault()
+    $.ajax({
+        type: 'POST',
+        url: ip+'/cart/add',
+        data: JSON.stringify({
+              data
+        }),
+        dataType: "json", 
+        success: function(){
+                window.location.replace(ip + "/cart");
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
+
+
 
 </script>
 
