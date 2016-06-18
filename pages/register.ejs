@@ -70,23 +70,20 @@ $('#reg_button').on('click', function(){
 
 
 
-$('#reg_button').on('click', function(){
-
-    
+$('#reg_button').on('click', function(){    
     var username = $('#inputUsername').val();
     var password = $('#inputPassword').val();
     var email = $('#inputEmail').val();
 
     var userdetail = {username, password, email};
     console.log("USER DETAIL IN REGISTER PAGE: " + userdetail.email);
-    add_user(userdetail);
-    
+    add_user(userdetail);    
 });
 
 function add_user(user){
     $.ajax({
         method: 'PUT',
-        url: ip + '/register',
+        url: ip + '/register/auth',
         data: JSON.stringify({
             userdetails: user
         }),
