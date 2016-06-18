@@ -25,7 +25,7 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 20*15*60*1000//15 minute timeout
+            maxAge  : 15*60*1000//15 minute timeout
         },
         secret: configAuth.expressSession.secret,
         saveUninitialized: true,
@@ -76,23 +76,17 @@ passport.use('local-login', new LocalStrategy({
             passwordField : 'password',
             passReqToCallback : true   
   },  
-  function(req,username, password, done) {
-        
+  function(req,username, password, done) {        
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){                   
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
-               if(isRight){
-                   
+               if(isRight){                   
                     req.session.username = "'"+username+"'";   
-                    req.session.save();     
-                    console.log(req.session.username);                        
-               }
-                
-             }    
-                          
-         }
-         
+                    req.session.save();                                            
+               }                
+             }                              
+         }         
          return done(null,user);      
 }));
 
@@ -103,28 +97,23 @@ passport.use('local-register', new LocalStrategy({
     passwordField : 'password',    
     passReqToCallback : true
   },
-
   function(req, username, password, done) {
-    process.nextTick(function() {    
-        
+    process.nextTick(function() {            
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){         
-            if(res.rows[0]!=undefined){   
-                 bcrypt.compare(password, res.rows[0].password, function(err, res) {
-                 if(res==true){
-                 req.session.username = "'"+username+"'";   
-                 req.session.save();     
-                 console.log(req.session.username);     
-                 return done(null,user);}
-                });               
-            }
-            else{
-                 bcrypt.hash(password, saltRounds,function(err,hash){
-                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                
-                req.session.username = "'"+username+"'";   
-                req.session.save();    
-                console.log("Registration successful"); 
-                return done(null, user);
+           if(res.rows[0]!=undefined){                   
+               var isRight = bcrypt.compareSync(password, res.rows[0].password);
+               if(isRight){                   
+                    req.session.username = "'"+username+"'";   
+                    req.session.save();                                            
+               }                
+             }      
+           else{
+                bcrypt.hash(password, saltRounds,function(err,hash){
+                    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                
+                    req.session.username = "'"+username+"'";   
+                    req.session.save();                    
+                    return done(null, user);
             } 
             return done(null, false);         
         }
@@ -142,13 +131,9 @@ passport.use('facebook', new FacebookStrategy({
   },
 
   function(access_token, refreshToken, profile, done) {
-
      process.nextTick(function () {
-
         var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
-
-        function callback(err,res){
-         
+        function callback(err,res){         
             if(res.rows[0]!=undefined){                
                  return done(null,profile);
             }
@@ -283,12 +268,10 @@ app.get('/kids', function(req, res){
 
 //LOGIN
 app.get('/login', function(req, res){  
-  res.render('pages/login', { user: req.user });   
-     
+  res.render('pages/login', { user: req.user });        
 });
 
-app.post('/login/auth', function(req,res, next){
-      
+app.post('/login/auth', function(req,res, next){      
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
@@ -302,7 +285,6 @@ app.post('/login/auth', function(req,res, next){
 });
 
 //Facebook login + registration
-
 app.get('/auth/facebook', 
     passport.authenticate('facebook',{ scope: 'email'}));
 
@@ -319,14 +301,10 @@ app.get('/auth/facebook/callback',
 
 //PROFILE
 app.get('/profile', function(req, res){
-
-
 var str = req.session.username;
 console.log(str);
-if(str!=undefined){
-    console.log(str);
-    var user = str.slice(1, -1);
-    console.log(user);
+if(str!=undefined){    
+    var user = str.slice(1, -1);    
 }else{
     var user = "";
 }
@@ -353,8 +331,7 @@ app.get('/products', function(req, res){
 
   var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
 
-  query.on('row', function(row){
-    console.log(row);    
+  query.on('row', function(row){   
     results.push(row);
   });
 
@@ -374,8 +351,7 @@ app.get('/cart', function(req, res){
 
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
 
-  query.on('row', function(row){
-    console.log(row);    
+  query.on('row', function(row){     
     results.push(row);
   });
 
@@ -423,13 +399,11 @@ app.post('cart/add', function(req, res){
 
 app.get('/register', function(req, res){
   console.log("In register page!");
-  res.render('pages/register',{
-   
+  res.render('pages/register',{   
   });
 });
 
-app.post('/register/auth', function(req,res, next){   
-    console.log(req.body);
+app.post('/register/auth', function(req,res, next){       
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
@@ -447,7 +421,6 @@ app.use(function(req, res, next){
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
 	next();
-
 });
 
 app.listen(port, function () {
