@@ -386,9 +386,15 @@ app.get('/cart', function(req, res){
   });
 });
 
-app.delete('/cart', function(req, res){
+app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
-    var query = client.query("DELETE * FROM cart WHERE item_id = '" + req.item_id +"';");
+    var query = client.query("DELETE * FROM cart WHERE item_id = '" + req.item_id +"' AND username = '" + req.session.username + "';");
+    res.render('/cart');
+});
+
+app.delete('/cart/deleteall', function(req, res){
+    console.log("BODY: " + req.body);
+    var query = client.query("DELETE * FROM cart WHERE username = '" + req.session.username +"';");
     res.render('/cart');
 });
 
