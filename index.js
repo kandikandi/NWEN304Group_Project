@@ -82,14 +82,15 @@ passport.use('local-login', new LocalStrategy({
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + pCheck + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
-                 req.session.username = "'" + username + "'";
-                 req.session.save();                   
+                 bcrypt.compare(password, res.rows[0].password, function(err, res) {
+                 req.session.username = "'"+username+"'";   
+                 req.session.save();     
+                 console.log(req.session.username);     
                  return done(null,user);
+                 });   
+                
             }
-            else{
-                console.log("login failed");
-                    return done(null,user);
-            }          
+            return done(null,user);      
         } 
      }     
 ));
@@ -104,23 +105,25 @@ passport.use('local-register', new LocalStrategy({
 
   function(req, username, password, done) {
     process.nextTick(function() {    
-
-        var pCheck = bcrypt.hashSync(password, saltRounds);
-        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + pCheck + "';", callback);  
+        
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){         
             if(res.rows[0]!=undefined){   
+                 bcrypt.compare(password, res.rows[0].password, function(err, res) {
                  req.session.username = "'"+username+"'";   
                  req.session.save();     
                  console.log(req.session.username);     
                  return done(null,user);
+                });               
             }
             else{
                  var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + pCheck + "')");
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
-                return done(null,user);
-            }          
+                return done(null, user);
+            } 
+            return done(null, false);         
         }
     });
 
