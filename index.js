@@ -405,11 +405,10 @@ app.post('/register/auth', function(req,res, next){
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
-            res.redirect('/profile');
+            res.send('200');
         }
         else{
-            console.log("registration unsucessful");
-            res.redirect('/register');
+            res.send('304');
         }
     })(req,res,next);
 });
