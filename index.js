@@ -135,7 +135,7 @@ passport.use('local-register', new LocalStrategy({
 }));
 
 app.put('/register/auth', function(req,res, next){   
-    console.log("reg shows user as " + req.body.username + "and password is " + req.body.password);
+    console.log(req.body);
     passport.authenticate('local-register',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
