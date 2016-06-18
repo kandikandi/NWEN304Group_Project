@@ -121,19 +121,6 @@ passport.use('local-register', new LocalStrategy({
 
 }));
 
-app.post('/register/auth', function(req,res, next){   
-    console.log(req.body);
-    passport.authenticate('local-register',function(err,user,info){
-        if (err) { return next(err); }
-        if(user){            
-            res.redirect('/profile');
-        }
-        else{
-            console.log("registration unsucessful");
-            res.redirect('/register');
-        }
-    })(req,res,next);
-});
 
 /*set up passport for facebook login*/
 passport.use('facebook', new FacebookStrategy({
@@ -166,20 +153,6 @@ passport.use('facebook', new FacebookStrategy({
   }
 ));
 
-app.get('/auth/facebook', 
-    passport.authenticate('facebook',{ scope: 'email'}));
-
-app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', {  
-        failureRedirect: '/login' }),
-        (req, res)=>{          
-        console.log("Actually do stuff in here");
-        req.session.username = "'"+req.user.id+"'";     
-        req.session.save();        
-        res.redirect('/profile');
-        }
-        
-    );
 
 //Logout function
 app.get('/logout', function(req, res){
@@ -318,6 +291,21 @@ app.post('/login/auth', function(req,res, next){
     })(req,res,next);
 });
 
+//Facebook login + registration
+
+app.get('/auth/facebook', 
+    passport.authenticate('facebook',{ scope: 'email'}));
+
+app.get('/auth/facebook/callback', 
+        passport.authenticate('facebook', {  
+        failureRedirect: '/login' }),
+        (req, res)=>{                  
+        req.session.username = "'"+req.user.id+"'";     
+        req.session.save();        
+        res.redirect('/profile');
+        }
+        
+    );
 
 
 //AUTHENTICATE
@@ -404,34 +392,26 @@ app.put('add_cart', function(req, res){
 
 
 //REGISTER
-/*app.put('/register', function(req, res){
-  var user_details = req.body.userdetails;
-  console.log('Clicked register button!');
-  var success = false;
-  var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + user_details.username + "','" + user_details.email + "','" + user_details.password + "')",
-    function(error, response){
-      if(error){
-        res.status(500).send("Internal Server Error when adding ");   
-      }else{
-        success = true;
-        console.log("SUCCESS: " + success);
-        console.log(user_details.username + " has been added to users");   
-        req.session.username = "'" + user_details.username + "'";     
-        req.session.save();
-      }
-      
-    });        
-        if(success){        
-        console.log("REDIRECTING");
-      
-      }  
-});*/
 
 app.get('/register', function(req, res){
   console.log("In register page!");
   res.render('pages/register',{
    
   });
+});
+
+app.post('/register/auth', function(req,res, next){   
+    console.log(req.body);
+    passport.authenticate('local-register',function(err,user,info){
+        if (err) { return next(err); }
+        if(user){            
+            res.redirect('/profile');
+        }
+        else{
+            console.log("registration unsucessful");
+            res.redirect('/register');
+        }
+    })(req,res,next);
 });
 
 //Add headers
