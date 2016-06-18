@@ -30,8 +30,9 @@ var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
 
-$('#reg_button').on('click', function(){           
-    add_user();    
+$('#reg_button').on('click', function(){
+    var data = "data";           
+    add_user(data);    
 });
 function add_user(){
     $.ajax({
