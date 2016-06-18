@@ -11,6 +11,9 @@ var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
+var bcrypt = require('bcrypt');
+
+const saltRounds = configAuth.bcryptHash.saltRounds;
 
   app.set('views', __dirname);
   app.set('view engine', 'ejs'); 
@@ -33,8 +36,6 @@ var configAuth = require('./config/auth');
   app.use(express.static(__dirname + '/public'));
 
  
-
-
 /*For defaulting back to https*/
 app.get('*',function(req,res,next){
   if(req.headers['x-forwarded-proto']!='https'&&process.env.NODE_ENV === 'production')
@@ -76,7 +77,9 @@ passport.use('local-login', new LocalStrategy({
             passReqToCallback : true   
   },  
   function(req,username, password, done) {
-        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
+
+        var pCheck = bcrypt.hashSync(password, saltRounds);
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + pCheck + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
                  req.session.username = "'" + username + "'";
@@ -101,8 +104,9 @@ passport.use('local-register', new LocalStrategy({
 
   function(req, username, password, done) {
     process.nextTick(function() {    
-        console.log("USER is: " + username + " PW: " + password + " email" + req.body.email);
-        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';", callback);  
+
+        var pCheck = bcrypt.hashSync(password, saltRounds);
+        var user = client.query("SELECT * FROM users WHERE username = '" + username + "' AND password = '" + pCheck + "';", callback);  
         function callback(err,res){         
             if(res.rows[0]!=undefined){   
                  req.session.username = "'"+username+"'";   
@@ -111,7 +115,7 @@ passport.use('local-register', new LocalStrategy({
                  return done(null,user);
             }
             else{
-                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + password + "')");
+                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + pCheck + "')");
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
@@ -145,7 +149,8 @@ passport.use('facebook', new FacebookStrategy({
             }
             else{
                  console.log("in the else statement");
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, 'facebook']); 
+                 var password = bcypt.hashSync(profile.id,saltRounds);
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, password]); 
                  return done(null,profile);      
             }   
          }              

@@ -7,5 +7,8 @@
 
     'expressSession' : {
         'secret' : '5sGxlhnncWBoUpQeakhvp0BS6KsENvunPZ9VVLmfA2qw71Ky6mLv2CicN4k9'
+    },
+    'bcryptHash' : {
+        'saltRounds' : 10
     }
 };
