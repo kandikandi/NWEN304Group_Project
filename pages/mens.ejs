@@ -12,7 +12,7 @@
       <h2>This is the Mens page</h2>
       <div id="items_view">
         <% results.forEach(function(data) { %>
-          <li><a href="/products?name=<%= data.item_id %>" id="product_redirect"><button class = "btn btn-default"> <%= data.name %> </button></a></li>
+          <li><a href="/products?item_id=<%= data.item_id %>" id="product_redirect"><button class = "btn btn-default"> <%= data.name %> </button></a></li>
         <% }); %>
       </div>
     </div>  
