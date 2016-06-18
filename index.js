@@ -90,19 +90,6 @@ passport.use('local-login', new LocalStrategy({
      }     
 ));
 
-app.post('/login/auth', function(req,res, next){
-      
-    passport.authenticate('local-login',function(err,user,info){
-        if (err) { return next(err); }
-        if(user){            
-            res.redirect('/profile');
-        }
-        else{
-            console.log("Login unsucessful");
-            res.redirect('/login');
-        }
-    })(req,res,next);
-});
   
 /*Set up passport for local registration*/
 passport.use('local-register', new LocalStrategy({
@@ -317,31 +304,21 @@ app.get('/login', function(request, response){
      
 });
 
-/*app.post('/login/check', function(request, response){
+app.post('/login/auth', function(req,res, next){
+      
+    passport.authenticate('local-login',function(err,user,info){
+        if (err) { return next(err); }
+        if(user){            
+            res.redirect('/profile');
+        }
+        else{
+            console.log("Login unsucessful");
+            res.redirect('/login');
+        }
+    })(req,res,next);
+});
 
-  var user_details = request.body.userdetails;
-    
-  var success = false;
-  console.log("here");
-  var query = client.query("SELECT * FROM users WHERE username = '"+ user_details.username +"' AND password = '" + user_details.password +"';",
-  function (err,res){
-       console.log("AND here");
-       if(res.rows[0]!=undefined){
-          success = true;
-       }       
-    });
-    query.on('end',function(){        
-     if(success==true){
-        console.log("SETTING COOKIE AND REDIRECTING.....");
-        request.session.username = "'" + user_details.username + "'"; 
-        console.log("User is : " + request.session.username);  
-        request.session.save()     
-     }
-     else{
-     console.log("JUST REDIRECTING....."); 
-     }
-    });
-});*/
+
 
 //AUTHENTICATE
 app.get('/profile/auth', function(req, res, next){
