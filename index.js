@@ -81,14 +81,14 @@ passport.use('local-login', new LocalStrategy({
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
              if(res.rows[0]!=undefined){   
-                 var pCheck = bcrypt.hashSync(password, saltRounds);
-                 console.log("Password is : " + password + " and Hash is : " + res.rows[0].password + " and hashed password is : " + pCheck);
-                 bcrypt.compareSync(password, res.rows[0].password, function(err, res) {
+                bcrypt.compareSync(password, res.rows[0].password, function(err, res) {
+                    if(res==true){
                     console.log("IN HERE");
                     req.session.username = "'"+username+"'";   
                     req.session.save();     
                     console.log(req.session.username);     
                     return done(null,user);
+                    }
                  });                   
             }
             return done(null,user);      
@@ -111,10 +111,11 @@ passport.use('local-register', new LocalStrategy({
         function callback(err,res){         
             if(res.rows[0]!=undefined){   
                  bcrypt.compare(password, res.rows[0].password, function(err, res) {
+                 if(res==true){
                  req.session.username = "'"+username+"'";   
                  req.session.save();     
                  console.log(req.session.username);     
-                 return done(null,user);
+                 return done(null,user);}
                 });               
             }
             else{
