@@ -82,7 +82,7 @@ passport.use('local-login', new LocalStrategy({
         function callback(err,res){
              if(res.rows[0]!=undefined){   
                 console.log("saddasdas");
-                bcrypt.compareSync(password, res.rows[0].password, function(err, res) {
+                bcrypt.compare(password, res.rows[0].password, function(err, res) {
                     if(res==true){
                     console.log("IN HERE");
                     req.session.username = "'"+username+"'";   
@@ -123,9 +123,8 @@ passport.use('local-register', new LocalStrategy({
                 });               
             }
             else{
-                 var pCheck = bcrypt.hashSync(password, saltRounds);
-                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + pCheck + "')");
-                console.log("Password is : " + password + " and Hash is : "  + pCheck);
+                 bcrypt.hash(password, saltRounds,function(err,hash){
+                 var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");}                
                 req.session.username = "'"+username+"'";   
                 req.session.save();    
                 console.log("Registration successful"); 
@@ -158,8 +157,8 @@ passport.use('facebook', new FacebookStrategy({
                  return done(null,profile);
             }
             else{                
-                 var password = bcypt.hashSync(profile.id,saltRounds);
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, password]); 
+                  bcrypt.hash(password, saltRounds,function(err,hash){
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, hash]); }
                  return done(null,profile);      
             }   
          }              
