@@ -79,12 +79,19 @@ passport.use('local-login', new LocalStrategy({
   function(req,username, password, done) {        
         var user = client.query("SELECT * FROM users WHERE username = '" + username + "';", callback);  
         function callback(err,res){
-             if(res.rows[0]!=undefined){                   
-               var isRight = bcrypt.compareSync(password, res.rows[0].password);
-               if(isRight){                   
+             if(res.rows[0]!=undefined){
+                bcrypt.compare(password, res.rows[0].password, function(err, res) {
+                    if(res){
+                        req.session.username = "'"+username+"'";   
+                        req.session.save();  
+                    }
+                });
+                                   
+              // var isRight = bcrypt.compareSync(password, res.rows[0].password);
+               /*if(isRight){                   
                     req.session.username = "'"+username+"'";   
                     req.session.save();                                            
-               }                
+               } */               
              }                              
          }         
          return done(null,user);      
