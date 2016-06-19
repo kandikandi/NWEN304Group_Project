@@ -110,8 +110,7 @@ passport.use('local-register', new LocalStrategy({
              }      
            else{
                 bcrypt.hash(password, saltRounds,function(err,hash){
-                    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                
-                    req.session.username = "'"+username+"'";   
+                    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                  req.session.username = "'"+username+"'";   
                     req.session.save();                    
                     return done(null, user);
             } 
@@ -279,7 +278,7 @@ app.post('/login/auth', function(req,res, next){
         }
         else{
             console.log("Login unsucessful");
-            res.redirect('/login');
+            res.send('304');
         }
     })(req,res,next);
 });

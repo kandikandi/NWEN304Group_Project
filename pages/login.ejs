@@ -48,8 +48,12 @@ e.preventDefault()
         }),
         contentType: "application/json",
         dataType: "json", 
-        success: function(){               
+        success: function(data){      
+                if(data=='200'){         
                 window.location.replace(ip + "/profile");
+                }
+                else{
+                window.location.replace(ip + "/login");
                 },
         error:  function(){
                 console.log("fail");
