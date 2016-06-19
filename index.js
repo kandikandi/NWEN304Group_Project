@@ -81,6 +81,7 @@ passport.use('local-login', new LocalStrategy({
         function callback(err,res){
              if(res.rows[0]!=undefined){
                 bcrypt.compare(password, res.rows[0].password, function(err, res) {
+                    console.log(res);
                     if(res){
                         req.session.username = "'"+username+"'";   
                         req.session.save();  
