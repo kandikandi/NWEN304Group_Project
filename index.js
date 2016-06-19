@@ -277,8 +277,7 @@ app.post('/login/auth', function(req,res, next){
             res.send('200');
         }
         else{
-            console.log("Login unsucessful");
-            res.send('unsucessful');
+            console.log("Login unsucessful");            
         }
     })(req,res,next);
 });
@@ -377,7 +376,7 @@ app.delete('/cart/deleteall', function(req, res){
 app.post('cart/add', function(req, res){
     var results = [];
     if(req.session.username==undefined){    
-         res.redirect('/login');
+         res.send('login');
     }
     //get the item from items db
     var query = client.query("SELECT * FROM item WHERE item_id = '" + req.item_id + "';", function(err, result){
