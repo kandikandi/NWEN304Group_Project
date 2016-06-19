@@ -278,7 +278,7 @@ app.post('/login/auth', function(req,res, next){
         }
         else{
             console.log("Login unsucessful");
-            res.send('304');
+            res.send('unsucessful');
         }
     })(req,res,next);
 });
