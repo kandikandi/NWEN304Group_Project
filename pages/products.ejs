@@ -15,7 +15,7 @@
           <li><p>Name: <%= data.name %></p></li>
           <li><p>Description: <%= data.description %></p></li>
           <li><p>Price: $<%= data.price %></p></li>
-          <form action="cart" method="POST">
+          <form action="cart" method="PUT">
             <input type = "hidden" id="id" value = "<%= data.item_id %>"> 
             <button id="add_button" class="btn btn-lg btn-primary btn-block" type="submit">Add to Cart</button>
           </form>
@@ -32,7 +32,7 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 $('#add_button').off('click').on('click', function(){
 
     $.ajax({
-        type: 'POST',
+        type: 'PUT',
         url: ip+'/cart',
         data: JSON.stringify({
               item_id: $('#id').val()
