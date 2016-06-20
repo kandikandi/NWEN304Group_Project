@@ -378,10 +378,12 @@ app.delete('/cart/deleteall', function(req, res){
 app.post('/cart', function(req, res){
     console.log("post cart");
     var results = [];
+    console.log("USER IS CURRENTLY: " +req.session.username);
     if(req.session.username==undefined){    
          res.send('login');
     }
     //get the item from items db
+    console.log("ITEM ID IS : " +req.body.item_id);
     var query = client.query("SELECT * FROM item WHERE item_id = '" + req.body.item_id + "';", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
