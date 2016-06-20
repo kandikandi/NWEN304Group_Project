@@ -353,9 +353,10 @@ app.get('/cart', function(req, res){
   console.log("get cart");
   var results = [];
  
-  var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
+  var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';");
 
-  query.on('row', function(row){     
+  query.on('row', function(row){    
+    console.log(row); 
     results.push(row);
   });
 
