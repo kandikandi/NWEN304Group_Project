@@ -133,7 +133,7 @@ passport.use('facebook', new FacebookStrategy({
 
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-        var user = client.query("SELECT * FROM users WHERE username = '" + profile.name + "';", callback);
+        var user = client.query("SELECT * FROM users WHERE username = '" + profile.name.givenName+"_"+profile.name.familyName + "';", callback);
         function callback(err,res){         
             if(res.rows[0]!=undefined){                
                  return done(null,profile);
@@ -319,16 +319,6 @@ var results = [];
 
 });
 
-function sliceUsername(username){
-    var str = username;
-    console.log(str);
-    if(str!=undefined){    
-        var user = str.slice(1, -1);    
-    }else{
-        var user = "";
-    }
-return user;
-}
 
 //PRODUCTS
 app.get('/products', function(req, res){
