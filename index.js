@@ -382,7 +382,7 @@ app.post('/cart', function(req, res){
          res.send('login');
     }
     //get the item from items db
-    var query = client.query("SELECT * FROM item WHERE item_id = '" + req.item_id + "';", function(err, result){
+    var query = client.query("SELECT * FROM item WHERE item_id = '" + req.body.item_id + "';", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
         }else{  
