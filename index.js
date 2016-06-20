@@ -326,10 +326,12 @@ app.get('/products', function(req, res){
  
   var results = [];
 
-  var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
-
   console.log("BODY: " + req.query.item_id);
   console.log("products");
+
+  var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
+
+  
 
   query.on('row', function(row){   
     results.push(row);
@@ -350,7 +352,7 @@ app.get('/cart', function(req, res){
   console.log("BODY: " + req.body);
   console.log("get cart");
   var results = [];
-  //var user = sliceUsername(req.session.username);
+ 
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
 
   query.on('row', function(row){     
