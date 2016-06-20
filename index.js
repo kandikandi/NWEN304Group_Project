@@ -395,6 +395,7 @@ app.put('/cart', function(req, res){
         if(err){
             console.log("Cannot add item to cart!");
         }else{  
+            console.log(result.rows[0]);
             //add item to cart db
             var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ('" + result.rows[0].item_id + "','" + result.rows[0].item_name + "','" + result.rows[0].item_price + "','" + req.session.username + "')");
             console.log("Added item to cart");
