@@ -383,8 +383,7 @@ app.delete('/cart/deleteall', function(req, res){
 //add an item to cart
 app.post('/cart', function(req, res){
     console.log("post cart");
-    console.log("BODY: " + req.body.item_id);
-    var results = [];
+    console.log("BODY: " + req.body.item_id);  
     console.log("USER IS CURRENTLY: " +req.session.username);
     if(req.session.username==undefined){    
          res.send('login');
@@ -397,7 +396,8 @@ app.post('/cart', function(req, res){
         }else{  
             console.log(result.rows[0]);
             //add item to cart db
-            var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES (" + result.rows[0].item_id + ",'" + result.rows[0].item_name + "'," + result.rows[0].item_price + ",'" + req.session.username + "')");
+            var add = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].item_name,  result.rows[0].item_price, req.session.username]);
+           // var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES (" + result.rows[0].item_id + ",'" + result.rows[0].item_name + "'," + result.rows[0].item_price + ",'" + req.session.username + "')");
             console.log("Added item to cart");
            res.send('200');
         }
