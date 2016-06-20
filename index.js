@@ -323,6 +323,7 @@ var results = [];
 //PRODUCTS
 app.get('/products', function(req, res){
   console.log("BODY: " + req.query.item_id);
+  console.log("products");
   var results = [];
 
   var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
@@ -361,12 +362,14 @@ app.get('/cart', function(req, res){
 
 app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
+    console.log("deleteone");
     var query = client.query("DELETE * FROM cart WHERE item_id = '" + req.item_id +"' AND username = '" + req.session.username + "';");
     res.render('/cart');
 });
 
 app.delete('/cart/deleteall', function(req, res){
     console.log("BODY: " + req.body);
+    console.log("deleteall");
     var query = client.query("DELETE * FROM cart WHERE username = '" + req.session.username +"';");
     res.render('/cart');
 });
