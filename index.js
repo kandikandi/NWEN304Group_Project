@@ -12,7 +12,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
 var bcrypt = require('bcrypt');
-var flash = require('connect-flash');
+
 
 const saltRounds = configAuth.bcryptHash.saltRounds;
 
@@ -34,7 +34,6 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(flash());
   app.use(express.static(__dirname + '/public'));
 
  
@@ -85,12 +84,11 @@ passport.use('local-login', new LocalStrategy({
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
                     req.session.username = username;   
-                    req.session.save();    
-                    return done(null,user);                                              
+                    req.session.save();                                            
                }                
              }                              
          }         
-         return done(null,false, {message: 'Incorrect password and/or username.'});      
+         return done(null,user);      
 }));
 
   
@@ -119,8 +117,7 @@ passport.use('local-register', new LocalStrategy({
                     req.session.save();                    
                     return done(null, user);
             } 
-            return done(null,false, {message: 'Oops, something went wrong. Please try again'});   
-              
+            return done(null, false);         
         }
     });
 
@@ -283,7 +280,7 @@ app.post('/login/auth', function(req,res, next){
             res.send('200');
         }
         else{
-            return res.render('/login', { message: info.message })          
+            console.log("Login unsucessful");            
         }
     })(req,res,next);
 });
