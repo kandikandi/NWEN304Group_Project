@@ -343,6 +343,7 @@ app.get('/products', function(req, res){
 
 app.get('/cart', function(req, res){
   console.log("BODY: " + req.body);
+  console.log("get cart");
   var results = [];
   var user = sliceUsername(req.session.username);
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
@@ -372,6 +373,7 @@ app.delete('/cart/deleteall', function(req, res){
 
 //add an item to cart
 app.post('/cart/add', function(req, res){
+    console.log("post cart");
     var results = [];
     if(req.session.username==undefined){    
          res.send('login');
