@@ -323,11 +323,13 @@ var results = [];
 
 //PRODUCTS
 app.get('/products', function(req, res){
-  console.log("BODY: " + req.query.item_id);
-  console.log("products");
+ 
   var results = [];
 
   var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
+
+  console.log("BODY: " + req.query.item_id);
+  console.log("products");
 
   query.on('row', function(row){   
     results.push(row);
