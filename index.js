@@ -377,6 +377,7 @@ app.delete('/cart/deleteall', function(req, res){
 //add an item to cart
 app.post('/cart', function(req, res){
     console.log("post cart");
+    console.log("BODY: " + req.body);
     var results = [];
     console.log("USER IS CURRENTLY: " +req.session.username);
     if(req.session.username==undefined){    
