@@ -381,7 +381,7 @@ app.delete('/cart/deleteall', function(req, res){
 });
 
 //add an item to cart
-app.put('/cart', function(req, res){
+app.post('/cart', function(req, res){
     console.log("post cart");
     console.log("BODY: " + req.body.item_id);
     var results = [];
@@ -391,7 +391,7 @@ app.put('/cart', function(req, res){
     }
     //get the item from items db
     console.log("ITEM ID IS : " +req.body.item_id);
-    var query = client.query("SELECT * FROM items WHERE item_id = '" + req.body.item_id + "';", function(err, result){
+    var query = client.query("SELECT * FROM items WHERE item_id = " + req.body.item_id + ";", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
         }else{  
