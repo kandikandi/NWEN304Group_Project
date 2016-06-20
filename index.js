@@ -290,7 +290,7 @@ app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {  
         failureRedirect: '/login' }),
         (req, res)=>{                  
-        req.session.username = "'"+req.user.id+"'";     
+        req.session.username = req.user.id;     
         req.session.save();        
         res.redirect('/profile');
         }
@@ -358,7 +358,7 @@ app.get('/products', function(req, res){
 app.get('/cart', function(req, res){
   console.log("BODY: " + req.body);
   var results = [];
-
+  var user = sliceUsername(req.session.username);
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
 
   query.on('row', function(row){     
