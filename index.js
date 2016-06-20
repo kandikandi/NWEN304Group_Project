@@ -371,7 +371,7 @@ app.delete('/cart/deleteall', function(req, res){
 });
 
 //add an item to cart
-app.post('cart/add', function(req, res){
+app.post('/cart/add', function(req, res){
     var results = [];
     if(req.session.username==undefined){    
          res.send('login');
