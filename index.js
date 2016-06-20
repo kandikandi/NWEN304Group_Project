@@ -34,7 +34,7 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'), { maxage: 7*24*60*60*1000 } );
 
  
 /*For defaulting back to https*/
