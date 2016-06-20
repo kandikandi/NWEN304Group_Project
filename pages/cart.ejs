@@ -14,13 +14,13 @@
 
       <div id="items_view">
         <% results.forEach(function(data) { %>
-           <form action="cart/deleteone" method="DELETE">
+           <form action="cart/deleteone" method="DELETE" name="_method">
            <input type = "hidden" id="item" value = "<%= data.item_id %>"> 
           <li><button id="removeone" class = "btn btn-default" type="submit"> Remove <%=data.item_name %> from Cart</button></a></li>
            </form>
         <% }); %>
       </div>
-       <form action="cart/deleteall" method="DELETE">          
+       <form action="cart/deleteall" name="_method" method="DELETE">          
           <li><button id="removeall" class = "btn btn-default" type="submit"> Delete all Items </button></a></li>
            </form>
 
