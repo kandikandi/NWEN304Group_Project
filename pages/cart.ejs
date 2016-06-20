@@ -14,9 +14,16 @@
 
       <div id="items_view">
         <% results.forEach(function(data) { %>
-          <li><button class = "btn btn-default"> <%=data.item_name %> </button></a></li>
+           <form action="cart/deleteone" method="DELETE">
+           <input type = "hidden" id="item" value = "<%= data.item_id %>"> 
+          <li><button id="removeone" class = "btn btn-default" type="submit"> <%=data.item_name %> </button></a></li>
+           </form>
         <% }); %>
       </div>
+       <form action="cart/deleteone" method="DELETE">
+           <input type = "hidden" id="name" value = "<%= data.username %>"> 
+          <li><button id="removeall" class = "btn btn-default" type="submit"> Delete all Items </button></a></li>
+           </form>
 
       </div>
     </div>  
@@ -27,15 +34,46 @@
 var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
-//GET recieves the information from the items table in database, no changes are made    
-$.ajax({
-    url: ip+'/cart',
-    type: "GET",
-    }).then(redraw, ERROR_LOG);
+$('#removeone').off('click').on('click', function(){
 
-function redraw(data){
-    console.log('redrawing', data);
-    };  
+    $.ajax({
+        type: 'DELETE',
+        url: ip+'/cart/deleteone',
+        data: JSON.stringify({
+              item_id: $('#item').val()
+        }),
+        contentType: "application/json",
+        dataType: "json", 
+        success: function(){
+                console.log("Deleted?");
+                window.location.replace(ip + "/cart");
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
+
+$('#removeall').off('click').on('click', function(){
+
+    $.ajax({
+        type: 'DELETE',
+        url: ip+'/cart/deleteall',
+        data: JSON.stringify({
+              item_id: $('#name').val()
+        }),
+        contentType: "application/json",
+        dataType: "json", 
+        success: function(){
+                console.log("Deleted?");
+                window.location.replace(ip + "/cart");
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
+
 
 </script>
 

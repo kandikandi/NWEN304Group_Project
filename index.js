@@ -371,7 +371,7 @@ app.get('/cart', function(req, res){
 app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
     console.log("deleteone");
-    var query = client.query("DELETE * FROM cart WHERE item_id = " + req.item_id +" AND username = '" + req.session.username + "';");
+    var query = client.query("DELETE * FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';");
     res.render('/cart');
 });
 
