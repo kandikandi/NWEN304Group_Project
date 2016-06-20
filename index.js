@@ -398,9 +398,11 @@ app.post('/cart', function(req, res){
             console.log("Cannot add item to cart!");
         }else{  
             console.log(result.rows[0]);       
-            var add = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
+            query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
+            query.on('end',function(){
             console.log("Added item to cart");
             res.send('200');
+            });
         }
     });
 });
