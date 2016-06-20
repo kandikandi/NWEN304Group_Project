@@ -349,7 +349,7 @@ app.get('/products', function(req, res){
 //CART STUFF
 
 app.get('/cart', function(req, res){
-  console.log("BODY: " + req.body);
+  console.log("BODY: " + req.session.username);
   console.log("get cart");
   var results = [];
  
