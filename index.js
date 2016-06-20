@@ -12,6 +12,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
 var bcrypt = require('bcrypt');
+var flash = require('connect-flash');
 
 const saltRounds = configAuth.bcryptHash.saltRounds;
 
@@ -33,6 +34,7 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
   }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(flash());
   app.use(express.static(__dirname + '/public'));
 
  
@@ -83,11 +85,12 @@ passport.use('local-login', new LocalStrategy({
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
                     req.session.username = username;   
-                    req.session.save();                                            
+                    req.session.save();    
+                    return done(null,user);                                              
                }                
              }                              
          }         
-         return done(null,user);      
+         return done(null,false, {message: 'Incorrect password and/or username.'});      
 }));
 
   
@@ -116,7 +119,8 @@ passport.use('local-register', new LocalStrategy({
                     req.session.save();                    
                     return done(null, user);
             } 
-            return done(null, false);         
+            return done(null,false, {message: 'Oops, something went wrong. Please try again'});   
+              
         }
     });
 
@@ -272,14 +276,14 @@ app.get('/login', function(req, res){
   res.render('pages/login', { user: req.user });        
 });
 
-app.post('/login/auth', function(req,res, next){      
+app.get('/login/auth', function(req,res, next){      
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
             res.send('200');
         }
         else{
-            console.log("Login unsucessful");            
+            return res.render('/login', { message: info.message })          
         }
     })(req,res,next);
 });
