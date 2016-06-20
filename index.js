@@ -381,7 +381,7 @@ app.delete('/cart/deleteall', function(req, res){
 });
 
 //add an item to cart
-app.post('/cart/add', function(req, res){
+app.post('/cart', function(req, res){
     console.log("post cart");
     console.log("BODY: " + req.query.item_id);
     var results = [];
