@@ -349,7 +349,7 @@ app.get('/cart', function(req, res){
   console.log("BODY: " + req.body);
   console.log("get cart");
   var results = [];
-  var user = sliceUsername(req.session.username);
+  //var user = sliceUsername(req.session.username);
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';");
 
   query.on('row', function(row){     
@@ -357,7 +357,7 @@ app.get('/cart', function(req, res){
   });
 
   query.on('end', function(row){
-    res.render('pages/products', {
+    res.render('pages/cart', {
       results: results
     });  
   });
