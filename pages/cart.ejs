@@ -16,7 +16,7 @@
         <% results.forEach(function(data) { %>
            <form action="cart/deleteone" method="DELETE">
            <input type = "hidden" id="item" value = "<%= data.item_id %>"> 
-          <li><button id="removeone" class = "btn btn-default" type="submit"> <%=data.item_name %> </button></a></li>
+          <li><button id="removeone" class = "btn btn-default" type="submit"> Remove <%=data.item_name %> from Cart</button></a></li>
            </form>
         <% }); %>
       </div>
