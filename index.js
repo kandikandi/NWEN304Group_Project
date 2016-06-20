@@ -367,39 +367,19 @@ app.get('/cart', function(req, res){
   });
 });
 
-app.get('cart/deleteone', function(req, res){
-  console.log("BODY: " + req.session.username);
-  console.log("get cart");
-  var results = [];
- 
-  var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';");
-
-  query.on('row', function(row){    
-    console.log(row); 
-    results.push(row);
-  });
-
-  query.on('end', function(row){
-    res.render('pages/cart', {
-      results: results
-    });  
-  });
-
-
-});
 
 //Delete from cart
 app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
     console.log("deleteone");
     var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';");
-    //res.render('/cart');
+    res.redirect('/cart');
 });
 
 app.delete('/cart/deleteall', function(req, res){   
     console.log("deleteall");
     var query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
-   // res.render('/cart');
+    res.redirect('/cart');
 });
 
 //add an item to cart
