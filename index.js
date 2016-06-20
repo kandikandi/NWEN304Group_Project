@@ -290,7 +290,7 @@ app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {  
         failureRedirect: '/login' }),
         (req, res)=>{                  
-        req.session.username = req.user.id;     
+        req.session.username = req.user.name.givenName+"_"+req.user.name.familyName;
         req.session.save();        
         res.redirect('/profile');
         }
@@ -307,6 +307,7 @@ if(str!=undefined){
     var user = "";
 }*/
 //var user = sliceUsername(req.session.username);
+console.log(req.session.username);
 var query = client.query("SELECT * FROM users WHERE username = '" + req.session.username + "';");
 var results = [];
 
