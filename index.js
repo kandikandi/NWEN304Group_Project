@@ -138,7 +138,7 @@ passport.use('facebook', new FacebookStrategy({
             }
             else{                
                  bcrypt.hash(profile.id, saltRounds,function(err,hash){
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.name, profile.emails[0].value, hash]); });
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.first_name+"_"+profile.last_name, profile.emails[0].value, hash]); });
                  return done(null,profile);      
             }   
          }              
