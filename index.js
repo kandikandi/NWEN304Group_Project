@@ -82,7 +82,7 @@ passport.use('local-login', new LocalStrategy({
              if(res.rows[0]!=undefined){                   
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
-                    req.session.username = "'"+username+"'";   
+                    req.session.username = username;   
                     req.session.save();                                            
                }                
              }                              
@@ -104,7 +104,7 @@ passport.use('local-register', new LocalStrategy({
            if(res.rows[0]!=undefined){                   
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
-                    req.session.username = "'"+username+"'";   
+                    req.session.username = username;   
                     req.session.save();                                            
                }                
              }      
@@ -126,19 +126,19 @@ passport.use('facebook', new FacebookStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret, 
     callbackURL: "https://evening-cove-32171.herokuapp.com/auth/facebook/callback",
-    profileFields: ['id', 'emails']   
+    profileFields: ['name', 'emails']   
   },
 
   function(access_token, refreshToken, profile, done) {
      process.nextTick(function () {
-        var user = client.query("SELECT * FROM users WHERE username = '" + profile.id + "';", callback);
+        var user = client.query("SELECT * FROM users WHERE username = '" + profile.name + "';", callback);
         function callback(err,res){         
             if(res.rows[0]!=undefined){                
                  return done(null,profile);
             }
             else{                
                  bcrypt.hash(profile.id, saltRounds,function(err,hash){
-                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.id, profile.emails[0].value, hash]); });
+                 client.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",[profile.name, profile.emails[0].value, hash]); });
                  return done(null,profile);      
             }   
          }              
