@@ -45,7 +45,7 @@ $('#removeone').off('click').on('click', function(){
         dataType: "json", 
         success: function(){
                 console.log("Deleted?");
-                window.location.replace(ip + "/cart");
+            //    window.location.replace(ip + "/cart");
                 },
         error:  function(){
                 console.log("fail");
@@ -60,7 +60,7 @@ $('#removeall').off('click').on('click', function(){
         url: ip+'/cart/deleteall',      
         success: function(){
                 console.log("Deleted?");
-                window.location.replace(ip + "/cart");
+              //  window.location.replace(ip + "/cart");
                 },
         error:  function(){
                 console.log("fail");
