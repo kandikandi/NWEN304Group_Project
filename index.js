@@ -379,7 +379,8 @@ app.delete('/cart/deleteone', function(req, res){
 app.delete('/cart/deleteall', function(req, res){   
     console.log("deleteall");
     var query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
-    res.redirect('/cart');
+    query.on('end', function(row){
+    res.redirect('pages/cart')});  
 });
 
 //add an item to cart
@@ -396,12 +397,10 @@ app.post('/cart', function(req, res){
         if(err){
             console.log("Cannot add item to cart!");
         }else{  
-            console.log(result.rows[0]);
-            //add item to cart db
-            var add = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);
-           // var add_query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES (" + result.rows[0].item_id + ",'" + result.rows[0].item_name + "'," + result.rows[0].item_price + ",'" + req.session.username + "')");
+            console.log(result.rows[0]);       
+            var add = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
             console.log("Added item to cart");
-           res.send('200');
+            res.send('200');
         }
     });
 });
