@@ -20,8 +20,7 @@
            </form>
         <% }); %>
       </div>
-       <form action="cart/deleteall" method="DELETE">
-           <input type = "hidden" id="name" value = "<%= data.username %>"> 
+       <form action="cart/deleteall" method="DELETE">          
           <li><button id="removeall" class = "btn btn-default" type="submit"> Delete all Items </button></a></li>
            </form>
 
@@ -58,12 +57,7 @@ $('#removeall').off('click').on('click', function(){
 
     $.ajax({
         type: 'DELETE',
-        url: ip+'/cart/deleteall',
-        data: JSON.stringify({
-              item_id: $('#name').val()
-        }),
-        contentType: "application/json",
-        dataType: "json", 
+        url: ip+'/cart/deleteall',      
         success: function(){
                 console.log("Deleted?");
                 window.location.replace(ip + "/cart");
