@@ -372,14 +372,14 @@ app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
     console.log("deleteone");
     var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';");
-    res.render('/cart');
+    //res.render('/cart');
 });
 
 app.delete('/cart/deleteall', function(req, res){
     console.log("BODY: " + req.body);
     console.log("deleteall");
     var query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
-    res.render('/cart');
+   // res.render('/cart');
 });
 
 //add an item to cart
