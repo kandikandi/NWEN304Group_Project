@@ -14,7 +14,7 @@
 
       <div id="items_view">
         <% results.forEach(function(data) { %>
-           <form action="cart/deleteone" method="DELETE" name="_method">
+           <form method="DELETE" name="_method">
            <input type = "hidden" id="item" value = "<%= data.item_id %>"> 
           <li><button id="removeone" class = "btn btn-default" type="submit"> Remove <%=data.item_name %> from Cart</button></a></li>
            </form>
@@ -44,8 +44,7 @@ $('#removeone').off('click').on('click', function(){
         contentType: "application/json",
         dataType: "json", 
         success: function(){
-                console.log("Deleted?");
-            //    window.location.replace(ip + "/cart");
+                console.log("Deleted?");            
                 },
         error:  function(){
                 console.log("fail");
@@ -59,8 +58,7 @@ $('#removeall').off('click').on('click', function(){
         type: 'DELETE',
         url: ip+'/cart/deleteall',      
         success: function(){
-                console.log("Deleted?");
-              //  window.location.replace(ip + "/cart");
+                console.log("Deleted?");              
                 },
         error:  function(){
                 console.log("fail");

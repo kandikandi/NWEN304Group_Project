@@ -423,8 +423,7 @@ app.post('/register/auth', function(req,res, next){
         if(user){            
             res.send('200');
         }
-        else{
-            //res.send('304');
+        else{           
         }
     })(req,res,next);
 });
