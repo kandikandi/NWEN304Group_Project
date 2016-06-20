@@ -110,7 +110,9 @@ passport.use('local-register', new LocalStrategy({
              }      
            else{
                 bcrypt.hash(password, saltRounds,function(err,hash){
-                    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");});                  req.session.username = "'"+username+"'";   
+                    var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");
+                });
+                    req.session.username = username;   
                     req.session.save();                    
                     return done(null, user);
             } 
@@ -299,14 +301,7 @@ app.get('/auth/facebook/callback',
 
 //PROFILE
 app.get('/profile', function(req, res){
-/*var str = req.session.username;
-console.log(str);
-if(str!=undefined){    
-    var user = str.slice(1, -1);    
-}else{
-    var user = "";
-}*/
-//var user = sliceUsername(req.session.username);
+
 console.log(req.session.username);
 var query = client.query("SELECT * FROM users WHERE username = '" + req.session.username + "';");
 var results = [];
