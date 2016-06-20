@@ -336,6 +336,7 @@ app.get('/products', function(req, res){
   });
 
   query.on('end', function(row){
+    console.log("rendering");
     res.render('pages/products', {
       results: results
     });  
