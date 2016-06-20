@@ -43,12 +43,13 @@ console.log("CLICK");
 e.preventDefault()
     $.ajax({
         type: 'POST',
-        url: ip+'/cart/add',
+        url: ip+'/cart',
         data: JSON.stringify({
               data.item_id
         }),
         dataType: "json", 
         success: function(){
+                console.log("still in products, should be redirecting to cart");
                 window.location.replace(ip + "/cart");
                 },
         error:  function(){
