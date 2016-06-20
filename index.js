@@ -34,7 +34,7 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(express.static(__dirname + '/public'), { maxage: 7*24*60*60*1000 } );
+  app.use(express.static(__dirname + '/public', { maxAge: 86400000 }));
 
  
 /*For defaulting back to https*/
@@ -171,9 +171,9 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.use("/public/css", express.static(__dirname + '/public/css'));
-app.use("/public/js", express.static(__dirname + '/public/js'));
-app.use("/public/fonts", express.static(__dirname + '/public/fonts'));
+app.use("/public/css", express.static(__dirname + '/public/css', { maxAge: 86400000 }));
+app.use("/public/js", express.static(__dirname + '/public/js', { maxAge: 86400000 }));
+app.use("/public/fonts", express.static(__dirname + '/public/fonts', { maxAge: 86400000 }));
 app.use(express.static(__dirname + '/'));
 
 app.use(function(req, res, next) {
