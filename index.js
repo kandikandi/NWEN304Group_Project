@@ -346,7 +346,7 @@ app.get('/products', function(req, res){
   
 });
 
-//CART STUFF
+//SHOPPING CART
 
 app.get('/cart', function(req, res){
   console.log("BODY: " + req.session.username);
@@ -367,6 +367,7 @@ app.get('/cart', function(req, res){
   });
 });
 
+//Delete from cart
 app.delete('/cart/deleteone', function(req, res){
     console.log("BODY: " + req.body);
     console.log("deleteone");
