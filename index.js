@@ -306,8 +306,8 @@ if(str!=undefined){
 }else{
     var user = "";
 }*/
-var user = sliceUsername(req.session.username);
-var query = client.query("SELECT * FROM users WHERE username = '" + user + "';");
+//var user = sliceUsername(req.session.username);
+var query = client.query("SELECT * FROM users WHERE username = '" + req.session.username + "';");
 var results = [];
 
   query.on('row', function(row){
