@@ -35,7 +35,7 @@ $('#add_button').off('click').on('click', function(){
         type: 'POST',
         url: ip+'/cart',
         data: JSON.stringify({
-              item_id:  $('#idinput').val()
+              item_id: document.getElementById("idinput").value;
         }),
         contentType: "application/json",
         dataType: "json", 
