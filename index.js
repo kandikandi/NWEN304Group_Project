@@ -276,7 +276,7 @@ app.get('/login', function(req, res){
   res.render('pages/login', { user: req.user });        
 });
 
-app.get('/login/auth', function(req,res, next){      
+app.post('/login/auth', function(req,res, next){      
     passport.authenticate('local-login',function(err,user,info){
         if (err) { return next(err); }
         if(user){            
