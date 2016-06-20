@@ -299,13 +299,14 @@ app.get('/auth/facebook/callback',
 
 //PROFILE
 app.get('/profile', function(req, res){
-var str = req.session.username;
+/*var str = req.session.username;
 console.log(str);
 if(str!=undefined){    
     var user = str.slice(1, -1);    
 }else{
     var user = "";
-}
+}*/
+var user = sliceUsername(req.session.username);
 var query = client.query("SELECT * FROM users WHERE username = '" + user + "';");
 var results = [];
 
@@ -321,6 +322,17 @@ var results = [];
   });
 
 });
+
+function sliceUsername(username){
+    var str = username;
+    console.log(str);
+    if(str!=undefined){    
+        var user = str.slice(1, -1);    
+    }else{
+        var user = "";
+    }
+return user;
+}
 
 //PRODUCTS
 app.get('/products', function(req, res){
@@ -408,7 +420,7 @@ app.post('/register/auth', function(req,res, next){
             res.send('200');
         }
         else{
-            res.send('304');
+            //res.send('304');
         }
     })(req,res,next);
 });
