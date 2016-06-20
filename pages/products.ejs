@@ -15,7 +15,7 @@
           <li><p>Name: <%= data.name %></p></li>
           <li><p>Description: <%= data.description %></p></li>
           <li><p>Price: $<%= data.price %></p></li>         
-            <li><a href="/cart/add?item_id=<%= data.item_id %>" id="product_redirect"><button class = "btn btn-default"> <%= data.name %> </button></a></li>
+            <li><a href="/cart/add?item_id=<%= data.item_id %>" id="cart_redirect" method ="post"><button class = "btn btn-default"> Add to Cart </button></a></li>
         <% }); %>        
       </div>
     </div>  
