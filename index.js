@@ -421,6 +421,11 @@ app.post('/cart/buy', function(req,res){
 
 });
 
+//purchase successful page
+app.get('/success', function(req,res){
+    res.render('pages/success');
+});
+
 
 //REGISTER
 
