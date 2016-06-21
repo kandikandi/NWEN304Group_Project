@@ -28,7 +28,7 @@ $(document).ready(function () {
             lon = position.coords.longitude;
             console.log(position);
 
-            api_url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=metric&appid=b49d6416c6dad2e25c7dd28389ce53e3';
+            api_url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=metric&appid=b49d6416c6dad2e25c7dd28389ce53e3';
         
             $.ajax({
                 url : api_url,
@@ -39,6 +39,10 @@ $(document).ready(function () {
                 }
 
             });
+
+           $.ajax({
+                url : ip + '/success',
+                
         }
   } else {
     alert('Your browser doesnt support geolocation. Sorry.');
