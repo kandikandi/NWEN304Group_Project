@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
+var configTime = require('./config/time');
 var bcrypt = require('bcrypt');
 
 
@@ -187,7 +188,7 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
-    res.setHeader('Cache-Control','public, max-age= 2629746000');
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
     res.render('pages/index');
 });
 
@@ -222,6 +223,7 @@ app.get('/mens', function(req, res){
   });
 
   query.on('end', function(row){
+    
     res.render('pages/mens', {
       results: results
     });  
