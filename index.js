@@ -204,7 +204,7 @@ app.get('/mens', function(req, res){
   });
 
   query.on('end', function(row){
-    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*2);
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*3);
     res.render('pages/mens', {
       results: results
     });  
@@ -224,6 +224,7 @@ app.get('/womens', function(req, res){
   });
 
   query.on('end', function(row){
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*3);
     res.render('pages/womens', {
       results: results
     });  
@@ -245,6 +246,7 @@ app.get('/kids', function(req, res){
   });
 
   query.on('end', function(row){
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*3);
     res.render('pages/kids', {
       results: results
     });  
@@ -254,6 +256,7 @@ app.get('/kids', function(req, res){
 
 //LOGIN
 app.get('/login', function(req, res){  
+  res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
   res.render('pages/login', { user: req.user });        
 });
 
@@ -297,6 +300,7 @@ var results = [];
   });
 
   query.on('end', function(row){
+    res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
     res.render('pages/profile', {
       results: results
     });
