@@ -75,7 +75,7 @@ $('#buy').off('click').on('click', function(){
         type: 'POST',
         url: ip+'/cart/buy',      
         success: function(){               
-                window.location.replace(ip + "/cart");
+                window.location.replace(ip + "/success");
                 },
         error:  function(){
                 console.log("fail");
