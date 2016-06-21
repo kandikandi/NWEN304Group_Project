@@ -187,6 +187,7 @@ app.use(function(req, res, next) {
     })
 
 app.get('/', function(req, res){
+    res.setHeader('Cache-Control','public, max-age= 2629746000');
     res.render('pages/index');
 });
 
