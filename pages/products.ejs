@@ -15,7 +15,7 @@
           <li><p>Name: <%= data.name %></p></li>
           <li><p>Description: <%= data.description %></p></li>
           <li><p>Price: $<%= data.price %></p></li>
-          <form action="cart" method="POST">
+          <form action="cart/add" method="POST">
             <input type = "hidden" id="id" value = "<%= data.item_id %>"> 
             <button id="add_button" class="btn btn-lg btn-primary btn-block" type="submit">Add to Cart</button>
           </form>
@@ -33,7 +33,7 @@ $('#add_button').off('click').on('click', function(){
 
     $.ajax({
         type: 'POST',
-        url: ip+'/cart',
+        url: ip+'/cart/add',
         data: JSON.stringify({
               item_id: $('#id').val()
         }),

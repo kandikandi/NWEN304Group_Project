@@ -373,7 +373,7 @@ app.delete('/cart/deleteall', function(req, res){
 });
 
 //add an item to cart
-app.post('/cart', function(req, res){
+app.post('/cart/add', function(req, res){
     console.log("post cart");
     console.log("BODY: " + req.body.item_id);  
     console.log("USER IS CURRENTLY: " +req.session.username);
