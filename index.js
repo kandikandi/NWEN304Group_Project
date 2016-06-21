@@ -326,7 +326,7 @@ app.get('/products', function(req, res){
   });
 
   query.on('end', function(row){
-    console.log("rendering");
+    res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
     res.render('pages/products', {
       results: results
     });  
@@ -340,7 +340,7 @@ app.get('/cart', function(req, res){
   console.log("BODY: " + req.session.username);
   console.log("get cart");
   var results = [];
- 
+  
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';");
 
   query.on('row', function(row){    
@@ -349,6 +349,7 @@ app.get('/cart', function(req, res){
   });
 
   query.on('end', function(row){
+    res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
     res.render('pages/cart', {
       results: results
     });  
@@ -401,6 +402,7 @@ app.post('/cart', function(req, res){
 
 app.get('/register', function(req, res){
   console.log("In register page!");
+  res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
   res.render('pages/register',{   
   });
 });
