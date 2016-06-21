@@ -411,7 +411,7 @@ app.post('/cart/buy', function(req,res){
     }); 
         query.on('row', function(row){    
         console.log(row); 
-        products.push(row);
+        products.push(row.item_id);
         });
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
         query.on('end',function(){
