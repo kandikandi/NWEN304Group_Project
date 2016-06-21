@@ -17,6 +17,16 @@
 <script>
 var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
+
+var Geo={};
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success,error);
+}
+else {
+    alert('Geolocation is not supported');
+}
+
+
   
 
 </script>
