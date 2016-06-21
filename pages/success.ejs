@@ -20,9 +20,7 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
 $(document).ready(function () {
   var lat, lon, api_url;
-  var ID = 'dj0yJmk9NDNVNE5hR25BanJTJmQ9WVdrOWIwWXlVRFkyTkdFbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD03OQ--';
-  var deg = 'c'; //celcius
-  
+   
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(gotLocation);
         function gotLocation(position){
@@ -31,7 +29,7 @@ $(document).ready(function () {
             console.log(position);
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: ip+'/success/recommendations',
                 data: JSON.stringify({
                     longitude: lon,
