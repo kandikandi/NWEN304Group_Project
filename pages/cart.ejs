@@ -20,9 +20,12 @@
            </form>
         <% }); %>
       </div>
-       <form name="_method" method="DELETE">          
+        <form name="_method" method="DELETE">          
           <li><button id="removeall" class = "btn btn-default" type="submit"> Delete all Items </button></a></li>
-           </form>
+        </form>
+        <form name="_method" method="POST">          
+          <li><button id="buy" class = "btn btn-default" type="submit"> Buy Items </button></a></li>
+        </form>
 
       </div>
     </div>  
@@ -59,6 +62,20 @@ $('#removeall').off('click').on('click', function(){
         url: ip+'/cart/deleteall',      
         success: function(){
                 console.log("Deleted");              
+                },
+        error:  function(){
+                console.log("fail");
+                }
+        });     
+});
+
+$('#buy').off('click').on('click', function(){
+
+    $.ajax({
+        type: 'POST',
+        url: ip+'/cart/buy',      
+        success: function(){
+                console.log("successful!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");              
                 },
         error:  function(){
                 console.log("fail");

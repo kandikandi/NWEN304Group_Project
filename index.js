@@ -396,6 +396,30 @@ app.post('/cart', function(req, res){
     });
 });
 
+//buy all items in cart
+app.post('/cart/buy', function(req,res){
+    
+    if(req.session.username==undefined){    
+             res.send('login');
+    }
+
+    var products = [];
+    var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
+        if(err){
+            console.log("Something went wrong here");
+        }
+    }); 
+        query.on('row', function(row){    
+        console.log(row); 
+        products.push(row);
+        });
+        query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
+        query.on('end',function(){
+            query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
+        });
+        res.send('200');       
+
+});
 
 
 //REGISTER
