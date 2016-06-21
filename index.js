@@ -423,6 +423,7 @@ app.post('/cart/buy', function(req,res){
 
 //purchase successful page
 app.get('/success', function(req,res){
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
     res.render('pages/success');
 });
 
