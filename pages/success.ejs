@@ -18,16 +18,33 @@
 var ERROR_LOG = console.error.bind(console);
 var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
-var Geo={};
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(success,error);
-}
-else {
-    alert('Geolocation is not supported');
-}
-
-
+$(document).ready(function () {
+  var lat, lon, api_url;
   
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(gotLocation);
+        function gotLocation(position){
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            console.log(position);
+
+            api_url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=metric&appid=b49d6416c6dad2e25c7dd28389ce53e3';
+        
+            $.ajax({
+                url : api_url,
+                method : 'GET',
+                success: function (data){
+                   var temp = data.main.temp;
+                   console.log(temp);
+                }
+
+            } 
+  } else {
+    alert('Your browser doesnt support geolocation. Sorry.');
+  }
+  
+});
+
 
 </script>
 

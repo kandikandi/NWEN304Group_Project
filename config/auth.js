@@ -10,5 +10,9 @@
     },
     'bcryptHash' : {
         'saltRounds' : 10
+    },
+    'openWeatherMap' : {
+        'apiKey' : 'b49d6416c6dad2e25c7dd28389ce53e3'
     }
+    
 };
