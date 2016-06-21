@@ -13,6 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
 var configTime = require('./config/time');
 var bcrypt = require('bcrypt');
+var Forecast = require('forecast');
 
 
 const saltRounds = configAuth.bcryptHash.saltRounds;
@@ -151,18 +152,15 @@ passport.use('facebook', new FacebookStrategy({
   }
 ));
 
-
-//Logout function
-app.get('/logout', function(req, res){
-   req.session.destroy(function(err) {
-      if(err){
-        console.log(err);
-      }
-      else{
-        res.clearCookie(session.username);
-        res.redirect('/');
-      }
-    })
+//initialise forecast for weather recommendations
+var forecast = new Forecast({
+    service: 'forecast.io',
+    key : configAuth.forecastio.appID,
+    units: 'celcius',
+    cache: true,
+    ttl: {
+        minutes: 180 //cache weather for 3 hours
+    }
 });
 
 
@@ -308,6 +306,19 @@ var results = [];
 
 });
 
+//Logout function
+app.get('/logout', function(req, res){
+   req.session.destroy(function(err) {
+      if(err){
+        console.log(err);
+      }
+      else{
+        res.clearCookie(session.username);
+        res.redirect('/');
+      }
+    })
+});
+
 
 //PRODUCTS
 app.get('/products', function(req, res){
@@ -426,6 +437,20 @@ app.get('/success', function(req,res){
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
     res.render('pages/success');
 });
+
+//recommendations
+app.get('success/recommendations',function(req,res){
+    forecast.get([req.body.longitude, req.body.latitude], function(err, weather){
+        if(err){
+            console.log("error");
+        }else{
+            console.log("It is currently: " + weather.currently.summary);
+        }         
+        
+    }
+
+});
+    
 
 
 //REGISTER

@@ -20,6 +20,8 @@ var ip = 'https://evening-cove-32171.herokuapp.com'; // app address
 
 $(document).ready(function () {
   var lat, lon, api_url;
+  var ID = 'dj0yJmk9NDNVNE5hR25BanJTJmQ9WVdrOWIwWXlVRFkyTkdFbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD03OQ--';
+  var deg = 'c'; //celcius
   
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(gotLocation);
@@ -28,20 +30,24 @@ $(document).ready(function () {
             lon = position.coords.longitude;
             console.log(position);
 
-            api_url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=metric&appid=b49d6416c6dad2e25c7dd28389ce53e3';
-        
             $.ajax({
-                url : api_url,
-                method : 'GET',
-                success: function (data){
-                   var temp = data.main.temp;
-                   console.log(temp);
+                type: 'POST',
+                url: ip+'/login/auth',
+                data: JSON.stringify({
+                    longitude: lon,
+                    latitude: lat
+                    }),
+                contentType: "application/json",
+                dataType: "json", 
+                success: function(){               
+                  //  window.location.replace(ip + "/profile");
+                },
+                error:  function(){
+                    console.log("fail");
                 }
-
-            });
-
-        /*   $.ajax({
-                url : ip + '/success',*/
+        });           
+                
+                
                 
         }
   } else {
