@@ -193,25 +193,6 @@ app.get('/', function(req, res){
 });
 
 
-//GET ALL ITEMS
-app.get('/items',function(req,res){
-    //SQL QUERY
-    console.log('Getting items from the database');
-    var query = client.query("SELECT * FROM items");
-    var results = [];
-    
-    //Stream results back one row at a time
-    query.on('row', function(row){
-    console.log(row);        
-    results.push(row);
-        });
-  
-    //After all data is returned, close connection and return results
-    query.on('end', function(){
-        res.json(results);
-        });
-    });
-
 // GET ALL MENS ITEMS
 app.get('/mens', function(req, res){
   var results = [];
@@ -223,7 +204,7 @@ app.get('/mens', function(req, res){
   });
 
   query.on('end', function(row){
-    
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*2);
     res.render('pages/mens', {
       results: results
     });  
