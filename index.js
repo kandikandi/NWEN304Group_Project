@@ -447,7 +447,7 @@ app.get('success/recommendations',function(req,res){
             console.log("It is currently: " + weather.currently.summary);
         }         
         
-    }
+    });
 
 });
     
