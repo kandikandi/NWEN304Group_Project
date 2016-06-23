@@ -12,7 +12,7 @@
       <h1>PURCHASE SUCCESSFUL</h1>
         <br>
       <h2>Recommended items!</h2>
-        <% recommendations.forEach(function(data) { %>
+        <% results.forEach(function(data) { %>
            <li><a href="/products?item_id=<%= data.item_id %>" id="product_redirect"><button class = "btn btn-default"> <%= data.name %> </button></a></li>
         <% }); %>
     </div>  

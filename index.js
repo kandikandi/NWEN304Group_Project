@@ -434,7 +434,7 @@ app.post('/cart/buy', function(req,res){
 
 //purchase successful page
 app.get('/success', function(req, res){
-    var recommendations = [];
+    var results = [];
     var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username + "';", function(userErr, userRes){
         if(userErr){
             console.log("Error when getting username");
@@ -452,17 +452,17 @@ app.get('/success', function(req, res){
             });
             query.on('row', function(row){
                 console.log("HI " + row.name);
-                recommendations.push(row);
+                results.push(row);
                 console.log("ROW IS: " + row);
             });
         });
     });
 
     query.on('end', function(){
-         console.log("ITEMS HERE " + recommendations);
+         console.log("ITEMS HERE " + results);
          res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
          res.render('pages/success',{
-            recommendations: recommendations
+            results: results
          });
     });
     
