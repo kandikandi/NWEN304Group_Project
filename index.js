@@ -451,6 +451,7 @@ app.get('/success', function(req, res){
                 }                
             });
             query.on('row', function(row){
+                console.log("HI " + row.name);
                 recommendations.push(row);
                 console.log("ROW IS: " + row);
             });
