@@ -439,7 +439,7 @@ app.get('/success', function(req, res){
         if(userErr){
             console.log("Error when getting username");
         }
-        query = client.query("SELECT * FROM items WHERE item_id = " + result.rows[0].orders[0] + ";", function(itemErr, itemRes){
+        query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
             }
