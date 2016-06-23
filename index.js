@@ -443,16 +443,11 @@ app.get('/success', function(req,res){
             if(err){
                 console.log("Something went wrong here");
             } 
-            query = client.query("SELECT * FROM items WHERE cat_id = " + itemResult.rows[0].cat_id ";",function(err, recom){
-                if(err){
-                    console.log("Something is wrong");
-            }            
-            query.on('row', function(row){
-                recommendations.push(row);
-            });
-            });
-        });
-        
+            query = client.query("SELECT * FROM items WHERE cat_id = " + itemResult.rows[0].cat_id ";");
+                query.on('row', function(row){
+                    recommendations.push(row);
+                });
+        });        
     });    
 
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
