@@ -439,16 +439,19 @@ app.get('/success', function(req, res){
         if(userErr){
             console.log("Error when getting username");
         }
+        console.log("USERRES IS: " + userRes.rows[0].orders[0]);
         query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
             }
+            console.log("CATRES IS: " + itemRes.rows[0].cat_id);
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
                 }
                 query.on('row', function(row){
                     recommendations.push(row);
+                    console.log("ROW IS: " + row);
                 });
             });
         });
