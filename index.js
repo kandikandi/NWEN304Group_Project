@@ -436,24 +436,23 @@ app.post('/cart/buy', function(req,res){
 app.get('/success', function(req,res){
     var recommendations = [];
     var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username +"';", function(err, result){
-    if(err){
+        if(err){
             console.log("Something went wrong here");
         }    
-    query = client.query("SELECT * FROM items WHERE item_id = " + result.rows[0].orders[0] + ";", function(err, itemResult){
-         if(err){
-            console.log("Something went wrong here");
-        } 
-        query = client.query("SELECT * FROM items WHERE cat_id = " + itemResult.rows[0].cat_id ";",function(err, recom){
-        if(err){
-          console.log("Something is wrong");
-        }   
-           
-        query.on('row', function(row){
-        recommendations.push(row);
-        });
+        query = client.query("SELECT * FROM items WHERE item_id = " + result.rows[0].orders[0] + ";", function(err, itemResult){
+            if(err){
+                console.log("Something went wrong here");
+            } 
+            query = client.query("SELECT * FROM items WHERE cat_id = " + itemResult.rows[0].cat_id ";",function(err, recom){
+                if(err){
+                    console.log("Something is wrong");
+            }            
+            query.on('row', function(row){
+                recommendations.push(row);
+            });
+            });
         });
         
-    });
     });    
 
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
