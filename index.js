@@ -434,23 +434,28 @@ app.post('/cart/buy', function(req,res){
 
 //purchase successful page
 app.get('/success', function(req,res){
-    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
-    res.render('pages/success');
-});
-
-//recommendations
-app.get('success/recommendations',function(req,res){
-    forecast.get([req.body.longitude, req.body.latitude], function(err, weather){
-        if(err){
-            console.log("error");
-        }else{
-            console.log("It is currently: " + weather.currently.summary);
-        }         
+    var recommendations = [];
+    var query = client.query("SELECT 1 FROM purchases WHERE username = '" + req.session.username +"';", function(err, result){
+    if(err){
+            console.log("Something went wrong here");
+        }    
+    query = client.query("SELECT 1 FROM items WHERE item_id = '" + result.rows[0].orders[0] + "';", function(err, itemResult){
+         if(err){
+            console.log("Something went wrong here");
+        }    
+        query.on('row', function(row){
+        recommendations.push(row);
+        });
         
     });
+    });    
 
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
+    res.render('pages/success',{
+        recommendations: recommendations
+    });
 });
-    
+
 
 
 //REGISTER
