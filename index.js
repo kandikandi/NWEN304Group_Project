@@ -459,6 +459,7 @@ app.get('/success', function(req, res){
     });
 
     query.on('end', function(){
+         console.log("ITEMS HERE " + recommendations);
          res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
          res.render('pages/success',{
             recommendations: recommendations
