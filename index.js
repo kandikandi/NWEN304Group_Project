@@ -455,16 +455,17 @@ app.get('/success', function(req, res){
                 results.push(row);
                 console.log("ROW IS: " + results);
             });
+
+            query.on('end', function(){
+                console.log("ITEMS HERE " + results);
+                res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
+                res.render('pages/success',{
+                    results: results
+            });
+    });
         });
     });
-    console.log("ITEMS BEFORE " + results);
-    query.on('end', function(){
-         console.log("ITEMS HERE " + results);
-         res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
-         res.render('pages/success',{
-            results: results
-         });
-    });
+    
     
 });
 
