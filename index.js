@@ -453,11 +453,11 @@ app.get('/success', function(req, res){
             query.on('row', function(row){
                 console.log("HI " + row.name);
                 results.push(row);
-                console.log("ROW IS: " + row);
+                console.log("ROW IS: " + results);
             });
         });
     });
-
+    console.log("ITEMS BEFORE " + results);
     query.on('end', function(){
          console.log("ITEMS HERE " + results);
          res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
