@@ -433,27 +433,34 @@ app.post('/cart/buy', function(req,res){
 });
 
 //purchase successful page
-app.get('/success', function(req,res){
+app.get('/success', function(req, res){
     var recommendations = [];
-    var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username +"';", function(err, result){
-        if(err){
-            console.log("Something went wrong here");
-        }    
-        query = client.query("SELECT * FROM items WHERE item_id = " + result.rows[0].orders[0] + ";", function(err, itemResult){
-            if(err){
-                console.log("Something went wrong here");
-            } 
-            query = client.query("SELECT * FROM items WHERE cat_id = " + itemResult.rows[0].cat_id ";");
+    var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username + "';", function(userErr, userRes){
+        if(userErr){
+            console.log("Error when getting username");
+        }
+        query = client.query("SELECT * FROM items WHERE item_id = " + result.rows[0].orders[0] + ";", function(itemErr, itemRes){
+            if(itemErr){
+                console.log("Error when getting item_id");
+            }
+            query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
+                if(catErr){
+                    console.log("Error when getting cat_id");
+                }
                 query.on('row', function(row){
                     recommendations.push(row);
                 });
-        });        
-    });    
-
-    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
-    res.render('pages/success',{
-        recommendations: recommendations
+            });
+        });
     });
+
+    query.on('end', function(){
+         res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
+         res.render('pages/success',{
+            recommendations: recommendations
+         });
+    });
+    
 });
 
 
