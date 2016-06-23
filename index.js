@@ -448,11 +448,11 @@ app.get('/success', function(req, res){
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
-                }
-                query.on('row', function(row){
-                    recommendations.push(row);
-                    console.log("ROW IS: " + row);
-                });
+                }                
+            });
+            query.on('row', function(row){
+                recommendations.push(row);
+                console.log("ROW IS: " + row);
             });
         });
     });
