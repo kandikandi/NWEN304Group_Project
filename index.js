@@ -194,7 +194,12 @@ app.get('/', function(req, res){
 // GET ALL MENS ITEMS
 app.get('/mens', function(req, res){
   var results = [];
-  var query = client.query("SELECT * FROM items WHERE cat_id = 2;");
+  var query = client.query("SELECT * FROM items WHERE cat_id = 2;", function(err, result){
+    if(err){
+      console.log("Error getting mens items");
+      return;
+    }
+  });
 
   query.on('row', function(row){
  
@@ -214,7 +219,12 @@ app.get('/mens', function(req, res){
 // GET ALL WOMENS ITEMS
 app.get('/womens', function(req, res){
   var results = [];
-  var query = client.query("SELECT * FROM items WHERE cat_id = 1;");
+  var query = client.query("SELECT * FROM items WHERE cat_id = 1;", function(err, result){
+    if(err){
+      console.log("Error getting womens items");
+      return;
+    }
+  });
 
   query.on('row', function(row){
    
@@ -236,10 +246,15 @@ app.get('/kids', function(req, res){
   var results = [];
   var result_itemid = [];
 
-  var query = client.query("SELECT * FROM items WHERE cat_id = 0;");
+  var query = client.query("SELECT * FROM items WHERE cat_id = 0;", function(err, result){
+      if(err){
+        console.log("Error getting childrens items");
+        return;
+      }
+  });
 
   query.on('row', function(row){
-    console.log(row);    
+    //console.log(row);    
     results.push(row);
   });
 
@@ -325,8 +340,8 @@ app.get('/products', function(req, res){
  
   var results = [];
 
-  console.log("BODY: " + req.query.item_id);
-  console.log("products");
+  // console.log("BODY: " + req.query.item_id);
+  // console.log("products");
 
   var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
 
@@ -451,13 +466,13 @@ app.get('/success', function(req, res){
                 }                
             });
             query.on('row', function(row){
-                console.log("HI " + row.name);
+                //console.log("HI " + row.name);
                 results.push(row);
-                console.log("ROW IS: " + results);
+                //console.log("ROW IS: " + results);
             });
 
             query.on('end', function(){
-                console.log("ITEMS HERE " + results);
+                //console.log("ITEMS HERE " + results);
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results
