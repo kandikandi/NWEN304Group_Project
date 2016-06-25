@@ -174,6 +174,7 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req, res){
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
+    res.status(200);
     res.render('pages/index');
 });
 
@@ -426,7 +427,8 @@ app.post('/cart/add', function(req, res){
 app.post('/cart/buy', function(req,res){
     
     if(req.session.username==undefined){ 
-      res.send('login');
+      res.send('please login first');
+      return;
     }
 
     var products = [];
