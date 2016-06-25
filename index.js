@@ -363,14 +363,19 @@ app.get('/products', function(req, res){
 //SHOPPING CART
 
 app.get('/cart', function(req, res){
-  console.log("BODY: " + req.session.username);
-  console.log("get cart");
+  // console.log("BODY: " + req.session.username);
+  // console.log("get cart");
   var results = [];
   
-  var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';");
+  var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';", function(err, result){
+    if(err){
+      console.log("Error getting items from cart");
+      return;
+    }
+  });
 
   query.on('row', function(row){    
-    console.log(row); 
+    //console.log(row); 
     results.push(row);
   });
 
@@ -385,9 +390,14 @@ app.get('/cart', function(req, res){
 
 //Delete from cart
 app.delete('/cart/deleteone', function(req, res){
-    console.log("BODY: " + req.body);
-    console.log("deleteone");
-    var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';");
+    // console.log("BODY: " + req.body);
+    // console.log("deleteone");
+    var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';", function(err, result){
+      if(err){
+        console.log("Error deleting from cart");
+        return;
+      }
+    });
     res.redirect('/cart');
 });
 
@@ -411,8 +421,9 @@ app.post('/cart/add', function(req, res){
     var query = client.query("SELECT * FROM items WHERE item_id = " + req.body.item_id + ";", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
+            return;            
         }else{  
-            console.log(result.rows[0]);       
+            //console.log(result.rows[0]);       
             query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
             query.on('end',function(){
             console.log("Added item to cart");
@@ -426,18 +437,19 @@ app.post('/cart/add', function(req, res){
 app.post('/cart/buy', function(req,res){
     
     if(req.session.username==undefined){    
-             res.send('login');
+      res.send('login');
     }
 
     var products = [];
     var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
         if(err){
-            console.log("Something went wrong here");
+            console.log("Error getting item from cart when buying");
+            return;
         }
     }); 
         query.on('row', function(row){    
-        console.log(row); 
-        products.push(row.item_id);
+          //console.log(row); 
+          products.push(row.item_id);
         });
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
         query.on('end',function(){
@@ -454,15 +466,17 @@ app.get('/success', function(req, res){
         if(userErr){
             console.log("Error when getting username");
         }
-        console.log("USERRES IS: " + userRes.rows[0].orders[0]);
+        //console.log("USERRES IS: " + userRes.rows[0].orders[0]);
         query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
+                return;
             }
-            console.log("CATRES IS: " + itemRes.rows[0].cat_id);
+            //console.log("CATRES IS: " + itemRes.rows[0].cat_id);
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
+                    return;
                 }                
             });
             query.on('row', function(row){
@@ -489,7 +503,7 @@ app.get('/success', function(req, res){
 //REGISTER
 
 app.get('/register', function(req, res){
-  console.log("In register page!");
+  //console.log("In register page!");
   res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
   res.render('pages/register',{   
   });
