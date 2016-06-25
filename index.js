@@ -425,7 +425,6 @@ app.post('/cart/buy', function(req,res){
     
     if(req.session.username==undefined){ 
       res.send('login');
->>>>>>> Stashed changes
     }
 
     var products = [];
