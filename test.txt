@@ -29,8 +29,6 @@ curl -H "Content-Type: application/json" -X POST -d '{"username":"test-user1", "
 //Login -WORK
 curl -H "Content-Type: application/json" -X POST -d '{"username":"test-user", "password":"password"}' https://evening-cove-32171.herokuapp.com/login/auth
 
-//Logout
-
 //Profile -WORKS
 curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/profile
 
