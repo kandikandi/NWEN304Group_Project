@@ -13,7 +13,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./config/auth'); 
 var configTime = require('./config/time');
 var bcrypt = require('bcrypt');
-var Forecast = require('forecast');
 
 
 const saltRounds = configAuth.bcryptHash.saltRounds;
@@ -151,18 +150,6 @@ passport.use('facebook', new FacebookStrategy({
      });
   }
 ));
-
-//initialise forecast for weather recommendations
-var forecast = new Forecast({
-    service: 'forecast.io',
-    key : configAuth.forecastio.appID,
-    units: 'celcius',
-    cache: true,
-    ttl: {
-        minutes: 180 //cache weather for 3 hours
-    }
-});
-
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -421,7 +408,7 @@ app.post('/cart/add', function(req, res){
     var query = client.query("SELECT * FROM items WHERE item_id = " + req.body.item_id + ";", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
-            return;            
+            res.send('Failed to add item');
         }else{  
             //console.log(result.rows[0]);       
             query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
@@ -436,15 +423,16 @@ app.post('/cart/add', function(req, res){
 //buy all items in cart
 app.post('/cart/buy', function(req,res){
     
-    if(req.session.username==undefined){    
+    if(req.session.username==undefined){ 
       res.send('login');
+>>>>>>> Stashed changes
     }
 
     var products = [];
     var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
         if(err){
-            console.log("Error getting item from cart when buying");
-            return;
+            console.log("Error getting item from cart when buying");            
+            res.send('Could not purchase items');
         }
     }); 
         query.on('row', function(row){    
@@ -465,18 +453,19 @@ app.get('/success', function(req, res){
     var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username + "';", function(userErr, userRes){
         if(userErr){
             console.log("Error when getting username");
+            res.send('Error when getting username');
         }
         //console.log("USERRES IS: " + userRes.rows[0].orders[0]);
         query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
-                return;
+                res.send('Error when retrieving recommenations');
             }
             //console.log("CATRES IS: " + itemRes.rows[0].cat_id);
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
-                    return;
+                    res.send('Error when retrieving recommenations');
                 }                
             });
             query.on('row', function(row){
