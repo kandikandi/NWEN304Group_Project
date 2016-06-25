@@ -402,7 +402,8 @@ app.post('/cart/add', function(req, res){
     console.log("BODY: " + req.body.item_id);  
     console.log("USER IS CURRENTLY: " +req.session.username);
     if(req.session.username==undefined){    
-         res.send('login');
+         res.send('please login first');
+         return;
     }
     //get the item from items db
     console.log("ITEM ID IS : " +req.body.item_id);
