@@ -350,8 +350,6 @@ app.get('/products', function(req, res){
 //SHOPPING CART
 
 app.get('/cart', function(req, res){
-  // console.log("BODY: " + req.session.username);
-  // console.log("get cart");
   var results = [];
   
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';", function(err, result){
@@ -360,9 +358,12 @@ app.get('/cart', function(req, res){
       return;
     }
   });
+    
+  if(query.rows[0].username==undefined){
+    res.send('Please log in first');
+  }
 
-  query.on('row', function(row){    
-    //console.log(row); 
+  query.on('row', function(row){      
     results.push(row);
   });
 
@@ -377,8 +378,7 @@ app.get('/cart', function(req, res){
 
 //Delete from cart
 app.delete('/cart/deleteone', function(req, res){
-    // console.log("BODY: " + req.body);
-    // console.log("deleteone");
+
     var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';", function(err, result){
       if(err){
         console.log("Error deleting from cart");
