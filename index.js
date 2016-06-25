@@ -361,6 +361,7 @@ app.get('/cart', function(req, res){
     
   if(query.rows[0].username==undefined){
     res.send('Please log in first');
+    return;
   }
 
   query.on('row', function(row){      
