@@ -23,13 +23,11 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
   app.use(bodyParser.json()) // parse application/json
 
  /*for storing session information*/
-  app.set('trust proxy',1);
   app.use(session({
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 15*60*1000,//15 minute timeout
-            secure: true
+            maxAge  : 15*60*1000//15 minute timeout          
         },
         secret: configAuth.expressSession.secret,
         saveUninitialized: true,
