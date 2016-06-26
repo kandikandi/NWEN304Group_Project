@@ -174,7 +174,6 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req, res){
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
-    res.status(200);
     res.render('pages/index');
 });
 
@@ -268,7 +267,9 @@ app.post('/login/auth', function(req,res, next){
             res.send('200');
         }
         else{
-            console.log("Login unsucessful");            
+            console.log("Login unsucessful"); 
+            res.send('Login unsuccessful');
+            return;           
         }
     })(req,res,next);
 });
@@ -412,6 +413,7 @@ app.post('/cart/add', function(req, res){
         if(err){
             console.log("Cannot add item to cart!");
             res.send('Failed to add item');
+            return;
         }else{  
             //console.log(result.rows[0]);       
             query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
@@ -436,6 +438,7 @@ app.post('/cart/buy', function(req,res){
         if(err){
             console.log("Error getting item from cart when buying");            
             res.send('Could not purchase items');
+            return;
         }
     }); 
         query.on('row', function(row){    
@@ -457,18 +460,21 @@ app.get('/success', function(req, res){
         if(userErr){
             console.log("Error when getting username");
             res.send('Error when getting username');
+            return;
         }
         //console.log("USERRES IS: " + userRes.rows[0].orders[0]);
         query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
                 res.send('Error when retrieving recommenations');
+                return;
             }
             //console.log("CATRES IS: " + itemRes.rows[0].cat_id);
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
                     res.send('Error when retrieving recommenations');
+                    return;
                 }                
             });
             query.on('row', function(row){
@@ -507,7 +513,9 @@ app.post('/register/auth', function(req,res, next){
         if(user){            
             res.send('200');
         }
-        else{           
+        else{      
+            res.send('registration unsuccessful')
+            return;     
         }
     })(req,res,next);
 });
