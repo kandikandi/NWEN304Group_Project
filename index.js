@@ -355,6 +355,13 @@ app.get('/products', function(req, res){
 
 app.get('/cart', function(req, res){
   var results = [];
+
+     
+  if(req.session.userrname==undefined){
+    res.send('Please log in first');
+    return;
+  }
+
   
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';", function(err, result){
     if(err){
@@ -362,11 +369,7 @@ app.get('/cart', function(req, res){
       return;
     }
   });
-    
-  if(query.rows[0].username==undefined){
-    res.send('Please log in first');
-    return;
-  }
+ 
 
   query.on('row', function(row){      
     results.push(row);
