@@ -457,6 +457,7 @@ app.post('/cart/buy', function(req,res){
           console.log("ROW ITEM ID: " +row.item_id);
           console.log("TOTAL COOKIE = " + req.session.total);
           console.log("Username : " + req.session.username);
+          req.session.save();   
         });
         
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
