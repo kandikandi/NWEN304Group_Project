@@ -492,7 +492,7 @@ app.get('/success', function(req, res){
             });
 
             query.on('end', function(){
-                //console.log("ITEMS HERE " + results);
+                console.log("TOTAL IS: $" + total);
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
