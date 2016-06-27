@@ -84,7 +84,8 @@ passport.use('local-login', new LocalStrategy({
              if(res.rows[0]!=undefined){                   
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
-                    req.session.username = username;   
+                    req.session.username = username;  
+                    req.session.total = 0; 
                     req.session.save();                                            
                }                
              }                              
@@ -107,6 +108,7 @@ passport.use('local-register', new LocalStrategy({
                var isRight = bcrypt.compareSync(password, res.rows[0].password);
                if(isRight){                   
                     req.session.username = username;   
+                    req.session.total = 0;
                     req.session.save();                                            
                }                
              }      
@@ -115,6 +117,7 @@ passport.use('local-register', new LocalStrategy({
                     var query = client.query("INSERT INTO users (username, email, password) VALUES ('" + username + "','" + req.body.email + "','" + hash + "')");
                 });
                     req.session.username = username;   
+                    req.session.total = 0;
                     req.session.save();                    
                     return done(null, user);
             } 
@@ -241,7 +244,7 @@ app.get('/kids', function(req, res){
   });
 
   query.on('row', function(row){
-    //console.log(row);    
+   
     results.push(row);
   });
 
@@ -283,6 +286,7 @@ app.get('/auth/facebook/callback',
         failureRedirect: '/login' }),
         (req, res)=>{                  
         req.session.username = req.user.name.givenName+"_"+req.user.name.familyName;
+        req.session.total = 0;
         req.session.save();        
         res.redirect('/profile');
         }
@@ -318,6 +322,7 @@ app.get('/logout', function(req, res){
       }
       else{
         res.clearCookie(session.username);
+        res.clearCookie(session.total);
         res.redirect('/');
       }
     })
@@ -351,7 +356,6 @@ app.get('/products', function(req, res){
 
 //SHOPPING CART
 
-var total;
 
 app.get('/cart', function(req, res){
   var results = [];
@@ -419,10 +423,10 @@ app.post('/cart/add', function(req, res){
             console.log("Cannot add item to cart!");
             res.send('Failed to add item');
             return;
-        }else{  
-            //console.log(result.rows[0]);       
+        }else{             
             query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
             query.on('end',function(){
+            req.session.total = req.session.total+ result.rows[0].price;
             console.log("Added item to cart");
             res.send('200');
             });
@@ -432,13 +436,13 @@ app.post('/cart/add', function(req, res){
 
 //buy all items in cart
 app.post('/cart/buy', function(req,res){
-    total = 0.0;
+ 
     if(req.session.username==undefined){ 
       res.send('please login first');
       return;
     }
    
-
+    
     var products = [];
     var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
         if(err){
@@ -472,14 +476,14 @@ app.get('/success', function(req, res){
             res.send('Error when getting username');
             return;
         }
-        //console.log("USERRES IS: " + userRes.rows[0].orders[0]);
+       
         query = client.query("SELECT * FROM items WHERE item_id = " + userRes.rows[0].orders[0] + ";", function(itemErr, itemRes){
             if(itemErr){
                 console.log("Error when getting item_id");
                 res.send('Error when retrieving recommenations');
                 return;
             }
-            //console.log("CATRES IS: " + itemRes.rows[0].cat_id);
+          
             query = client.query("SELECT * FROM items WHERE cat_id = " + itemRes.rows[0].cat_id + ";", function(catErr, catRes){
                 if(catErr){
                     console.log("Error when getting cat_id");
@@ -492,11 +496,11 @@ app.get('/success', function(req, res){
             });
 
             query.on('end', function(){
-                console.log("TOTAL IS: $" + total);
+               
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
-                    total: total
+                    total: req.session.total
             });
     });
         });
