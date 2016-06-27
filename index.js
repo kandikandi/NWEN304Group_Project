@@ -470,7 +470,7 @@ app.post('/cart/buy', function(req,res){
 //purchase successful page
 app.get('/success', function(req, res){
     var results = [];
-    var price = req.session.total;
+   
     if(req.session.username==undefined){
         res.send('please login first');
         return;
@@ -505,7 +505,7 @@ app.get('/success', function(req, res){
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
-                    price: price
+                    price: req.session.total
             });
     });
         });
