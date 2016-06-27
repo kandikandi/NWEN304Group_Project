@@ -453,7 +453,9 @@ app.post('/cart/buy', function(req,res){
         query.on('row', function(row){    
           req.session.total = req.session.total + row.item_price;
           products.push(row.item_id);
+          console.log("TOTAL COOKIE = " + req.session.total);
         });
+        
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
         query.on('end',function(){
             query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
@@ -465,6 +467,7 @@ app.post('/cart/buy', function(req,res){
 //purchase successful page
 app.get('/success', function(req, res){
     var results = [];
+    var price = req.session.total;
     if(req.session.username==undefined){
         res.send('please login first');
         return;
@@ -499,7 +502,7 @@ app.get('/success', function(req, res){
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
-                    total: req.session.total
+                    price: price
             });
     });
         });
