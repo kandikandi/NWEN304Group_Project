@@ -425,8 +425,7 @@ app.post('/cart/add', function(req, res){
             return;
         }else{             
             query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
-            query.on('end',function(){
-            req.session.total = req.session.total+ result.rows[0].price;
+            query.on('end',function(){           
             console.log("Added item to cart");
             res.send('200');
             });
@@ -452,7 +451,7 @@ app.post('/cart/buy', function(req,res){
         }
     }); 
         query.on('row', function(row){    
-          total = total + row.price;
+          req.session.total = req.session.total + row.price;
           products.push(row.item_id);
         });
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
