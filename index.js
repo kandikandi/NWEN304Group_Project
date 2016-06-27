@@ -423,13 +423,16 @@ app.post('/cart/add', function(req, res){
             res.send('Failed to add item');
             return;
         }else{             
-            query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);          
-            query.on('end',function(){           
-            console.log("Added item to cart");
-            res.send('200');
-            });
+            query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);      
+            
         }
+        
     });
+    query.on('end',function(){           
+        console.log("Added item to cart");
+        res.send('200');
+    });
+
 });
 
 //buy all items in cart
