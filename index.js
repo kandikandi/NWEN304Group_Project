@@ -355,7 +355,7 @@ app.get('/cart', function(req, res){
   var results = [];
 
      
-  if(req.session.userrname==undefined){
+  if(req.session.username==undefined){
     res.send('Please log in first');
     return;
   }
