@@ -493,7 +493,7 @@ app.get('/success', function(req, res){
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
-                    price: total
+                    total: total
             });
     });
         });
