@@ -451,7 +451,7 @@ app.post('/cart/buy', function(req,res){
         }
     }); 
         query.on('row', function(row){    
-          req.session.total = req.session.total + row.item_price;
+          req.session.total+=row.item_price;
           products.push(row.item_id);
           console.log("ITEM PRICE IS COMING THROUGH AS: " + row.item_price);
           console.log("ROW ITEM ID: " +row.item_id);
@@ -501,7 +501,7 @@ app.get('/success', function(req, res){
             });
 
             query.on('end', function(){
-               
+                console.log("price:" + req.session.total);
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
