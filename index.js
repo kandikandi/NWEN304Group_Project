@@ -345,7 +345,7 @@ app.get('/products', function(req, res){
   });
 
   query.on('end', function(row){
-    res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
+    res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.day*3);
     res.render('pages/products', {
       results: results
     });  
@@ -423,10 +423,8 @@ app.post('/cart/add', function(req, res){
             res.send('Failed to add item');
             return;
         }else{             
-            query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);      
-            
-        }
-        
+            query = client.query("INSERT INTO cart (item_id, item_name, item_price, username) VALUES ($1, $2, $3, $4)",[result.rows[0].item_id,result.rows[0].name,  result.rows[0].price, req.session.username]);                
+        }        
     });
     query.on('end',function(){           
         console.log("Added item to cart");
@@ -502,7 +500,7 @@ app.get('/success', function(req, res){
             });
 
             query.on('end', function(){
-                res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
+                res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
                 res.render('pages/success',{
                     results: results,
                     price: price
