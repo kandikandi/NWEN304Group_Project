@@ -443,7 +443,7 @@ app.post('/cart/buy', function(req,res){
    
     
     var products = [];
-    var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
+    var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
         if(err){
             console.log("Error getting item from cart when buying");            
             res.send('Could not purchase items');
