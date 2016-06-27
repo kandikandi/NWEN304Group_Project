@@ -451,7 +451,7 @@ app.post('/cart/buy', function(req,res){
         }
     }); 
         query.on('row', function(row){    
-          req.session.total = req.session.total + row.price;
+          req.session.total = req.session.total + row.item_price;
           products.push(row.item_id);
         });
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
