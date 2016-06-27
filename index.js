@@ -351,6 +351,8 @@ app.get('/products', function(req, res){
 
 //SHOPPING CART
 
+var total;
+
 app.get('/cart', function(req, res){
   var results = [];
 
@@ -430,11 +432,12 @@ app.post('/cart/add', function(req, res){
 
 //buy all items in cart
 app.post('/cart/buy', function(req,res){
-    
+    total = 0.0;
     if(req.session.username==undefined){ 
       res.send('please login first');
       return;
     }
+   
 
     var products = [];
     var query = client.query("SELECT item_id FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
@@ -445,7 +448,7 @@ app.post('/cart/buy', function(req,res){
         }
     }); 
         query.on('row', function(row){    
-          //console.log(row); 
+          total = total + row.price;
           products.push(row.item_id);
         });
         query = client.query("INSERT INTO purchases (orders, username) VALUES ($1, $2)",[products, req.session.username]);
@@ -481,17 +484,16 @@ app.get('/success', function(req, res){
                     return;
                 }                
             });
-            query.on('row', function(row){
-                //console.log("HI " + row.name);
-                results.push(row);
-                //console.log("ROW IS: " + results);
+            query.on('row', function(row){                
+                results.push(row);               
             });
 
             query.on('end', function(){
                 //console.log("ITEMS HERE " + results);
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
-                    results: results
+                    results: results,
+                    price: total
             });
     });
         });
