@@ -453,7 +453,7 @@ app.post('/cart/buy', function(req,res){
         query.on('row', function(row){    
           req.session.total = req.session.total + row.item_price;
           products.push(row.item_id);
-          console.log("ITEM PRICE IS COMING THROUGH AS: " + row.item_price;
+          console.log("ITEM PRICE IS COMING THROUGH AS: " + row.item_price);
           console.log("TOTAL COOKIE = " + req.session.total);
         });
         
