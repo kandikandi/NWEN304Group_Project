@@ -459,6 +459,7 @@ app.post('/cart/buy', function(req,res){
 //purchase successful page
 app.get('/success', function(req, res){
     var results = [];
+    console.log(req.session.username);
     var query = client.query("SELECT * FROM purchases WHERE username = '" + req.session.username + "';", function(userErr, userRes){
         if(userErr){
             console.log("Error when getting username");
