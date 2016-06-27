@@ -128,7 +128,7 @@ passport.use('local-register', new LocalStrategy({
 }));
 
 
-/*set up passport for facebook login*/
+/*set up passport for facebook login/registration*/
 passport.use('facebook', new FacebookStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret, 
@@ -154,6 +154,7 @@ passport.use('facebook', new FacebookStrategy({
   }
 ));
 
+//Setup for front end stuff
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -175,6 +176,7 @@ app.use(function(req, res, next) {
     next();
     })
 
+// Home page
 app.get('/', function(req, res){
     res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
     res.render('pages/index');
@@ -187,6 +189,7 @@ app.get('/mens', function(req, res){
   var query = client.query("SELECT * FROM items WHERE cat_id = 2;", function(err, result){
     if(err){
       console.log("Error getting mens items");
+      res.send('Cannot get item from mens');
       return;
     }
   });
@@ -212,6 +215,7 @@ app.get('/womens', function(req, res){
   var query = client.query("SELECT * FROM items WHERE cat_id = 1;", function(err, result){
     if(err){
       console.log("Error getting womens items");
+      res.send('Cannot get item from womens');
       return;
     }
   });
@@ -238,7 +242,8 @@ app.get('/kids', function(req, res){
 
   var query = client.query("SELECT * FROM items WHERE cat_id = 0;", function(err, result){
       if(err){
-        console.log("Error getting childrens items");
+        console.log("Error getting kids items");
+        res.send('Cannot get item from kids');
         return;
       }
   });
@@ -296,12 +301,10 @@ app.get('/auth/facebook/callback',
 //PROFILE
 app.get('/profile', function(req, res){
 
-console.log(req.session.username);
 var query = client.query("SELECT * FROM users WHERE username = '" + req.session.username + "';");
 var results = [];
 
   query.on('row', function(row){
-    console.log(row);    
     results.push(row);    
   });
 
@@ -319,6 +322,8 @@ app.get('/logout', function(req, res){
    req.session.destroy(function(err) {
       if(err){
         console.log(err);
+        res.send('Cannot logout');
+        return;
       }
       else{
         res.clearCookie(session.username);
@@ -333,13 +338,7 @@ app.get('/logout', function(req, res){
 app.get('/products', function(req, res){
  
   var results = [];
-
-  // console.log("BODY: " + req.query.item_id);
-  // console.log("products");
-
   var query = client.query("SELECT * FROM items WHERE item_id = " + req.query.item_id +";");
-
-  
 
   query.on('row', function(row){   
     results.push(row);
@@ -355,8 +354,6 @@ app.get('/products', function(req, res){
 });
 
 //SHOPPING CART
-
-
 app.get('/cart', function(req, res){
   var results = [];
 
@@ -365,15 +362,14 @@ app.get('/cart', function(req, res){
     res.send('Please log in first');
     return;
   }
-
   
   var query = client.query("SELECT * FROM cart WHERE username = '" + req.session.username + "';", function(err, result){
     if(err){
       console.log("Error getting items from cart");
+      res.send('Cannot get item from cart');
       return;
     }
-  });
- 
+  }); 
 
   query.on('row', function(row){      
     results.push(row);
@@ -394,6 +390,7 @@ app.delete('/cart/deleteone', function(req, res){
     var query = client.query("DELETE FROM cart WHERE item_id = " + req.body.item_id +" AND username = '" + req.session.username + "';", function(err, result){
       if(err){
         console.log("Error deleting from cart");
+        res.send('Cannot remove item from cart');
         return;
       }
          
@@ -401,24 +398,25 @@ app.delete('/cart/deleteone', function(req, res){
     res.redirect('/cart');
 });
 
-app.delete('/cart/deleteall', function(req, res){   
-    console.log("deleteall");
-    var query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';");
+app.delete('/cart/deleteall', function(req, res){  
+    var query = client.query("DELETE FROM cart WHERE username = '" + req.session.username +"';", function(err, result){
+        if(err){
+            console.log("Error deleting from cart");
+            res.send('Cannot remove items from cart');
+            return;
+        }
+    });
     query.on('end', function(row){
     res.redirect('pages/cart')});  
 });
 
 //add an item to cart
 app.post('/cart/add', function(req, res){
-    console.log("post cart");
-    console.log("BODY: " + req.body.item_id);  
-    console.log("USER IS CURRENTLY: " +req.session.username);
     if(req.session.username==undefined){    
          res.send('please login first');
          return;
     }
-    //get the item from items db
-    console.log("ITEM ID IS : " +req.body.item_id);
+    
     var query = client.query("SELECT * FROM items WHERE item_id = " + req.body.item_id + ";", function(err, result){
         if(err){
             console.log("Cannot add item to cart!");
@@ -454,10 +452,6 @@ app.post('/cart/buy', function(req,res){
         query.on('row', function(row){    
           req.session.total += Number(row.item_price);
           products.push(row.item_id);
-          console.log("ITEM PRICE IS COMING THROUGH AS: " + row.item_price);
-          console.log("ROW ITEM ID: " +row.item_id);
-          console.log("TOTAL COOKIE = " + req.session.total);
-          console.log("Username : " + req.session.username);
           req.session.save();   
         });
         
@@ -505,7 +499,6 @@ app.get('/success', function(req, res){
             });
 
             query.on('end', function(){
-                console.log("price:" + req.session.total);
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
@@ -513,17 +506,13 @@ app.get('/success', function(req, res){
             });
     });
         });
-    });
-    
+    });    
     
 });
-
-
 
 //REGISTER
 
 app.get('/register', function(req, res){
-  //console.log("In register page!");
   res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.month);
   res.render('pages/register',{   
   });
