@@ -16,6 +16,7 @@
         <% results.forEach(function(data) { %>
            <form method="DELETE" name="_method">
            <input type = "hidden" id="item" value = "<%= data.item_id %>"> 
+           <input type = "hidden" id="price" value = "<%= data.item_price %>"> 
           <li><button id="removeone" class = "btn btn-default" type="submit"> Remove <%=data.item_name %> from Cart</button></a></li>
            </form>
         <% }); %>
@@ -42,7 +43,8 @@ $('#removeone').off('click').on('click', function(){
         type: 'DELETE',
         url: ip+'/cart/deleteone',
         data: JSON.stringify({
-              item_id: $('#item').val()
+              item_id: $('#item').val(),
+              price: $('#price').val()
         }),
         contentType: "application/json",
         dataType: "json", 

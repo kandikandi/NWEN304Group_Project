@@ -396,6 +396,7 @@ app.delete('/cart/deleteone', function(req, res){
         console.log("Error deleting from cart");
         return;
       }
+         
     });
     res.redirect('/cart');
 });
@@ -471,7 +472,9 @@ app.post('/cart/buy', function(req,res){
 //purchase successful page
 app.get('/success', function(req, res){
     var results = [];
-   
+    var price = req.session.total;
+    req.session.total = 0;
+    req.session.save();
     if(req.session.username==undefined){
         res.send('please login first');
         return;
@@ -506,7 +509,7 @@ app.get('/success', function(req, res){
                 res.setHeader('Cache-Control','public, max-age= '+ configTime.milliseconds.year);
                 res.render('pages/success',{
                     results: results,
-                    price: req.session.total
+                    price: price
             });
     });
         });
