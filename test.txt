@@ -1,0 +1,41 @@
+//TEST CASES EXMAPLES
+
+// GET: curl -H "Content-Type: application/json" -X GET 130.195.4.166:8080/all_tasks
+
+// CREATE: curl -H "Content-Type: application/json" -X PUT -d '{"task":"test task"}' 130.195.4.166:8080/create
+
+// UPDATE: curl -H "Content-Type: application/json" -X POST -d '{"task":"test task"}' 130.195.4.166:8080/update
+
+// REMOVE: curl -H "Content-Type: application/json" -X DELETE -d '{"task":"hello"}' 130.195.4.166:8080/del
+
+
+********************************************************************************************
+
+//Display Mens Items- WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/mens
+
+//Display Womens Items -WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/womens
+
+//Display Kids Items -WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/kids
+
+//Display the Home Page -WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/
+
+//Register -WORKS
+curl -H "Content-Type: application/json" -X POST -d '{"username":"test-user1", "email":"email@email","password":"password"}' https://evening-cove-32171.herokuapp.com/register/auth
+
+//Login -WORK
+curl -H "Content-Type: application/json" -X POST -d '{"username":"test-user", "password":"password"}' https://evening-cove-32171.herokuapp.com/login/auth
+
+//Profile -WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/profile
+
+//Products tests-WORKS
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/products
+
+//Test for cart page - has top be logged in otherwise will say have to log in first
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/login
+curl -H "Content-Type: application/json" -X POST -d '{"username":"test-user", "password":"password"}' https://evening-cove-32171.herokuapp.com/login/auth
+curl -H "Content-Type: application/json" -X GET https://evening-cove-32171.herokuapp.com/cart
