@@ -27,7 +27,7 @@ const saltRounds = configAuth.bcryptHash.saltRounds;
         cookie: {
             path    : '/',
             httpOnly: false,
-            maxAge  : 15*60*1000//15 minute timeout          
+            maxAge  : 30*1000//15 minute timeout          
         },
         secret: configAuth.expressSession.secret,
         saveUninitialized: true,
